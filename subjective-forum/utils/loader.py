@@ -41,20 +41,25 @@ def scan_audio_directory(audio_root: str) -> Dict[str, List[str]]:
     return prompt_models
 
 
-def randomize_questions(questions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def randomize_questions(questions: List[Dict[str, Any]], n_questions: int = 0) -> List[str]:
     """
-    Randomizes the order of questions for a participant.
+    Randomizes the order of question IDs and selects a subset.
     
     Args:
         questions: List of question configurations from forum.json
-        
+        n_questions: The number of questions to select for the participant.
+                     If 0 or greater than available, all questions are used.
+                     
     Returns:
-        Randomized list of questions
+        A list of selected and randomized question IDs.
     """
-    # Create a copy to avoid modifying the original
-    randomized = questions.copy()
-    random.shuffle(randomized)
-    return randomized
+    question_ids = [q.get("id") for q in questions if q.get("id")]
+    random.shuffle(question_ids)
+    
+    if n_questions <= 0 or n_questions > len(question_ids):
+        return question_ids
+    
+    return question_ids[:n_questions]
 
 
 def validate_questions(questions: List[Dict[str, Any]], audio_models: Dict[str, List[str]]) -> List[str]:

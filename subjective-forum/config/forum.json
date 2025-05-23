@@ -1,4 +1,6 @@
 {
+  "debug": true,
+  "n_questions": 2,
   "branding": {
     "title": "AI Symbolic Music Generation Listening Test",
     "accentColor": "#3498db",

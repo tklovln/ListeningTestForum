@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const NEXT_URL = storyContainer.getAttribute('data-next-url');
     const PREV_URL = storyContainer.getAttribute('data-prev-url');
     const AUDIO_ROOT = storyContainer.getAttribute('data-audio-root');
+    const DEBUG_MODE = storyContainer.getAttribute('data-debug-mode') === 'true';
     
     // Elements
     const storyElement = document.getElementById('story');
@@ -241,11 +242,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Set up status updates if not already set
                 if (!promptAudio._hasStatusListeners) {
                     promptAudio.addEventListener('playing', () => {
-                        if (statusElement) statusElement.textContent = 'Playing reference audio...';
+                        if (statusElement) {
+                            let statusText = 'Playing reference audio...';
+                            if (DEBUG_MODE) {
+                                const srcFilename = promptAudio.src.split('/').pop(); // e.g., 001_prompt.mp3
+                                const [debugPromptId, debugModelTypeWithExt] = srcFilename.split('_');
+                                const debugModelType = debugModelTypeWithExt.replace('.mp3', '');
+                                statusText += ` (ID: ${debugPromptId}, Type: ${debugModelType})`;
+                            }
+                            statusElement.textContent = statusText;
+                        }
                     });
                     
                     promptAudio.addEventListener('ended', () => {
-                        if (statusElement) statusElement.textContent = 'Reference audio complete';
+                        if (statusElement) {
+                             let statusText = 'Reference audio complete';
+                            if (DEBUG_MODE) {
+                                const srcFilename = promptAudio.src.split('/').pop();
+                                const [debugPromptId, debugModelTypeWithExt] = srcFilename.split('_');
+                                const debugModelType = debugModelTypeWithExt.replace('.mp3', '');
+                                statusText += ` (ID: ${debugPromptId}, Type: ${debugModelType})`;
+                            }
+                            statusElement.textContent = statusText;
+                        }
                     });
                     promptAudio._hasStatusListeners = true;
                 }
@@ -254,8 +273,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 promptAudio.play()
                     .then(() => console.log('Prompt audio playback started'))
                     .catch(e => {
-                        console.error('Auto-play prevented:', e);
-                        if (statusElement) statusElement.textContent = 'Click anywhere to play audio';
+                        console.error('Auto-play prevented for prompt audio:', e);
+                        if (statusElement) {
+                            let statusText = 'Click anywhere to play reference audio';
+                             if (DEBUG_MODE) {
+                                const srcFilename = promptAudio.src.split('/').pop();
+                                const [debugPromptId, debugModelTypeWithExt] = srcFilename.split('_');
+                                const debugModelType = debugModelTypeWithExt.replace('.mp3', '');
+                                statusText += ` (ID: ${debugPromptId}, Type: ${debugModelType})`;
+                            }
+                            statusElement.textContent = statusText;
+                        }
                         
                         // Add click handler to play audio
                         document.addEventListener('click', function playOnClick() {
@@ -305,11 +333,29 @@ document.addEventListener('DOMContentLoaded', function() {
             // Set up status updates if not already set
             if (!modelAudio._hasStatusListeners) {
                 modelAudio.addEventListener('playing', () => {
-                    if (statusElement) statusElement.textContent = `Playing sample ${modelIndex + 1}...`;
+                    if (statusElement) {
+                        let statusText = `Playing sample ${modelIndex + 1}...`;
+                        if (DEBUG_MODE) {
+                            const srcFilename = modelAudio.src.split('/').pop(); // e.g., 001_gt.mp3
+                            const [debugPromptId, debugModelTypeWithExt] = srcFilename.split('_');
+                            const debugModelType = debugModelTypeWithExt.replace('.mp3', '');
+                            statusText += ` (ID: ${debugPromptId}, Type: ${debugModelType})`;
+                        }
+                        statusElement.textContent = statusText;
+                    }
                 });
                 
                 modelAudio.addEventListener('ended', () => {
-                    if (statusElement) statusElement.textContent = `Sample ${modelIndex + 1} complete`;
+                     if (statusElement) {
+                        let statusText = `Sample ${modelIndex + 1} complete`;
+                        if (DEBUG_MODE) {
+                            const srcFilename = modelAudio.src.split('/').pop();
+                            const [debugPromptId, debugModelTypeWithExt] = srcFilename.split('_');
+                            const debugModelType = debugModelTypeWithExt.replace('.mp3', '');
+                            statusText += ` (ID: ${debugPromptId}, Type: ${debugModelType})`;
+                        }
+                        statusElement.textContent = statusText;
+                    }
                 });
                 modelAudio._hasStatusListeners = true;
             }
@@ -318,8 +364,17 @@ document.addEventListener('DOMContentLoaded', function() {
             modelAudio.play()
                 .then(() => console.log(`${model} audio playback started`))
                 .catch(e => {
-                    console.error('Auto-play prevented:', e);
-                    if (statusElement) statusElement.textContent = 'Click anywhere to play audio';
+                    console.error(`Auto-play prevented for model audio (Sample ${modelIndex + 1}):`, e);
+                    if (statusElement) {
+                        let statusText = `Click anywhere to play sample ${modelIndex + 1}`;
+                        if (DEBUG_MODE) {
+                            const srcFilename = modelAudio.src.split('/').pop();
+                            const [debugPromptId, debugModelTypeWithExt] = srcFilename.split('_');
+                            const debugModelType = debugModelTypeWithExt.replace('.mp3', '');
+                            statusText += ` (ID: ${debugPromptId}, Type: ${debugModelType})`;
+                        }
+                        statusElement.textContent = statusText;
+                    }
                     
                     // Add click handler to play audio
                     document.addEventListener('click', function playOnClick() {
@@ -551,8 +606,8 @@ document.addEventListener('DOMContentLoaded', function() {
     navRight.addEventListener('click', function() {
         console.log('Right navigation clicked, going to next page');
         
-        // If on a model page, check if all metrics are rated
-        if (currentPage > 0 && currentPage < totalPages) {
+        // If on a model page, check if all metrics are rated (unless in debug mode)
+        if (!DEBUG_MODE && currentPage > 0 && currentPage < totalPages) {
             const modelIndex = currentPage - 1;
             const model = MODELS[modelIndex];
             
@@ -608,8 +663,8 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (e.key === 'ArrowRight') {
             console.log('Right arrow key pressed, going to next page');
             
-            // If on a model page, check if all metrics are rated
-            if (currentPage > 0 && currentPage < totalPages) {
+            // If on a model page, check if all metrics are rated (unless in debug mode)
+            if (!DEBUG_MODE && currentPage > 0 && currentPage < totalPages) {
                 const modelIndex = currentPage - 1;
                 const model = MODELS[modelIndex];
                 
@@ -675,8 +730,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Swipe left to right
             console.log('Swipe detected (left to right), going to next page');
             
-            // If on a model page, check if all metrics are rated
-            if (currentPage > 0 && currentPage < totalPages) {
+            // If on a model page, check if all metrics are rated (unless in debug mode)
+            if (!DEBUG_MODE && currentPage > 0 && currentPage < totalPages) {
                 const modelIndex = currentPage - 1;
                 const model = MODELS[modelIndex];
                 
@@ -684,7 +739,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 const allRated = answers[model] && METRICS.every(metric => answers[model][metric] !== undefined);
                 
                 if (!allRated) {
-                    alert('Please rate all metrics before proceeding to the next sample.');
+                    // Detailed logging for this specific case
+                    console.warn('Swipe blocked: Not all metrics rated for model:', model);
+                    let missingMetrics = [];
+                     for (const metric_name of METRICS) {
+                        if (!answers[model] || answers[model][metric_name] === undefined) {
+                            missingMetrics.push(metric_name);
+                        }
+                    }
+                    alert(`Please rate all metrics before proceeding to the next sample. Missing: ${missingMetrics.join(', ')}`);
                     return;
                 }
             }
