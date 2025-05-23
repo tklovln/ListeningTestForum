@@ -43,13 +43,25 @@ def save_answer():
         }), 400
     
     question_id = data.get('questionId')
-    answers = data.get('answers')
+    answers = data.get('answers', {}) # Default to empty dict if not provided
     time_spent = data.get('timeSpent')
-    
-    if not question_id or not answers:
-        return jsonify({
+
+    # Get debug mode from config
+    forum_config = current_app.config.get('FORUM', {})
+    debug_mode = forum_config.get('debug', False)
+
+    if not debug_mode: # Only do strict validation if not in debug mode
+        if not question_id or not answers: # 'answers' could be an empty dict in debug mode
+            return jsonify({
+                'success': False,
+                'error': 'Missing required fields (questionId or answers)'
+            }), 400
+        # Potentially add more validation here for non-debug mode,
+        # e.g., check if all expected metrics are present in answers.
+    elif not question_id: # In debug mode, only question_id is strictly required
+         return jsonify({
             'success': False,
-            'error': 'Missing required fields'
+            'error': 'Missing required field: questionId'
         }), 400
     
     # Initialize answers dict if not present

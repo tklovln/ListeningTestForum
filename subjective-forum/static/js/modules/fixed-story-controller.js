@@ -641,14 +641,19 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('All metrics rated for model:', model);
         }
         
-        // If this is the last model and all metrics are rated, save and go to next question
+        // If this is the last model page
         if (currentPage === totalPages - 1) {
             const lastModel = MODELS[MODELS.length - 1];
-            if (answers[lastModel] && METRICS.every(metric => answers[lastModel][metric] !== undefined)) {
-                console.log('Last model rated, saving and going to next question');
+            const allLastModelMetricsRated = answers[lastModel] && METRICS.every(metric => answers[lastModel][metric] !== undefined);
+
+            if (DEBUG_MODE || allLastModelMetricsRated) {
+                console.log('Last model page: proceeding to save/next question.');
                 saveAndGoToNextQuestion();
+            } else {
+                // Not debug mode, and not all metrics rated for the last sample
+                alert('Please rate all metrics for the final sample before finishing.');
             }
-        } else if (currentPage < totalPages - 1) {
+        } else if (currentPage < totalPages - 1) { // Not the last model page, go to next sample
             goToPage(currentPage + 1);
         }
     });
@@ -697,14 +702,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('All metrics rated for model:', model);
             }
             
-            // If this is the last model and all metrics are rated, save and go to next question
+            // If this is the last model page
             if (currentPage === totalPages - 1) {
                 const lastModel = MODELS[MODELS.length - 1];
-                if (answers[lastModel] && METRICS.every(metric => answers[lastModel][metric] !== undefined)) {
-                    console.log('Last model rated, saving and going to next question');
+                const allLastModelMetricsRated = answers[lastModel] && METRICS.every(metric => answers[lastModel][metric] !== undefined);
+
+                if (DEBUG_MODE || allLastModelMetricsRated) {
+                    console.log('Last model page (keyboard): proceeding to save/next question.');
                     saveAndGoToNextQuestion();
+                } else {
+                    alert('Please rate all metrics for the final sample before finishing.');
                 }
-            } else if (currentPage < totalPages - 1) {
+            } else if (currentPage < totalPages - 1) { // Not the last model page, go to next sample
                 goToPage(currentPage + 1);
             }
         }
@@ -752,14 +761,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
-            // If this is the last model and all metrics are rated, save and go to next question
+            // If this is the last model page
             if (currentPage === totalPages - 1) {
                 const lastModel = MODELS[MODELS.length - 1];
-                if (answers[lastModel] && METRICS.every(metric => answers[lastModel][metric] !== undefined)) {
-                    console.log('Last model rated, saving and going to next question');
+                const allLastModelMetricsRated = answers[lastModel] && METRICS.every(metric => answers[lastModel][metric] !== undefined);
+
+                if (DEBUG_MODE || allLastModelMetricsRated) {
+                    console.log('Last model page (swipe): proceeding to save/next question.');
                     saveAndGoToNextQuestion();
+                } else {
+                    alert('Please rate all metrics for the final sample before finishing.');
                 }
-            } else if (currentPage < totalPages - 1) {
+            } else if (currentPage < totalPages - 1) { // Not the last model page, go to next sample
                 goToPage(currentPage + 1);
             }
         } else if (touchEndX > touchStartX + swipeThreshold) {
