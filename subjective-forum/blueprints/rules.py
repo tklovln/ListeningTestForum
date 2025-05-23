@@ -16,11 +16,18 @@ def index():
     Returns:
         Rendered rules.html template
     """
-    # Check if participant info is available
-    if 'participant' not in session:
-        return redirect(url_for('participant.index'))
-    
     forum_config = current_app.config.get('FORUM', {})
+    debug_mode = forum_config.get('debug', False)
+
+    # Check if participant info is available or if in debug mode (where participant might be auto-filled)
+    if not debug_mode and 'participant' not in session:
+        return redirect(url_for('participant.index'))
+    elif debug_mode and 'participant' not in session:
+        # This case should ideally be handled by participant.py auto-filling in debug mode.
+        # If we reach here, it means participant.py didn't redirect, so we might force it.
+        current_app.logger.warning("Debug mode on, but no participant in session for rules. Redirecting to participant page to auto-fill.")
+        return redirect(url_for('participant.index')) # This will trigger the GET debug bypass in participant.py
+    
     branding = forum_config.get('branding', {})
     
     # Get rules markdown file path
@@ -56,8 +63,14 @@ def begin():
     Returns:
         Redirect to the first question
     """
-    # Check if participant info is available
-    if 'participant' not in session:
+    forum_config = current_app.config.get('FORUM', {}) # Get config to check debug mode
+    debug_mode = forum_config.get('debug', False)
+
+    # Check if participant info is available or if in debug mode
+    if not debug_mode and 'participant' not in session:
+        return redirect(url_for('participant.index'))
+    elif debug_mode and 'participant' not in session:
+        current_app.logger.warning("Debug mode on, but no participant in session for rules/begin. Redirecting to participant page to auto-fill.")
         return redirect(url_for('participant.index'))
     
     # Randomize questions if not already done

@@ -20,7 +20,19 @@ def index():
     forum_config = current_app.config.get('FORUM', {})
     participant_fields = forum_config.get('participantFields', [])
     branding = forum_config.get('branding', {})
-    
+    debug_mode = forum_config.get('debug', False)
+
+    if request.method == 'GET' and debug_mode:
+        # In debug mode, bypass form with dummy data
+        dummy_participant_data = {field.get('key'): f"debug_{field.get('key')}" for field in participant_fields if field.get('key')}
+        dummy_participant_data['debug_mode_skip'] = True # Mark as debug skip
+        session['participant'] = dummy_participant_data
+        current_app.logger.info("Debug mode: Bypassing participant form with dummy data.")
+        # Initialize answers if not already present
+        if 'answers' not in session:
+            session['answers'] = {}
+        return redirect(url_for('rules.index'))
+
     if request.method == 'POST':
         # Process form submission
         participant_data = {}

@@ -180,6 +180,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    /**
+     * Custom smooth scroll function.
+     * @param {HTMLElement} scrollContainer - The container element that scrolls.
+     * @param {HTMLElement} targetElement - The element to scroll to.
+     * @param {number} duration - The duration of the scroll animation in milliseconds.
+     */
+    function customSmoothScrollTo(scrollContainer, targetElement, duration) {
+        const targetScrollLeft = targetElement.offsetLeft;
+        const startScrollLeft = scrollContainer.scrollLeft;
+        const distance = targetScrollLeft - startScrollLeft;
+        let startTime = null;
+
+        function animation(currentTime) {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            let t = Math.min(timeElapsed / duration, 1); // progress: 0 to 1
+
+            // Ease-out Cubic easing function: 1 - (1-t)^3
+            const easedProgress = 1 - Math.pow(1 - t, 3);
+
+            scrollContainer.scrollLeft = startScrollLeft + distance * easedProgress;
+
+            if (timeElapsed < duration) {
+                requestAnimationFrame(animation);
+            } else {
+                scrollContainer.scrollLeft = targetScrollLeft; // Ensure it ends exactly at the target
+            }
+        }
+        requestAnimationFrame(animation);
+    }
+
     // Navigate to a specific page
     function goToPage(pageIndex) {
         if (pageIndex < 0 || pageIndex >= totalPages) return;
@@ -449,9 +480,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to save answers and go to next question
     async function saveAndGoToNextQuestion() {
-        // Show loading indicator and saving message
+        // Show loading indicator
         loadingIndicator.style.display = 'block';
-        document.getElementById('saving-message').style.display = 'block';
+        // document.getElementById('saving-message').style.display = 'block'; // Removed
         
         try {
             // Calculate time spent
@@ -490,13 +521,13 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 alert('Error saving answers: ' + (result.error || 'Unknown error'));
                 loadingIndicator.style.display = 'none';
-                document.getElementById('saving-message').style.display = 'none';
+                // document.getElementById('saving-message').style.display = 'none'; // Removed
             }
         } catch (error) {
             console.error('Error saving answers:', error);
             alert('Error saving answers. Please try again.');
             loadingIndicator.style.display = 'none';
-            document.getElementById('saving-message').style.display = 'none';
+            // document.getElementById('saving-message').style.display = 'none'; // Removed
         }
     }
     

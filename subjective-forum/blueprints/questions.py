@@ -19,11 +19,16 @@ def show(index):
     Returns:
         Rendered questions.html template
     """
-    # Check if participant info is available
-    if 'participant' not in session:
-        return redirect(url_for('participant.index'))
-    
     forum_config = current_app.config.get('FORUM', {})
+    debug_mode = forum_config.get('debug', False)
+
+    # Check if participant info is available or if in debug mode
+    if not debug_mode and 'participant' not in session:
+        return redirect(url_for('participant.index'))
+    elif debug_mode and 'participant' not in session:
+        current_app.logger.warning("Debug mode on, but no participant in session for questions. Redirecting to participant page to auto-fill.")
+        return redirect(url_for('participant.index')) # This will trigger the GET debug bypass in participant.py
+    
     branding = forum_config.get('branding', {})
     all_questions_config = forum_config.get('questions', [])
     n_questions_to_show = forum_config.get('n_questions', 0) # Get n_questions from config
