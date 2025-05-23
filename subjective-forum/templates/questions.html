@@ -1,0 +1,1074 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+    }
+    
+    .container {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        max-width: 100%;
+    }
+    
+    header {
+        padding: 1rem;
+        background-color: rgba(255, 255, 255, 0.9);
+        z-index: 10;
+    }
+    
+    main {
+        flex: 1;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    footer {
+        padding: 0.5rem;
+        background-color: rgba(255, 255, 255, 0.9);
+        z-index: 10;
+        text-align: center;
+        font-size: 0.8rem;
+    }
+    
+    .story-container {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .story {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        scroll-snap-type: x mandatory;
+        overflow-x: scroll;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .story-page {
+        flex: 0 0 100%;
+        height: 100%;
+        scroll-snap-align: start;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        box-sizing: border-box;
+    }
+    
+    .story-content {
+        max-width: 450px;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    .story-nav {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        pointer-events: none;
+    }
+    
+    .story-nav-left, .story-nav-right {
+        flex: 1;
+        pointer-events: auto;
+        cursor: pointer;
+    }
+    
+    .progress-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: rgba(255, 255, 255, 0.3);
+        z-index: 20;
+    }
+    
+    .progress-segments {
+        display: flex;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .progress-segment {
+        flex: 1;
+        height: 100%;
+        margin: 0 2px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 2px;
+    }
+    
+    .progress-segment.active {
+        background-color: var(--accent-color);
+    }
+    
+    .audio-status {
+        margin: 2rem 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .audio-indicator {
+        width: 100%;
+        height: 4px;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 2px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+    }
+    
+    .audio-progress {
+        height: 100%;
+        width: 0%;
+        background-color: var(--accent-color);
+        transition: width 0.1s linear;
+    }
+    
+    .ratings-summary {
+        margin: 2rem 0;
+    }
+    
+    .model-summary {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 4px;
+    }
+    
+    .model-summary h3 {
+        margin-top: 0;
+    }
+    
+    .metric-summary {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+    
+    .metric-value {
+        font-weight: bold;
+    }
+    
+    .metrics-container {
+        margin-top: 2rem;
+    }
+    
+    .metric {
+        margin-bottom: 1.5rem;
+    }
+    
+    .metric-label {
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+    
+    .rating-buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .rating-button {
+        flex: 1;
+        margin: 0 4px;
+        padding: 0.5rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 20px;
+        background-color: white;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .rating-button:hover {
+        border-color: var(--accent-color);
+    }
+    
+    .rating-button.selected {
+        background-color: var(--accent-color);
+        color: white;
+        border-color: var(--accent-color);
+    }
+    
+    .loading-indicator {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: var(--accent-color);
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        to {
+            transform: translate(-50%, -50%) rotate(360deg);
+        }
+    }
+    
+    .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
+    
+    .nav-button {
+        padding: 0.5rem 1rem;
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    
+    .nav-button:disabled {
+        background-color: #e0e0e0;
+        cursor: not-allowed;
+    }
+    
+    .question-counter {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+    }
+    
+    @media (min-width: 768px) {
+        .story-container {
+            max-width: 450px;
+            margin: 0 auto;
+        }
+        
+        .story-content {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="story-container"
+     data-question-id="{{ question.id }}"
+     data-prompt-id="{{ question.promptId }}"
+     data-models="{{ question.models|tojson|safe }}"
+     data-metrics="{{ question.metrics|tojson|safe }}"
+     data-is-last="{{ is_last|lower }}"
+     data-next-url="{{ next_url }}"
+     data-prev-url="{{ prev_url }}"
+     data-audio-root="{{ audio_root }}">
+    <div class="progress-bar">
+        <div class="progress-segments" id="progress-segments"></div>
+    </div>
+    
+    <div class="question-counter">
+        Question {{ question_index + 1 }} of {{ total_questions }}
+    </div>
+    
+    <div class="story" id="story">
+        <!-- First page: Prompt audio -->
+        <div class="story-page" id="prompt-page">
+            <div class="story-content">
+                <h2>{{ question.title }}</h2>
+                <p>Reference Audio (Playing automatically)</p>
+                
+                <!-- Hidden audio element -->
+                <audio
+                    id="prompt-audio"
+                    src="{{ url_for('api.serve_audio', filename=question.promptId + '_prompt.mp3') }}"
+                    data-src="{{ url_for('api.serve_audio', filename=question.promptId + '_prompt.mp3') }}"
+                    style="display: none;"
+                ></audio>
+                
+                <div class="audio-status">
+                    <div class="audio-indicator">
+                        <div class="audio-progress" id="prompt-progress"></div>
+                    </div>
+                    <p id="prompt-status">Loading audio...</p>
+                </div>
+                
+                <p>Swipe right when you're ready to compare the samples.</p>
+            </div>
+        </div>
+        
+        <!-- Model comparison pages with metrics -->
+        {% for model in question.models %}
+        <div class="story-page" id="model-{{ model }}-page">
+            <div class="story-content">
+                <h2>{{ question.title }}</h2>
+                <p>Sample {{ loop.index }} (Playing automatically)</p>
+                
+                <!-- Hidden audio element -->
+                <audio
+                    id="model-{{ model }}-audio"
+                    src="{{ url_for('api.serve_audio', filename=question.promptId + '_' + model + '.mp3') }}"
+                    data-src="{{ url_for('api.serve_audio', filename=question.promptId + '_' + model + '.mp3') }}"
+                    style="display: none;"
+                ></audio>
+                
+                <div class="audio-status">
+                    <div class="audio-indicator">
+                        <div class="audio-progress" id="{{ model }}-progress"></div>
+                    </div>
+                    <p id="{{ model }}-status">Loading audio...</p>
+                </div>
+                
+                <!-- Metrics for this model -->
+                <div class="metrics-container">
+                    <h3>Rate this sample:</h3>
+                    {% for metric in question.metrics %}
+                    <div class="metric" data-metric="{{ metric }}" data-model="{{ model }}">
+                        <div class="metric-label">{{ metric }}</div>
+                        <div class="rating-buttons">
+                            {% for i in range(1, 6) %}
+                            <button
+                                class="rating-button"
+                                data-value="{{ i }}"
+                                data-model="{{ model }}"
+                                aria-label="{{ metric }} rating {{ i }}"
+                            >
+                                {{ i }}
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+        <!-- Summary page -->
+        <div class="story-page" id="summary-page">
+            <div class="story-content">
+                <h2>{{ question.title }}</h2>
+                <p>Your ratings summary:</p>
+                
+                <div id="ratings-summary" class="ratings-summary">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button id="prev-button" class="nav-button">Previous</button>
+                    <button id="next-button" class="nav-button">
+                        {% if is_last %}Finish{% else %}Next Question{% endif %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="story-nav">
+        <div class="story-nav-left" id="nav-left"></div>
+        <div class="story-nav-right" id="nav-right"></div>
+    </div>
+    
+    <div id="loading-indicator" class="loading-indicator" style="display: none;"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ url_for('static', filename='js/modules/fixed-story-controller.js') }}"></script>
+<!-- Original script commented out for reference
+<script type="module">
+    // Story controller
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get data from HTML attributes
+        const storyContainer = document.querySelector('.story-container');
+        const QUESTION_ID = storyContainer.getAttribute('data-question-id');
+        const PROMPT_ID = storyContainer.getAttribute('data-prompt-id');
+        
+        // Add error handling for JSON parsing
+        let MODELS = [];
+        try {
+            const modelsData = storyContainer.getAttribute('data-models');
+            console.log('Models data:', modelsData);
+            MODELS = modelsData ? JSON.parse(modelsData) : [];
+        } catch (e) {
+            console.error('Error parsing models data:', e);
+        }
+        
+        let METRICS = [];
+        try {
+            const metricsData = storyContainer.getAttribute('data-metrics');
+            console.log('Metrics data:', metricsData);
+            METRICS = metricsData ? JSON.parse(metricsData) : [];
+        } catch (e) {
+            console.error('Error parsing metrics data:', e);
+        }
+        
+        const IS_LAST = storyContainer.getAttribute('data-is-last') === 'true';
+        const NEXT_URL = storyContainer.getAttribute('data-next-url');
+        const PREV_URL = storyContainer.getAttribute('data-prev-url');
+        const AUDIO_ROOT = storyContainer.getAttribute('data-audio-root');
+        
+        // Elements
+        const storyElement = document.getElementById('story');
+        const progressSegments = document.getElementById('progress-segments');
+        const navLeft = document.getElementById('nav-left');
+        const navRight = document.getElementById('nav-right');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        
+        // State
+        let currentPage = 0;
+        const totalPages = 2 + MODELS.length; // Prompt + Models + Rating
+        let startTime = Date.now();
+        let answers = {};
+        let audioElements = {};
+        let audioLoaded = {};
+        
+        // Initialize progress bar
+        for (let i = 0; i < totalPages; i++) {
+            const segment = document.createElement('div');
+            segment.className = 'progress-segment';
+            if (i === 0) segment.classList.add('active');
+            progressSegments.appendChild(segment);
+        }
+        
+        // Initialize audio elements
+        function initAudio() {
+            console.log('Initializing audio elements');
+            
+            // Prompt audio
+            const promptAudio = document.getElementById('prompt-audio');
+            const promptSrc = promptAudio.dataset.src;
+            console.log('Setting prompt audio src:', promptSrc);
+            promptAudio.src = promptSrc;
+            
+            // Add event listeners for debugging
+            promptAudio.addEventListener('canplaythrough', () => {
+                console.log('Prompt audio can play through');
+            });
+            
+            promptAudio.addEventListener('error', (e) => {
+                console.error('Prompt audio error:', e);
+            });
+            
+            audioElements['prompt'] = promptAudio;
+            
+            // Model audios
+            MODELS.forEach(model => {
+                const modelAudio = document.getElementById(`model-${model}-audio`);
+                const modelSrc = modelAudio.dataset.src;
+                console.log(`Setting ${model} audio src:`, modelSrc);
+                modelAudio.src = modelSrc;
+                
+                // Add event listeners for debugging
+                modelAudio.addEventListener('canplaythrough', () => {
+                    console.log(`${model} audio can play through`);
+                });
+                
+                modelAudio.addEventListener('error', (e) => {
+                    console.error(`${model} audio error:`, e);
+                });
+                
+                audioElements[model] = modelAudio;
+            });
+            
+            // Preload all audio files
+            preloadAudio();
+        }
+        
+        // Preload audio files
+        async function preloadAudio() {
+            try {
+                // Check if Cache API is available
+                if ('caches' in window) {
+                    const cache = await caches.open('audio-cache');
+                    
+                    // Preload prompt audio
+                    const promptUrl = `${window.location.origin}/api/audio/${PROMPT_ID}_prompt.mp3`;
+                    console.log('Preloading prompt audio from URL:', promptUrl);
+                    
+                    // Use fetch instead of cache.add for better error handling
+                    fetch(promptUrl)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return cache.put(promptUrl, response);
+                        })
+                        .then(() => {
+                            console.log('Prompt audio cached successfully');
+                            audioLoaded['prompt'] = true;
+                        })
+                        .catch(err => {
+                            console.error('Error caching prompt audio:', err);
+                        });
+                    
+                    // Preload model audios
+                    MODELS.forEach(model => {
+                        const modelUrl = `${window.location.origin}/api/audio/${PROMPT_ID}_${model}.mp3`;
+                        console.log(`Preloading ${model} audio from URL:`, modelUrl);
+                        
+                        // Use fetch instead of cache.add for better error handling
+                        fetch(modelUrl)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! Status: ${response.status}`);
+                                }
+                                return cache.put(modelUrl, response);
+                            })
+                            .then(() => {
+                                console.log(`${model} audio cached successfully`);
+                                audioLoaded[model] = true;
+                            })
+                            .catch(err => {
+                                console.error(`Error caching model audio (${model}):`, err);
+                            });
+                    });
+                }
+            } catch (error) {
+                console.error('Error preloading audio:', error);
+            }
+        }
+        
+        // Navigate to a specific page
+        function goToPage(pageIndex) {
+            if (pageIndex < 0 || pageIndex >= totalPages) return;
+            
+            // Update current page
+            currentPage = pageIndex;
+            
+            // Scroll to the page
+            const storyPages = document.querySelectorAll('.story-page');
+            storyPages[pageIndex].scrollIntoView({ behavior: 'smooth' });
+            
+            // Update progress bar
+            const segments = document.querySelectorAll('.progress-segment');
+            segments.forEach((segment, i) => {
+                segment.classList.toggle('active', i <= pageIndex);
+            });
+            
+            // Ensure audio plays immediately when the page is shown
+            // (not just when the user taps)
+            console.log(`Going to page ${pageIndex}, will play audio automatically`);
+            setTimeout(() => {
+                playAudioForCurrentPage();
+            }, 300);
+            
+            // Stop all audio playback first
+            Object.values(audioElements).forEach(audio => {
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                    
+                    // Reset progress bar if it exists
+                    const audioId = audio.id;
+                    const progressId = audioId.replace('audio', 'progress');
+                    const progressElement = document.getElementById(progressId);
+                    if (progressElement) {
+                        progressElement.style.width = '0%';
+                    }
+                    
+                    // Reset status text
+                    const statusId = audioId.replace('audio', 'status');
+                    const statusElement = document.getElementById(statusId);
+                    if (statusElement) {
+                        statusElement.textContent = 'Loading audio...';
+                    }
+                }
+            });
+            
+            // Auto-play audio if it's an audio page
+            if (pageIndex === 0) {
+                // Prompt page
+                console.log('Attempting to play prompt audio');
+                const promptAudio = audioElements['prompt'];
+                const progressElement = document.getElementById('prompt-progress');
+                const statusElement = document.getElementById('prompt-status');
+                
+                if (!promptAudio) {
+                    console.error('Prompt audio element not found');
+                    if (statusElement) statusElement.textContent = 'Audio not available';
+                } else {
+                    console.log('Prompt audio element:', promptAudio);
+                    console.log('Prompt audio src:', promptAudio.src);
+                    
+                    // Set up progress tracking
+                    promptAudio.addEventListener('timeupdate', () => {
+                        if (promptAudio.duration) {
+                            const percent = (promptAudio.currentTime / promptAudio.duration) * 100;
+                            if (progressElement) progressElement.style.width = `${percent}%`;
+                        }
+                    });
+                    
+                    // Set up status updates
+                    promptAudio.addEventListener('playing', () => {
+                        if (statusElement) statusElement.textContent = 'Playing reference audio...';
+                    });
+                    
+                    promptAudio.addEventListener('ended', () => {
+                        if (statusElement) statusElement.textContent = 'Reference audio complete';
+                    });
+                    
+                    // Play after a short delay
+                    setTimeout(() => {
+                        promptAudio.play()
+                            .then(() => console.log('Prompt audio playback started'))
+                            .catch(e => {
+                                console.error('Auto-play prevented:', e);
+                                if (statusElement) statusElement.textContent = 'Click anywhere to play audio';
+                                
+                                // Add click handler to play audio
+                                document.addEventListener('click', function playOnClick() {
+                                    promptAudio.play()
+                                        .then(() => {
+                                            document.removeEventListener('click', playOnClick);
+                                        })
+                                        .catch(console.error);
+                                }, { once: true });
+                            });
+                    }, 500);
+                }
+            } else if (pageIndex < totalPages - 1) {
+                // Model page
+                const modelIndex = pageIndex - 1;
+                const model = MODELS[modelIndex];
+                console.log(`Attempting to play ${model} audio`);
+                const modelAudio = audioElements[model];
+                const progressElement = document.getElementById(`${model}-progress`);
+                const statusElement = document.getElementById(`${model}-status`);
+                
+                if (!modelAudio) {
+                    console.error(`${model} audio element not found`);
+                    if (statusElement) statusElement.textContent = 'Audio not available';
+                } else {
+                    console.log(`${model} audio element:`, modelAudio);
+                    console.log(`${model} audio src:`, modelAudio.src);
+                    
+                    // Set up progress tracking
+                    modelAudio.addEventListener('timeupdate', () => {
+                        if (modelAudio.duration) {
+                            const percent = (modelAudio.currentTime / modelAudio.duration) * 100;
+                            if (progressElement) progressElement.style.width = `${percent}%`;
+                        }
+                    });
+                    
+                    // Set up status updates
+                    modelAudio.addEventListener('playing', () => {
+                        if (statusElement) statusElement.textContent = `Playing sample ${modelIndex + 1}...`;
+                    });
+                    
+                    modelAudio.addEventListener('ended', () => {
+                        if (statusElement) statusElement.textContent = `Sample ${modelIndex + 1} complete`;
+                    });
+                    
+                    // Play after a short delay
+                    setTimeout(() => {
+                        modelAudio.play()
+                            .then(() => console.log(`${model} audio playback started`))
+                            .catch(e => {
+                                console.error('Auto-play prevented:', e);
+                                if (statusElement) statusElement.textContent = 'Click anywhere to play audio';
+                                
+                                // Add click handler to play audio
+                                document.addEventListener('click', function playOnClick() {
+                                    modelAudio.play()
+                                        .then(() => {
+                                            document.removeEventListener('click', playOnClick);
+                                        })
+                                        .catch(console.error);
+                                }, { once: true });
+                            });
+                    }, 500);
+                }
+            } else if (pageIndex === totalPages - 1) {
+                // Summary page - update the ratings summary
+                updateRatingsSummary();
+            }
+            
+            // Check if all metrics are rated when on the rating page
+            if (pageIndex === totalPages - 1) {
+                checkAllMetricsRated();
+            }
+        }
+        
+        // Check if all metrics have been rated for all models
+        function checkAllMetricsRated() {
+            const allModelsRated = MODELS.every(model => {
+                if (!answers[model]) return false;
+                return METRICS.every(metric => answers[model][metric] !== undefined);
+            });
+            
+            nextButton.disabled = !allModelsRated;
+            return allModelsRated;
+        }
+        
+        // Handle navigation clicks
+        navLeft.addEventListener('click', () => {
+            if (currentPage > 0) {
+                console.log('Left navigation clicked, going to previous page');
+                goToPage(currentPage - 1);
+            }
+        });
+        
+        navRight.addEventListener('click', () => {
+            if (currentPage < totalPages - 1) {
+                console.log('Right navigation clicked, going to next page');
+                goToPage(currentPage + 1);
+            }
+        });
+        
+        // Handle rating button clicks
+        document.querySelectorAll('.rating-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const metricElement = button.closest('.metric');
+                const metric = metricElement.dataset.metric;
+                const model = metricElement.dataset.model;
+                const value = parseInt(button.dataset.value);
+                
+                // Update selected state
+                metricElement.querySelectorAll('.rating-button').forEach(btn => {
+                    btn.classList.toggle('selected', btn === button);
+                });
+                
+                // Store answer - organize by model
+                if (!answers[model]) {
+                    answers[model] = {};
+                }
+                answers[model][metric] = value;
+                
+                // Check if all metrics for this model are rated
+                checkModelMetricsRated(model);
+            });
+        });
+        
+        // Function to update ratings summary
+        function updateRatingsSummary() {
+            const summaryContainer = document.getElementById('ratings-summary');
+            if (!summaryContainer) return;
+            
+            // Clear existing content
+            summaryContainer.innerHTML = '';
+            
+            // Create summary for each model
+            MODELS.forEach(model => {
+                if (!answers[model]) return;
+                
+                const modelSummary = document.createElement('div');
+                modelSummary.className = 'model-summary';
+                
+                const modelTitle = document.createElement('h3');
+                modelTitle.textContent = `Sample ${MODELS.indexOf(model) + 1}`;
+                modelSummary.appendChild(modelTitle);
+                
+                // Add each metric rating
+                Object.entries(answers[model] || {}).forEach(([metric, value]) => {
+                    const metricSummary = document.createElement('div');
+                    metricSummary.className = 'metric-summary';
+                    
+                    const metricName = document.createElement('div');
+                    metricName.className = 'metric-name';
+                    metricName.textContent = metric;
+                    
+                    const metricValue = document.createElement('div');
+                    metricValue.className = 'metric-value';
+                    metricValue.textContent = value;
+                    
+                    metricSummary.appendChild(metricName);
+                    metricSummary.appendChild(metricValue);
+                    modelSummary.appendChild(metricSummary);
+                });
+                
+                summaryContainer.appendChild(modelSummary);
+            });
+        }
+        
+        // Check if all metrics for a specific model are rated
+        function checkModelMetricsRated(model) {
+            if (!answers[model]) return false;
+            
+            const allRated = METRICS.every(metric => answers[model][metric] !== undefined);
+            
+            // If all metrics for this model are rated, enable navigation to next page
+            if (allRated) {
+                // Enable swiping to next page
+                navRight.style.pointerEvents = 'auto';
+                
+                // Auto-advance after a short delay
+                setTimeout(() => {
+                    if (currentPage < totalPages - 1) {
+                        goToPage(currentPage + 1);
+                    }
+                }, 1000);
+            }
+            
+            return allRated;
+        }
+        
+        // Function to play audio for the current page
+        function playAudioForCurrentPage() {
+            console.log(`Playing audio for page ${currentPage}, total pages: ${totalPages}`);
+            console.log('Available models:', MODELS);
+            console.log('Available audio elements:', Object.keys(audioElements));
+            
+            // Stop all audio playback first
+            Object.values(audioElements).forEach(audio => {
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+            });
+            
+            if (currentPage === 0) {
+                // Prompt page
+                const promptAudio = audioElements['prompt'];
+                const progressElement = document.getElementById('prompt-progress');
+                const statusElement = document.getElementById('prompt-status');
+                
+                if (promptAudio) {
+                    console.log('Playing prompt audio automatically');
+                    
+                    // Set up progress tracking if not already set
+                    if (!promptAudio._hasProgressListener) {
+                        promptAudio.addEventListener('timeupdate', () => {
+                            if (promptAudio.duration) {
+                                const percent = (promptAudio.currentTime / promptAudio.duration) * 100;
+                                if (progressElement) progressElement.style.width = `${percent}%`;
+                            }
+                        });
+                        promptAudio._hasProgressListener = true;
+                    }
+                    
+                    // Set up status updates if not already set
+                    if (!promptAudio._hasStatusListeners) {
+                        promptAudio.addEventListener('playing', () => {
+                            if (statusElement) statusElement.textContent = 'Playing reference audio...';
+                        });
+                        
+                        promptAudio.addEventListener('ended', () => {
+                            if (statusElement) statusElement.textContent = 'Reference audio complete';
+                        });
+                        promptAudio._hasStatusListeners = true;
+                    }
+                    
+                    // Play the audio
+                    promptAudio.play()
+                        .then(() => console.log('Prompt audio playback started'))
+                        .catch(e => {
+                            console.error('Auto-play prevented:', e);
+                            if (statusElement) statusElement.textContent = 'Click anywhere to play audio';
+                            
+                            // Add click handler to play audio
+                            document.addEventListener('click', function playOnClick() {
+                                promptAudio.play()
+                                    .then(() => {
+                                        document.removeEventListener('click', playOnClick);
+                                    })
+                                    .catch(console.error);
+                            }, { once: true });
+                        });
+                }
+            } else if (currentPage < totalPages - 1) {
+                // Model page
+                const modelIndex = currentPage - 1;
+                console.log(`Model index: ${modelIndex}, MODELS: ${JSON.stringify(MODELS)}`);
+                
+                if (modelIndex < 0 || modelIndex >= MODELS.length) {
+                    console.error(`Invalid model index: ${modelIndex}, MODELS length: ${MODELS.length}`);
+                    return;
+                }
+                
+                const model = MODELS[modelIndex];
+                console.log(`Selected model: ${model}`);
+                const modelAudio = audioElements[model];
+                const progressElement = document.getElementById(`${model}-progress`);
+                const statusElement = document.getElementById(`${model}-status`);
+                
+                if (!modelAudio) {
+                    console.error(`Audio element for model ${model} not found!`);
+                    console.log('Available audio elements:', Object.keys(audioElements));
+                    return;
+                }
+                
+                console.log(`Playing ${model} audio automatically`);
+                    
+                    // Set up progress tracking if not already set
+                    if (!modelAudio._hasProgressListener) {
+                        modelAudio.addEventListener('timeupdate', () => {
+                            if (modelAudio.duration) {
+                                const percent = (modelAudio.currentTime / modelAudio.duration) * 100;
+                                if (progressElement) progressElement.style.width = `${percent}%`;
+                            }
+                        });
+                        modelAudio._hasProgressListener = true;
+                    }
+                    
+                    // Set up status updates if not already set
+                    if (!modelAudio._hasStatusListeners) {
+                        modelAudio.addEventListener('playing', () => {
+                            if (statusElement) statusElement.textContent = `Playing sample ${modelIndex + 1}...`;
+                        });
+                        
+                        modelAudio.addEventListener('ended', () => {
+                            if (statusElement) statusElement.textContent = `Sample ${modelIndex + 1} complete`;
+                        });
+                        modelAudio._hasStatusListeners = true;
+                    }
+                    
+                    // Play the audio
+                    modelAudio.play()
+                        .then(() => console.log(`${model} audio playback started`))
+                        .catch(e => {
+                            console.error('Auto-play prevented:', e);
+                            if (statusElement) statusElement.textContent = 'Click anywhere to play audio';
+                            
+                            // Add click handler to play audio
+                            document.addEventListener('click', function playOnClick() {
+                                modelAudio.play()
+                                    .then(() => {
+                                        document.removeEventListener('click', playOnClick);
+                                    })
+                                    .catch(console.error);
+                            }, { once: true });
+                        });
+                }
+            }
+        }
+        
+        // Handle navigation buttons
+        prevButton.addEventListener('click', function() {
+            goToPage(currentPage - 1);
+        });
+        
+        nextButton.addEventListener('click', async () => {
+            // Show loading indicator
+            loadingIndicator.style.display = 'block';
+            
+            try {
+                // Calculate time spent
+                const timeSpent = (Date.now() - startTime) / 1000;
+                
+                // Flatten answers for API compatibility
+                const flattenedAnswers = {};
+                
+                // For each model, add its metrics to the flattened answers
+                Object.entries(answers).forEach(([model, modelAnswers]) => {
+                    Object.entries(modelAnswers).forEach(([metric, value]) => {
+                        // Create a composite key that includes the model and metric
+                        const compositeKey = `${model}_${metric}`;
+                        flattenedAnswers[compositeKey] = value;
+                    });
+                });
+                
+                // Save answers
+                const response = await fetch('/api/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        questionId: QUESTION_ID,
+                        answers: flattenedAnswers,
+                        timeSpent: timeSpent
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Navigate to next question or finish
+                    window.location.href = NEXT_URL;
+                } else {
+                    alert('Error saving answers: ' + (result.error || 'Unknown error'));
+                    loadingIndicator.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error saving answers:', error);
+                alert('Error saving answers. Please try again.');
+                loadingIndicator.style.display = 'none';
+            }
+        });
+        
+        // Initialize
+        initAudio();
+        
+        // Play audio for the initial page
+        setTimeout(() => {
+            console.log('Initial page load, playing audio automatically');
+            playAudioForCurrentPage();
+        }, 500);
+        
+        // Handle keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                if (currentPage > 0) {
+                    console.log('Left arrow key pressed, going to previous page');
+                    goToPage(currentPage - 1);
+                }
+            } else if (e.key === 'ArrowRight') {
+                if (currentPage < totalPages - 1) {
+                    console.log('Right arrow key pressed, going to next page');
+                    goToPage(currentPage + 1);
+                }
+            }
+        });
+        
+        // Handle touch events for swipe
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            
+            if (touchEndX < touchStartX - swipeThreshold) {
+                // Swipe left to right
+                if (currentPage < totalPages - 1) {
+                    console.log('Swipe detected (left to right), going to next page');
+                    goToPage(currentPage + 1);
+                }
+            } else if (touchEndX > touchStartX + swipeThreshold) {
+                // Swipe right to left
+                if (currentPage > 0) {
+                    console.log('Swipe detected (right to left), going to previous page');
+                    goToPage(currentPage - 1);
+                }
+            }
+        }
+        
+        // Send heartbeat to keep session alive
+        setInterval(async () => {
+            try {
+                await fetch('/api/heartbeat');
+            } catch (error) {
+                console.error('Heartbeat error:', error);
+            }
+        }, 60000); // Every minute
+    });
+</script>
+-->
+{% endblock %}

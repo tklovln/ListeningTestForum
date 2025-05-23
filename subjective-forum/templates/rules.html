@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .rules-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .rules-content {
+        margin: 2rem 0;
+        line-height: 1.6;
+    }
+    
+    .rules-content h1,
+    .rules-content h2,
+    .rules-content h3 {
+        color: var(--accent-color);
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .rules-content ul,
+    .rules-content ol {
+        margin-left: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .rules-content li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .begin-button {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: var(--accent-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .begin-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
+    
+    .back-button {
+        color: var(--accent-color);
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="rules-container">
+    <h2>Test Instructions</h2>
+    
+    <div class="rules-content">
+        {{ rules_html|safe }}
+    </div>
+    
+    <div class="navigation-buttons">
+        <a href="{{ url_for('participant.index') }}" class="back-button">← Back to Participant Info</a>
+        <a href="{{ url_for('rules.begin') }}" class="begin-button">Begin Test</a>
+    </div>
+</div>
+{% endblock %}

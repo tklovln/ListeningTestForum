@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .participant-form {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 2rem;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+    
+    .form-control:focus {
+        border-color: var(--accent-color);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2);
+    }
+    
+    .required-mark {
+        color: #ff3860;
+        margin-left: 0.25rem;
+    }
+    
+    .submit-button {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .submit-button:hover {
+        background-color: var(--accent-color-dark, var(--accent-color));
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="participant-form">
+    <h2>Participant Information</h2>
+    <p>Please provide the following information before starting the listening test.</p>
+    
+    <form method="POST" action="{{ url_for('participant.index') }}">
+        {% for field in participant_fields %}
+            <div class="form-group">
+                <label for="{{ field.key }}">
+                    {{ field.label }}
+                    {% if field.required %}
+                        <span class="required-mark">*</span>
+                    {% endif %}
+                </label>
+                
+                {% if field.type == 'text' %}
+                    <input 
+                        type="text" 
+                        id="{{ field.key }}" 
+                        name="{{ field.key }}" 
+                        class="form-control"
+                        value="{{ participant_data.get(field.key, '') }}"
+                        {% if field.required %}required{% endif %}
+                    >
+                {% elif field.type == 'select' %}
+                    <select 
+                        id="{{ field.key }}" 
+                        name="{{ field.key }}" 
+                        class="form-control"
+                        {% if field.required %}required{% endif %}
+                    >
+                        <option value="" {% if not participant_data.get(field.key) %}selected{% endif %}>-- Please select --</option>
+                        {% for option in field.options %}
+                            <option 
+                                value="{{ option }}"
+                                {% if participant_data.get(field.key) == option %}selected{% endif %}
+                            >
+                                {{ option }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                {% elif field.type == 'textarea' %}
+                    <textarea 
+                        id="{{ field.key }}" 
+                        name="{{ field.key }}" 
+                        class="form-control"
+                        rows="4"
+                        {% if field.required %}required{% endif %}
+                    >{{ participant_data.get(field.key, '') }}</textarea>
+                {% endif %}
+            </div>
+        {% endfor %}
+        
+        <div class="form-group">
+            <button type="submit" class="submit-button">Continue</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

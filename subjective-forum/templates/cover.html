@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .cover-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 70vh;
+        text-align: center;
+        padding: 2rem;
+    }
+    
+    .title {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: var(--accent-color);
+    }
+    
+    .counter {
+        font-size: 1.5rem;
+        margin: 2rem 0;
+    }
+    
+    .counter-value {
+        font-weight: bold;
+        color: var(--accent-color);
+    }
+    
+    .start-button {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background-color: var(--accent-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 1.2rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .start-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="cover-container">
+    <h1 class="title">{{ title }}</h1>
+    
+    <p>Welcome to our listening test survey. Your feedback will help us improve our audio processing algorithms.</p>
+    
+    <div class="counter">
+        <p>Participants completed: <span class="counter-value" id="participant-counter">0</span></p>
+    </div>
+    
+    <a href="{{ url_for('participant.index') }}" class="start-button">Start Survey</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Simulate counter animation
+        const counterElement = document.getElementById('participant-counter');
+        const targetValue = Math.floor(Math.random() * 100) + 50; // Random number between 50-150
+        let currentValue = 0;
+        
+        function updateCounter() {
+            if (currentValue < targetValue) {
+                currentValue += 1;
+                counterElement.textContent = currentValue;
+                
+                // Slow down animation as it approaches the target
+                const remaining = targetValue - currentValue;
+                const delay = remaining < 10 ? 100 : (remaining < 30 ? 50 : 20);
+                
+                setTimeout(updateCounter, delay);
+            }
+        }
+        
+        // Start animation after a short delay
+        setTimeout(updateCounter, 500);
+    });
+</script>
+{% endblock %}

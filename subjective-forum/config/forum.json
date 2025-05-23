@@ -1,0 +1,39 @@
+{
+  "branding": {
+    "title": "AI Symbolic Music Generation Listening Test",
+    "accentColor": "#3498db",
+    "coverAnimation": "counter"
+  },
+  "participantFields": [
+    { "key": "name", "label": "Name", "type": "text", "required": true },
+    { "key": "age", "label": "Age", "type": "text", "required": true },
+    { "key": "gender", "label": "Gender", "type": "select", "options": ["Male", "Female", "Non-binary", "Prefer not to say"], "required": true },
+    { "key": "musical_exp", "label": "Musical Experience", "type": "select", "options": ["No experience", "Beginner", "Intermediate", "Advanced", "Professional"], "required": true },
+    { "key": "headphones", "label": "Headphones Used", "type": "text", "required": true }
+  ],
+  "rulesMarkdown": "rules.md",
+  "audioRoot": "static/audio",
+  "questions": [
+    {
+      "id": "q1",
+      "title": "Listen to the sample and rate the metrics",
+      "promptId": "001",
+      "metrics": ["Consistency", "Richness", "Clarity", "Overall Quality"],
+      "models": ["gt", "methodA", "methodB"]
+    },
+    {
+      "id": "q2",
+      "title": "Which sample has the best audio quality?",
+      "promptId": "002",
+      "metrics": ["Naturalness", "Clarity", "Timbre", "Overall Quality"],
+      "models": ["gt", "methodA", "methodB"]
+    },
+    {
+      "id": "q3",
+      "title": "Which sample sounds most natural?",
+      "promptId": "003",
+      "metrics": ["Naturalness", "Expressiveness", "Coherence", "Overall Quality"],
+      "models": ["gt", "methodA", "methodB"]
+    }
+  ]
+}
