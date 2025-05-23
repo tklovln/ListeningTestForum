@@ -5,33 +5,49 @@ document.addEventListener('DOMContentLoaded', function() {
     const QUESTION_ID = storyContainer.getAttribute('data-question-id');
     const PROMPT_ID = storyContainer.getAttribute('data-prompt-id');
     
-    // Add error handling for JSON parsing
-    let MODELS = [];
-    try {
-        const modelsData = storyContainer.getAttribute('data-models');
-        console.log('Models data:', modelsData);
-        MODELS = modelsData ? JSON.parse(modelsData) : [];
-        console.log('Parsed MODELS:', MODELS);
-        
-        // If MODELS is still empty, use hardcoded values from config
-        if (MODELS.length === 0) {
-            console.warn('Models array is empty, using hardcoded values');
-            MODELS = ["gt", "methodA", "methodB"];
+    // Default values
+    let MODELS = ["gt", "methodA", "methodB"]; // Default
+    let METRICS = []; // Initialize as empty, will be populated from DOM
+
+    // Try to get MODELS from the embedded JSON script tag
+    const jsonDataElement = document.getElementById('question-data-json');
+    if (jsonDataElement) {
+        try {
+            const jsonData = JSON.parse(jsonDataElement.textContent);
+            if (jsonData.models && Array.isArray(jsonData.models) && jsonData.models.length > 0) {
+                MODELS = jsonData.models;
+                console.log('Successfully parsed models from JSON script:', MODELS);
+            } else {
+                console.warn('Models from JSON script is not a non-empty array or not found, using defaults for MODELS.');
+            }
+            // We will populate METRICS from the DOM to ensure consistency
+        } catch (error) {
+            console.error('Failed to parse JSON from script tag for MODELS, using defaults for MODELS:', error);
         }
-    } catch (e) {
-        console.error('Error parsing models data:', e);
-        // Fallback to hardcoded values
-        MODELS = ["gt", "methodA", "methodB"];
+    } else {
+        console.warn('JSON data script tag not found, using defaults for MODELS.');
+    }
+    console.log('Initial MODELS (after potential JSON parse):', MODELS);
+
+    // Dynamically populate METRICS from the first model's metric elements in the DOM
+    // This ensures METRICS array matches exactly what's in data-metric attributes
+    const firstModelMetricElements = document.querySelectorAll(`.metric[data-model="${MODELS[0]}"]`);
+    if (firstModelMetricElements.length > 0) {
+        firstModelMetricElements.forEach(metricElement => {
+            const metricName = metricElement.dataset.metric;
+            if (metricName && !METRICS.includes(metricName)) {
+                METRICS.push(metricName);
+            }
+        });
+        console.log('Dynamically populated METRICS from DOM:', METRICS);
+    } else {
+        // Fallback if DOM query fails (should not happen if HTML is correct)
+        METRICS = ["連貫性（Consistency）", "豐富性（Richness）", "一致性（Consistency）", "整體評價（Overall Rating）"]; // Fallback to expected from forum.json
+        console.warn('Could not dynamically populate METRICS from DOM, using hardcoded fallback from forum.json structure:', METRICS);
     }
     
-    let METRICS = [];
-    try {
-        const metricsData = storyContainer.getAttribute('data-metrics');
-        console.log('Metrics data:', metricsData);
-        METRICS = metricsData ? JSON.parse(metricsData) : [];
-    } catch (e) {
-        console.error('Error parsing metrics data:', e);
-    }
+    console.log('Final MODELS:', MODELS);
+    console.log('Final METRICS:', METRICS);
     
     const IS_LAST = storyContainer.getAttribute('data-is-last') === 'true';
     const NEXT_URL = storyContainer.getAttribute('data-next-url');
@@ -44,13 +60,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLeft = document.getElementById('nav-left');
     const navRight = document.getElementById('nav-right');
     const loadingIndicator = document.getElementById('loading-indicator');
-    const prevButton = document.getElementById('prev-button');
-    const nextButton = document.getElementById('next-button');
+    // const prevButton = document.getElementById('prev-button'); // Obsolete
+    // const nextButton = document.getElementById('next-button'); // Obsolete
     
     // State
     let currentPage = 0;
-    const totalPages = 2 + MODELS.length; // Prompt + Models + Rating
-    console.log(`Total pages: ${totalPages} (1 prompt page + ${MODELS.length} model pages + 1 summary page)`);
+    // Calculate total pages: 1 prompt page + model pages (no summary page)
+    const totalPages = 1 + MODELS.length;
+    console.log(`Total pages: ${totalPages} (1 prompt page + ${MODELS.length} model pages)`);
     let startTime = Date.now();
     let answers = {};
     let audioElements = {};
@@ -250,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }, { once: true });
                     });
             }
-        } else if (currentPage < totalPages - 1) {
+        } else if (currentPage < totalPages) {
             // Model page
             const modelIndex = currentPage - 1;
             console.log(`Model index: ${modelIndex}, MODELS: ${JSON.stringify(MODELS)}`);
@@ -368,36 +385,18 @@ document.addEventListener('DOMContentLoaded', function() {
             // Enable swiping to next page
             navRight.style.pointerEvents = 'auto';
             
-            // Auto-advance after a short delay
-            setTimeout(() => {
-                if (currentPage < totalPages - 1) {
-                    goToPage(currentPage + 1);
-                }
-            }, 1000);
+            // No auto-advance - require explicit navigation
+            // User must click/swipe/press arrow key to proceed
         }
         
         return allRated;
     }
     
-    // Check if all metrics have been rated for all models
-    function checkAllMetricsRated() {
-        const allModelsRated = MODELS.every(model => {
-            if (!answers[model]) return false;
-            return METRICS.every(metric => answers[model][metric] !== undefined);
-        });
-        
-        nextButton.disabled = !allModelsRated;
-        return allModelsRated;
-    }
-    
-    // Handle navigation buttons
-    prevButton.addEventListener('click', function() {
-        goToPage(currentPage - 1);
-    });
-    
-    nextButton.addEventListener('click', async function() {
-        // Show loading indicator
+    // Function to save answers and go to next question
+    async function saveAndGoToNextQuestion() {
+        // Show loading indicator and saving message
         loadingIndicator.style.display = 'block';
+        document.getElementById('saving-message').style.display = 'block';
         
         try {
             // Calculate time spent
@@ -436,13 +435,86 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 alert('Error saving answers: ' + (result.error || 'Unknown error'));
                 loadingIndicator.style.display = 'none';
+                document.getElementById('saving-message').style.display = 'none';
             }
         } catch (error) {
             console.error('Error saving answers:', error);
             alert('Error saving answers. Please try again.');
             loadingIndicator.style.display = 'none';
+            document.getElementById('saving-message').style.display = 'none';
         }
-    });
+    }
+    
+    // Check if all metrics have been rated for all models
+    function checkAllMetricsRated() {
+        const allModelsRated = MODELS.every(model => {
+            if (!answers[model]) return false;
+            return METRICS.every(metric => answers[model][metric] !== undefined);
+        });
+        
+        nextButton.disabled = !allModelsRated;
+        return allModelsRated;
+    }
+    
+    // Handle navigation buttons (Obsolete - these buttons were removed from HTML)
+    /*
+    if (prevButton) { // Check if element exists before adding listener
+        prevButton.addEventListener('click', function() {
+            goToPage(currentPage - 1);
+        });
+    }
+    
+    if (nextButton) { // Check if element exists before adding listener
+        nextButton.addEventListener('click', async function() {
+            // Show loading indicator
+            loadingIndicator.style.display = 'block';
+            
+            try {
+                // Calculate time spent
+                const timeSpent = (Date.now() - startTime) / 1000;
+                
+                // Flatten answers for API compatibility
+                const flattenedAnswers = {};
+                
+                // For each model, add its metrics to the flattened answers
+                Object.entries(answers).forEach(([model, modelAnswers]) => {
+                    Object.entries(modelAnswers).forEach(([metric, value]) => {
+                        // Create a composite key that includes the model and metric
+                        const compositeKey = `${model}_${metric}`;
+                        flattenedAnswers[compositeKey] = value;
+                    });
+                });
+                
+                // Save answers
+                const response = await fetch('/api/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        questionId: QUESTION_ID,
+                        answers: flattenedAnswers,
+                        timeSpent: timeSpent
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Navigate to next question or finish
+                    window.location.href = NEXT_URL;
+                } else {
+                    alert('Error saving answers: ' + (result.error || 'Unknown error'));
+                    loadingIndicator.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error saving answers:', error);
+                alert('Error saving answers. Please try again.');
+                loadingIndicator.style.display = 'none';
+            }
+        });
+    }
+    */
     
     // Handle rating button clicks
     document.querySelectorAll('.rating-button').forEach(button => {
@@ -478,7 +550,50 @@ document.addEventListener('DOMContentLoaded', function() {
     
     navRight.addEventListener('click', function() {
         console.log('Right navigation clicked, going to next page');
-        if (currentPage < totalPages - 1) {
+        
+        // If on a model page, check if all metrics are rated
+        if (currentPage > 0 && currentPage < totalPages) {
+            const modelIndex = currentPage - 1;
+            const model = MODELS[modelIndex];
+            
+            // Debug logging
+            console.log('Checking ratings for model:', model);
+            console.log('Current answers:', JSON.stringify(answers));
+            console.log('Expected metrics:', METRICS);
+            
+            // Check if we have answers for this model
+            if (!answers[model]) {
+                console.warn('No answers for model:', model);
+                alert('Please rate all metrics before proceeding to the next sample.');
+                return;
+            }
+            
+            // Check each metric individually and log
+            let missingMetrics = [];
+            for (const metric of METRICS) {
+                if (answers[model][metric] === undefined) {
+                    console.warn(`Missing rating for metric: ${metric}`);
+                    missingMetrics.push(metric);
+                }
+            }
+            
+            if (missingMetrics.length > 0) {
+                console.warn('Missing metrics:', missingMetrics);
+                alert(`Please rate the following metrics: ${missingMetrics.join(', ')}`);
+                return;
+            }
+            
+            console.log('All metrics rated for model:', model);
+        }
+        
+        // If this is the last model and all metrics are rated, save and go to next question
+        if (currentPage === totalPages - 1) {
+            const lastModel = MODELS[MODELS.length - 1];
+            if (answers[lastModel] && METRICS.every(metric => answers[lastModel][metric] !== undefined)) {
+                console.log('Last model rated, saving and going to next question');
+                saveAndGoToNextQuestion();
+            }
+        } else if (currentPage < totalPages - 1) {
             goToPage(currentPage + 1);
         }
     });
@@ -492,7 +607,49 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } else if (e.key === 'ArrowRight') {
             console.log('Right arrow key pressed, going to next page');
-            if (currentPage < totalPages - 1) {
+            
+            // If on a model page, check if all metrics are rated
+            if (currentPage > 0 && currentPage < totalPages) {
+                const modelIndex = currentPage - 1;
+                const model = MODELS[modelIndex];
+                
+                // Debug logging
+                console.log('Checking ratings for model (keyboard):', model);
+                console.log('Current answers:', JSON.stringify(answers));
+                
+                // Check if we have answers for this model
+                if (!answers[model]) {
+                    console.warn('No answers for model:', model);
+                    alert('Please rate all metrics before proceeding to the next sample.');
+                    return;
+                }
+                
+                // Check each metric individually and log
+                let missingMetrics = [];
+                for (const metric of METRICS) {
+                    if (answers[model][metric] === undefined) {
+                        console.warn(`Missing rating for metric: ${metric}`);
+                        missingMetrics.push(metric);
+                    }
+                }
+                
+                if (missingMetrics.length > 0) {
+                    console.warn('Missing metrics:', missingMetrics);
+                    alert(`Please rate the following metrics: ${missingMetrics.join(', ')}`);
+                    return;
+                }
+                
+                console.log('All metrics rated for model:', model);
+            }
+            
+            // If this is the last model and all metrics are rated, save and go to next question
+            if (currentPage === totalPages - 1) {
+                const lastModel = MODELS[MODELS.length - 1];
+                if (answers[lastModel] && METRICS.every(metric => answers[lastModel][metric] !== undefined)) {
+                    console.log('Last model rated, saving and going to next question');
+                    saveAndGoToNextQuestion();
+                }
+            } else if (currentPage < totalPages - 1) {
                 goToPage(currentPage + 1);
             }
         }
@@ -517,7 +674,29 @@ document.addEventListener('DOMContentLoaded', function() {
         if (touchEndX < touchStartX - swipeThreshold) {
             // Swipe left to right
             console.log('Swipe detected (left to right), going to next page');
-            if (currentPage < totalPages - 1) {
+            
+            // If on a model page, check if all metrics are rated
+            if (currentPage > 0 && currentPage < totalPages) {
+                const modelIndex = currentPage - 1;
+                const model = MODELS[modelIndex];
+                
+                // Check if all metrics for this model are rated
+                const allRated = answers[model] && METRICS.every(metric => answers[model][metric] !== undefined);
+                
+                if (!allRated) {
+                    alert('Please rate all metrics before proceeding to the next sample.');
+                    return;
+                }
+            }
+            
+            // If this is the last model and all metrics are rated, save and go to next question
+            if (currentPage === totalPages - 1) {
+                const lastModel = MODELS[MODELS.length - 1];
+                if (answers[lastModel] && METRICS.every(metric => answers[lastModel][metric] !== undefined)) {
+                    console.log('Last model rated, saving and going to next question');
+                    saveAndGoToNextQuestion();
+                }
+            } else if (currentPage < totalPages - 1) {
                 goToPage(currentPage + 1);
             }
         } else if (touchEndX > touchStartX + swipeThreshold) {

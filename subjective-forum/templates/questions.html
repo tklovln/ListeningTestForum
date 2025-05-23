@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_fullscreen.html" %}
 
 {% block head %}
 <style>
@@ -37,59 +37,124 @@
     }
     
     .story-container {
-        height: 100%;
-        width: 100%;
+        height: 100vh;
+        width: 100vw;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
     }
     
     .story {
-        height: 100%;
-        width: 100%;
+        height: 100vh;
+        width: 100vw;
         display: flex;
         scroll-snap-type: x mandatory;
         overflow-x: scroll;
+        overflow-y: auto;
         scroll-behavior: smooth;
         -webkit-overflow-scrolling: touch;
+        position: relative;
+        padding: 0;
+        margin: 0;
     }
     
     .story-page {
         flex: 0 0 100%;
-        height: 100%;
+        height: 100vh;
+        width: 100vw;
         scroll-snap-align: start;
         position: relative;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 2rem;
+        padding: 0;
+        margin: 0;
         box-sizing: border-box;
+        overflow-y: auto;
     }
     
     .story-content {
-        max-width: 450px;
-        width: 100%;
+        max-width: 90%;
+        width: 450px;
         background-color: rgba(255, 255, 255, 0.9);
-        border-radius: 8px;
-        padding: 2rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 0 auto;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
         text-align: center;
+        overflow-y: auto;
+        max-height: 90vh;
+        position: relative;
+        z-index: 20;
+    }
+    
+    .story-content h2 {
+        margin-top: 0.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .story-content p {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
     }
     
     .story-nav {
         position: absolute;
         top: 0;
         left: 0;
+        right: 0;
         width: 100%;
         height: 100%;
         display: flex;
         pointer-events: none;
+        justify-content: space-between;
+        z-index: 10;
     }
     
     .story-nav-left, .story-nav-right {
-        flex: 1;
+        flex: 0 0 20%;
         pointer-events: auto;
         cursor: pointer;
+        position: relative;
+        transition: background-color 0.2s ease;
+    }
+    
+    .story-nav-left:hover, .story-nav-right:hover {
+        background-color: rgba(0, 0, 0, 0.03);
+    }
+    
+    .story-nav-left:active, .story-nav-right:active {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    .story-nav-left::after, .story-nav-right::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 20px;
+        height: 20px;
+        border-top: 3px solid rgba(0, 0, 0, 0.2);
+        border-right: 3px solid rgba(0, 0, 0, 0.2);
+        opacity: 0.5;
+        transition: opacity 0.2s ease;
+    }
+    
+    .story-nav-left:hover::after, .story-nav-right:hover::after {
+        opacity: 0.8;
+    }
+    
+    .story-nav-left::after {
+        left: 30%;
+        transform: translateY(-50%) rotate(-135deg);
+    }
+    
+    .story-nav-right::after {
+        right: 30%;
+        transform: translateY(-50%) rotate(45deg);
     }
     
     .progress-bar {
@@ -121,18 +186,23 @@
     }
     
     .audio-status {
-        margin: 2rem 0;
+        margin: 1rem 0;
         width: 100%;
         text-align: center;
+        padding: 0.75rem;
+        background-color: rgba(0, 0, 0, 0.02);
+        border-radius: 8px;
     }
     
     .audio-indicator {
         width: 100%;
-        height: 4px;
+        height: 6px;
         background-color: rgba(0, 0, 0, 0.1);
-        border-radius: 2px;
+        border-radius: 3px;
         margin-bottom: 1rem;
         overflow: hidden;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        position: relative;
     }
     
     .audio-progress {
@@ -140,6 +210,10 @@
         width: 0%;
         background-color: var(--accent-color);
         transition: width 0.1s linear;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     
     .ratings-summary {
@@ -168,16 +242,30 @@
     }
     
     .metrics-container {
-        margin-top: 2rem;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        background-color: rgba(0, 0, 0, 0.02);
+        border-radius: 8px;
+        max-height: 50vh;
+        overflow-y: auto;
+        position: relative;
+        z-index: 25;
     }
     
     .metric {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
+        padding: 0.25rem;
+    }
+    
+    .metric:last-child {
+        margin-bottom: 0.25rem;
     }
     
     .metric-label {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.8rem;
         font-weight: bold;
+        font-size: 1.1rem;
+        color: #333;
     }
     
     .rating-buttons {
@@ -193,17 +281,59 @@
         border-radius: 20px;
         background-color: white;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.2s ease-in-out;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        z-index: 30;
     }
     
     .rating-button:hover {
         border-color: var(--accent-color);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .rating-button:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .rating-button::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: scale(1, 1) translate(-50%, -50%);
+        transform-origin: 50% 50%;
+    }
+    
+    .rating-button:active::after {
+        animation: ripple 0.4s ease-out;
+    }
+    
+    @keyframes ripple {
+        0% {
+            transform: scale(0, 0) translate(-50%, -50%);
+            opacity: 0.5;
+        }
+        100% {
+            transform: scale(20, 20) translate(-50%, -50%);
+            opacity: 0;
+        }
     }
     
     .rating-button.selected {
         background-color: var(--accent-color);
         color: white;
         border-color: var(--accent-color);
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
     
     .loading-indicator {
@@ -257,13 +387,19 @@
     }
     
     @media (min-width: 768px) {
-        .story-container {
-            max-width: 450px;
-            margin: 0 auto;
+        .story-content {
+            width: 500px;
+            max-width: 80%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
         
-        .story-content {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        .metrics-container {
+            padding: 1.5rem;
+        }
+        
+        .rating-buttons {
+            max-width: 80%;
+            margin: 0 auto;
         }
     }
 </style>
@@ -337,7 +473,6 @@
                 
                 <!-- Metrics for this model -->
                 <div class="metrics-container">
-                    <h3>Rate this sample:</h3>
                     {% for metric in question.metrics %}
                     <div class="metric" data-metric="{{ metric }}" data-model="{{ model }}">
                         <div class="metric-label">{{ metric }}</div>
@@ -360,24 +495,7 @@
         </div>
         {% endfor %}
         
-        <!-- Summary page -->
-        <div class="story-page" id="summary-page">
-            <div class="story-content">
-                <h2>{{ question.title }}</h2>
-                <p>Your ratings summary:</p>
-                
-                <div id="ratings-summary" class="ratings-summary">
-                    <!-- Will be populated by JavaScript -->
-                </div>
-                
-                <div class="navigation-buttons">
-                    <button id="prev-button" class="nav-button">Previous</button>
-                    <button id="next-button" class="nav-button">
-                        {% if is_last %}Finish{% else %}Next Question{% endif %}
-                    </button>
-                </div>
-            </div>
-        </div>
+        <!-- No summary page needed -->
     </div>
     
     <div class="story-nav">
@@ -386,6 +504,18 @@
     </div>
     
     <div id="loading-indicator" class="loading-indicator" style="display: none;"></div>
+    
+    <div id="saving-message" class="saving-message" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 255, 255, 0.9); padding: 1rem 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); z-index: 100; text-align: center;">
+        <h3>Saving your answers...</h3>
+        <p>Loading next question</p>
+    </div>
+
+    <script id="question-data-json" type="application/json" style="display:none;">
+        {{ {
+            "models": question.models,
+            "metrics": question.metrics
+        }|tojson|safe }}
+    </script>
 </div>
 {% endblock %}
 

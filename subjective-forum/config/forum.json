@@ -18,7 +18,7 @@
       "id": "q1",
       "title": "Listen to the sample and rate the metrics",
       "promptId": "001",
-      "metrics": ["Consistency", "Richness", "Clarity", "Overall Quality"],
+      "metrics": ["連貫性（Consistency）", "豐富性（Richness）", "一致性（Consistency）", "整體評價（Overall Rating）"],
       "models": ["gt", "methodA", "methodB"]
     },
     {

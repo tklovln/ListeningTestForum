@@ -64,7 +64,7 @@ def show(index):
     
     return render_template(
         'questions.html',
-        title=branding.get('title', 'Listening Survey'),
+        title=question.get('title', 'Listening Question'),  # Use question title instead of site title
         accent_color=branding.get('accentColor', '#888888'),
         question=question,
         question_index=index,
