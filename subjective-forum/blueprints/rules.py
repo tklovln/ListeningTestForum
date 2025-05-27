@@ -34,6 +34,16 @@ def index():
     rules_md_file = forum_config.get('rulesMarkdown', 'rules.md')
     rules_html = ""
     
+    # Extract all unique metric definitions
+    metric_definitions = {}
+    all_questions = forum_config.get('questions', [])
+    for question_config in all_questions:
+        metrics_in_question = question_config.get('metrics', [])
+        for metric_obj in metrics_in_question:
+            if isinstance(metric_obj, dict) and 'name' in metric_obj and 'description' in metric_obj:
+                if metric_obj['name'] not in metric_definitions:
+                    metric_definitions[metric_obj['name']] = metric_obj['description']
+    
     try:
         # Try to load and convert markdown to HTML
         rules_path = Path('config') / rules_md_file
@@ -51,7 +61,8 @@ def index():
         'rules.html',
         title=branding.get('title', 'Listening Survey'),
         accent_color=branding.get('accentColor', '#888888'),
-        rules_html=rules_html
+        rules_html=rules_html,
+        metric_definitions=metric_definitions
     )
 
 

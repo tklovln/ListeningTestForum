@@ -282,6 +282,55 @@
         font-weight: bold;
         font-size: 1.1rem;
         color: #333;
+        display: inline-block; /* To allow icon next to it */
+    }
+
+    .metric-hint-button {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-color: var(--accent-color, #3498db);
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 20px; /* Vertically center the '?' */
+        font-weight: bold;
+        font-size: 0.8rem;
+        cursor: pointer;
+        margin-left: 8px;
+        user-select: none;
+        transition: background-color 0.2s;
+    }
+
+    .metric-hint-button:hover {
+        background-color: #2980b9; /* Darken accent color */
+    }
+
+    .metric-description-popover {
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        padding: 10px 15px;
+        z-index: 100; /* Ensure it's above other elements */
+        width: 280px; /* Adjust as needed */
+        font-size: 0.9rem;
+        line-height: 1.4;
+        color: #333;
+        display: none; /* Hidden by default */
+        text-align: left;
+    }
+
+    .metric-description-popover::before { /* Arrow */
+        content: "";
+        position: absolute;
+        bottom: 100%; /* At the top of the popover */
+        left: 20px; /* Position arrow near the left */
+        margin-left: -5px;
+        border-width: 7px;
+        border-style: solid;
+        border-color: transparent transparent #fff transparent; /* Arrow pointing up */
     }
     
     .rating-buttons {
@@ -492,9 +541,12 @@
                 
                 <!-- Metrics for this model -->
                 <div class="metrics-container">
-                    {% for metric in question.metrics %}
-                    <div class="metric" data-metric="{{ metric }}" data-model="{{ model }}">
-                        <div class="metric-label">{{ metric }}</div>
+                    {% for metric_obj in question.metrics %}
+                    <div class="metric" data-metric-name="{{ metric_obj.name }}" data-model="{{ model }}">
+                        <div class="metric-label">
+                            {{ metric_obj.name }}
+                            <span class="metric-hint-button" data-description="{{ metric_obj.description }}" aria-label="Show description for {{ metric_obj.name }}">&#63;</span>
+                        </div>
                         <div class="rating-buttons">
                             {% for i in range(1, 6) %}
                             <button
@@ -515,6 +567,11 @@
         {% endfor %}
         
         <!-- No summary page needed -->
+    </div>
+
+    <!-- Popover for metric descriptions -->
+    <div id="metric-description-popover" class="metric-description-popover">
+        Metric description will appear here.
     </div>
     
     <div class="story-nav">

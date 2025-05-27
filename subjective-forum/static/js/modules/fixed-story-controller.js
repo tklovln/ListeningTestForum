@@ -892,6 +892,83 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Heartbeat error:', error);
         }
     }, 60000); // Every minute
+
+    // Metric Description Popover Logic
+    const popover = document.getElementById('metric-description-popover');
+    const hintButtons = document.querySelectorAll('.metric-hint-button');
+
+    if (popover) { // Ensure popover element exists
+        let currentlyOpenButton = null; // Keep track of which button's popover is open
+
+        hintButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent click from bubbling up to document
+                const description = this.dataset.description;
+
+                if (popover.style.display === 'block' && currentlyOpenButton === this) {
+                    // Popover is visible and for this button, so hide it
+                    popover.style.display = 'none';
+                    currentlyOpenButton = null;
+                } else if (description) {
+                    // Show or reposition popover for this button
+                    popover.innerHTML = description;
+                    
+                    popover.style.visibility = 'hidden';
+                    popover.style.display = 'block';
+                    const popoverWidth = popover.offsetWidth;
+                    const popoverHeight = popover.offsetHeight;
+                    
+                    const buttonRect = this.getBoundingClientRect();
+                    
+                    let top = buttonRect.bottom + window.scrollY + 8;
+                    let left = buttonRect.left + window.scrollX + (buttonRect.width / 2) - (popoverWidth / 2);
+
+                    const viewportMargin = 10;
+                    if (left < viewportMargin) left = viewportMargin;
+                    if (left + popoverWidth > window.innerWidth - viewportMargin) {
+                        left = window.innerWidth - popoverWidth - viewportMargin;
+                    }
+                    if (top + popoverHeight > window.innerHeight - viewportMargin) {
+                        let topAbove = buttonRect.top + window.scrollY - popoverHeight - 8;
+                        if (topAbove > viewportMargin) {
+                            top = topAbove;
+                        } else {
+                            top = window.innerHeight - popoverHeight - viewportMargin;
+                        }
+                    }
+                    if (top < viewportMargin) top = viewportMargin;
+
+                    const storyContainerElement = storyContainer;
+                    const storyContainerRect = storyContainerElement.getBoundingClientRect();
+
+                    popover.style.top = `${top - (storyContainerRect.top + window.scrollY)}px`;
+                    popover.style.left = `${left - (storyContainerRect.left + window.scrollX)}px`;
+                    
+                    popover.style.visibility = 'visible';
+                    currentlyOpenButton = this;
+                } else {
+                    // No description, ensure popover is hidden
+                    popover.style.display = 'none';
+                    popover.style.visibility = 'visible';
+                    currentlyOpenButton = null;
+                }
+            });
+        });
+
+        // Hide popover if a click occurs anywhere ELSE on the document
+        // (but not on the popover itself or another hint button, handled by their own listeners)
+        document.addEventListener('click', function(event) {
+            if (popover.style.display === 'block' && currentlyOpenButton) {
+                 // Check if the click was outside the popover AND not on any hint button
+                if (!popover.contains(event.target) && !event.target.classList.contains('metric-hint-button')) {
+                    popover.style.display = 'none';
+                    currentlyOpenButton = null;
+                }
+            }
+        });
+    } else {
+        console.warn("Metric description popover element not found.");
+    }
     
     // Initialize
     initAudio();

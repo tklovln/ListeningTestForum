@@ -20,21 +20,36 @@
       "id": "q1",
       "title": "Listen to the sample and rate the metrics",
       "promptId": "001",
-      "metrics": ["連貫性（Consistency）", "豐富性（Richness）", "一致性（Consistency）", "整體評價（Overall Rating）"],
+      "metrics": [
+        {"name": "連貫性（Consistency）", "description": "Description for 連貫性 (Consistency). How well do the musical elements flow together?"},
+        {"name": "豐富性（Richness）", "description": "Description for 豐富性 (Richness). How complex and interesting is the musical texture?"},
+        {"name": "一致性（Coherence）", "description": "Description for 一致性 (Coherence). Does the piece feel like a unified whole? (Note: Original had 'Consistency' twice, changed one to 'Coherence' for differentiation, adjust as needed)"},
+        {"name": "整體評價（Overall Rating）", "description": "Description for 整體評價 (Overall Rating). Your overall impression of the sample."}
+      ],
       "models": ["gt", "methodA", "methodB"]
     },
     {
       "id": "q2",
       "title": "Which sample has the best audio quality?",
       "promptId": "002",
-      "metrics": ["Naturalness", "Clarity", "Timbre", "Overall Quality"],
+      "metrics": [
+        {"name": "Naturalness", "description": "How natural and human-like does the audio sound?"},
+        {"name": "Clarity", "description": "How clear and distinct are the individual sounds and musical lines?"},
+        {"name": "Timbre", "description": "How pleasant and rich is the tonal quality of the sounds?"},
+        {"name": "Overall Quality", "description": "Your overall assessment of the audio quality."}
+      ],
       "models": ["gt", "methodA", "methodB"]
     },
     {
       "id": "q3",
       "title": "Which sample sounds most natural?",
       "promptId": "003",
-      "metrics": ["Naturalness", "Expressiveness", "Coherence", "Overall Quality"],
+      "metrics": [
+        {"name": "Naturalness", "description": "How natural and human-like does the musical performance sound?"},
+        {"name": "Expressiveness", "description": "How well does the music convey emotion and musical phrasing?"},
+        {"name": "Coherence", "description": "Does the musical piece feel logical and well-structured?"},
+        {"name": "Overall Quality", "description": "Your overall assessment of the musical sample."}
+      ],
       "models": ["gt", "methodA", "methodB"]
     }
   ]
