@@ -694,9 +694,13 @@ document.addEventListener('DOMContentLoaded', function() {
             checkModelMetricsRated(model);
         });
     });
-    
-    // Handle navigation clicks
-    navLeft.addEventListener('click', function() {
+
+    // --- Navigation Event Listeners ---
+    const isMobile = window.innerWidth < 768; // Define mobile breakpoint
+
+    if (!isMobile) {
+        // Handle navigation clicks for non-mobile (tap areas)
+        navLeft.addEventListener('click', function() {
         console.log('Left navigation clicked, going to previous page');
         if (currentPage > 0) {
             goToPage(currentPage - 1);
@@ -756,9 +760,17 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (currentPage < totalPages - 1) { // Not the last model page, go to next sample
             goToPage(currentPage + 1);
         }
-    });
+    }); // This closes navRight.addEventListener
+    } else { // This is the else for if (!isMobile)
+        // On mobile, side tap navigation is disabled by not attaching the listeners.
+        // Visual hiding can be done via CSS if preferred, but functionality is removed here.
+        console.log("Mobile device detected, side tap navigation (click listeners) disabled and areas hidden. Use swipe or keyboard.");
+        // If you want to also visually hide or make them non-interactive via style:
+        if (navLeft) navLeft.style.display = 'none';
+        if (navRight) navRight.style.display = 'none';
+    }
     
-    // Handle keyboard navigation
+    // Handle keyboard navigation (always active)
     document.addEventListener('keydown', function(e) {
         if (e.key === 'ArrowLeft') {
             console.log('Left arrow key pressed, going to previous page');
