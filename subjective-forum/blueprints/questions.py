@@ -101,7 +101,7 @@ def show(index):
         question_index=index,
         total_questions=len(session_question_ids),
         is_last=is_last,
-        next_url=url_for('questions.show', index=index+1) if not is_last else url_for('api.finish'),
+        next_url=url_for('questions.show', index=index+1) if not is_last else url_for('thankyou.show'), # Changed to thankyou.show
         prev_url=url_for('questions.show', index=index-1) if index > 0 else url_for('rules.index'),
         audio_root=forum_config.get('audioRoot', 'static/audio'),
         debug_mode=debug_mode

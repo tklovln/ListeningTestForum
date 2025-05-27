@@ -12,6 +12,7 @@ from blueprints.participant import participant_bp
 from blueprints.rules import rules_bp
 from blueprints.questions import questions_bp
 from blueprints.api import api_bp
+from blueprints.thankyou import thankyou_bp
 
 # Import utilities
 from utils.loader import scan_audio_directory, validate_questions
@@ -88,6 +89,7 @@ def create_app(test_config=None):
     app.register_blueprint(rules_bp)
     app.register_blueprint(questions_bp)
     app.register_blueprint(api_bp)
+    app.register_blueprint(thankyou_bp)
     
     # Session configuration
     @app.before_request

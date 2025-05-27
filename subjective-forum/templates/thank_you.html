@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block head %}
+<style>
+    .thank-you-container {
+        max-width: 700px;
+        margin: 4rem auto;
+        padding: 2rem 3rem;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .thank-you-container h1 {
+        color: var(--accent-color, #333);
+        margin-bottom: 1.5rem;
+        font-size: 2.5rem;
+    }
+    .thank-you-container p {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: #555;
+        margin-bottom: 1rem;
+    }
+    .thank-you-container .lead {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 2rem;
+    }
+    .icon {
+        font-size: 4rem;
+        color: var(--accent-color, #28a745);
+        margin-bottom: 1.5rem;
+        display: block;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="thank-you-container">
+    <span class="icon">&#10004;</span> <!-- Checkmark icon -->
+    <h1>Thank You!</h1>
+    <p class="lead">Your participation is greatly appreciated.</p>
+    <p>You have successfully completed the listening test. Your responses have been recorded.</p>
+    <p>Your contribution helps us in our research and development efforts.</p>
+    <!-- Optional: Add a link back to the main site or a research group page -->
+    <!-- <p><a href="YOUR_MAIN_WEBSITE_URL_HERE">Learn more about our research</a></p> -->
+</div>
+{% endblock %}

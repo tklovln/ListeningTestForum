@@ -585,18 +585,35 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
             
             if (result.success) {
-                // Navigate to next question or finish
-                window.location.href = NEXT_URL;
+                if (IS_LAST) {
+                    // This is the last question, call /api/finish before redirecting to thank you page
+                    try {
+                        const finishResponse = await fetch('/api/finish', { method: 'POST' });
+                        const finishResult = await finishResponse.json();
+                        if (finishResult.success) {
+                            console.log('Survey finished, final data saved. Redirecting to thank you page.');
+                            window.location.href = NEXT_URL; // NEXT_URL is now thank_you.show
+                        } else {
+                            alert('Error finalizing survey: ' + (finishResult.error || 'Unknown error'));
+                            loadingIndicator.style.display = 'none';
+                        }
+                    } catch (finishError) {
+                        console.error('Error calling /api/finish:', finishError);
+                        alert('Error finalizing survey. Please try again.');
+                        loadingIndicator.style.display = 'none';
+                    }
+                } else {
+                    // Not the last question, navigate to the next question
+                    window.location.href = NEXT_URL;
+                }
             } else {
                 alert('Error saving answers: ' + (result.error || 'Unknown error'));
                 loadingIndicator.style.display = 'none';
-                // document.getElementById('saving-message').style.display = 'none'; // Removed
             }
         } catch (error) {
             console.error('Error saving answers:', error);
             alert('Error saving answers. Please try again.');
             loadingIndicator.style.display = 'none';
-            // document.getElementById('saving-message').style.display = 'none'; // Removed
         }
     }
     
