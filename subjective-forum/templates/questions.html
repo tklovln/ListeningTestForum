@@ -206,6 +206,20 @@
         position: relative;
         box-sizing: border-box; /* Ensure padding/border is included in width */
     }
+
+    .replay-icon {
+        font-size: 1.5rem; /* Adjust size as needed */
+        color: var(--accent-color, #3498db); /* Use accent color or a default */
+        cursor: pointer;
+        display: inline-block; /* Or block if preferred */
+        margin-left: 0.5rem;
+        vertical-align: middle;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .replay-icon:hover {
+        transform: rotate(-45deg);
+    }
     
     .audio-progress {
         height: 100%;
@@ -446,6 +460,7 @@
                         <div class="audio-progress" id="prompt-progress"></div>
                     </div>
                     <p id="prompt-status">Loading audio...</p>
+                    <span id="prompt-replay-icon" class="replay-icon" style="display: none;" title="Replay reference audio">&#x21bb;</span>
                 </div>
                 
                 <p>Swipe right when you're ready to compare the samples.</p>
@@ -472,6 +487,7 @@
                         <div class="audio-progress" id="{{ model }}-progress"></div>
                     </div>
                     <p id="{{ model }}-status">Loading audio...</p>
+                    <span id="{{ model }}-replay-icon" class="replay-icon" style="display: none;" title="Replay sample {{ loop.index }}">&#x21bb;</span>
                 </div>
                 
                 <!-- Metrics for this model -->

@@ -1,5 +1,7 @@
 // Story controller
 document.addEventListener('DOMContentLoaded', function() {
+    const mainProgressBarFill = document.getElementById('progress-bar-fill');
+
     // Get data from HTML attributes
     const storyContainer = document.querySelector('.story-container');
     const QUESTION_ID = storyContainer.getAttribute('data-question-id');
@@ -73,8 +75,19 @@ document.addEventListener('DOMContentLoaded', function() {
     let answers = {};
     let audioElements = {};
     let audioLoaded = {};
+
+    // For main top progress bar animation
+    let mainProgressBarAnimationId = null;
+    let mainProgressBarStartWidth = 0; // Percentage width where current question's segment starts
+    let mainProgressBarTargetWidth = 0; // Percentage width where current question's segment ends
+
+    if (mainProgressBarFill && typeof window.CURRENT_QUESTION_INDEX === 'number' && typeof window.TOTAL_QUESTIONS === 'number' && window.TOTAL_QUESTIONS > 0) {
+        const initialMainSegmentStartPct = (window.CURRENT_QUESTION_INDEX / window.TOTAL_QUESTIONS) * 100;
+        mainProgressBarFill.style.width = initialMainSegmentStartPct + '%';
+        console.log(`Main progress bar initialised to start of segment: ${initialMainSegmentStartPct.toFixed(2)}% for Q${window.CURRENT_QUESTION_INDEX + 1}`);
+    }
     
-    // Initialize progress bar
+    // Initialize progress bar for story pages (within a question)
     for (let i = 0; i < totalPages; i++) {
         const segment = document.createElement('div');
         segment.className = 'progress-segment';
@@ -255,11 +268,48 @@ document.addEventListener('DOMContentLoaded', function() {
             const promptAudio = audioElements['prompt'];
             const progressElement = document.getElementById('prompt-progress');
             const statusElement = document.getElementById('prompt-status');
-            
+            const replayIconElement = document.getElementById('prompt-replay-icon');
+            const audioIndicatorElement = progressElement ? progressElement.closest('.audio-indicator') : null;
+
             if (promptAudio) {
                 console.log('Playing prompt audio automatically');
+
+                // Animate main progress bar with prompt audio
+                if (mainProgressBarFill && typeof window.CURRENT_QUESTION_INDEX === 'number' && typeof window.TOTAL_QUESTIONS === 'number' && window.TOTAL_QUESTIONS > 0) {
+                    if (!promptAudio._mainProgressBarAnimatorAttached) {
+                        const mainSegmentStartPct = (window.CURRENT_QUESTION_INDEX / window.TOTAL_QUESTIONS) * 100;
+                        const mainSegmentEndPct = ((window.CURRENT_QUESTION_INDEX + 1) / window.TOTAL_QUESTIONS) * 100;
+                        
+                        // Ensure bar starts at the beginning of its segment visually if not already there
+                        // This might happen if audio auto-play is delayed or user interacts quickly
+                        if (parseFloat(mainProgressBarFill.style.width) < mainSegmentStartPct) {
+                             mainProgressBarFill.style.width = mainSegmentStartPct + '%';
+                        }
+
+                        const animateMainProgress = () => {
+                            if (promptAudio.duration > 0) {
+                                const audioProgressRatio = promptAudio.currentTime / promptAudio.duration;
+                                const currentMainBarWidth = mainSegmentStartPct + (audioProgressRatio * (mainSegmentEndPct - mainSegmentStartPct));
+                                mainProgressBarFill.style.width = Math.min(currentMainBarWidth, mainSegmentEndPct) + '%';
+                            }
+                        };
+
+                        const onPromptAudioEndedForMainBar = () => {
+                            mainProgressBarFill.style.width = mainSegmentEndPct + '%';
+                            promptAudio.removeEventListener('timeupdate', animateMainProgress);
+                            promptAudio.removeEventListener('ended', onPromptAudioEndedForMainBar);
+                            promptAudio._mainProgressBarAnimatorAttached = false;
+                            console.log(`Main progress bar animation ended for Q${window.CURRENT_QUESTION_INDEX + 1}, set to ${mainSegmentEndPct.toFixed(2)}%`);
+                        };
+
+                        promptAudio.addEventListener('timeupdate', animateMainProgress);
+                        promptAudio.addEventListener('ended', onPromptAudioEndedForMainBar);
+                        promptAudio._mainProgressBarAnimatorAttached = true;
+                        console.log(`Main progress bar animation attached for Q${window.CURRENT_QUESTION_INDEX + 1}. Start: ${mainSegmentStartPct.toFixed(2)}%, End: ${mainSegmentEndPct.toFixed(2)}%`);
+                    }
+                }
                 
-                // Set up progress tracking if not already set
+                // Set up progress tracking for the individual prompt audio bar
                 if (!promptAudio._hasProgressListener) {
                     promptAudio.addEventListener('timeupdate', () => {
                         if (promptAudio.duration) {
@@ -273,21 +323,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Set up status updates if not already set
                 if (!promptAudio._hasStatusListeners) {
                     promptAudio.addEventListener('playing', () => {
+                        if (statusElement) statusElement.style.display = 'inline';
+                        if (replayIconElement) replayIconElement.style.display = 'none';
                         if (statusElement) {
                             let statusText = 'Playing reference audio...';
-                            if (DEBUG_MODE) {
-                                const srcFilename = promptAudio.src.split('/').pop(); // e.g., 001_prompt.mp3
-                                const [debugPromptId, debugModelTypeWithExt] = srcFilename.split('_');
-                                const debugModelType = debugModelTypeWithExt.replace('.mp3', '');
-                                statusText += ` (ID: ${debugPromptId}, Type: ${debugModelType})`;
-                            }
-                            statusElement.textContent = statusText;
-                        }
-                    });
-                    
-                    promptAudio.addEventListener('ended', () => {
-                        if (statusElement) {
-                             let statusText = 'Reference audio complete';
                             if (DEBUG_MODE) {
                                 const srcFilename = promptAudio.src.split('/').pop();
                                 const [debugPromptId, debugModelTypeWithExt] = srcFilename.split('_');
@@ -297,7 +336,27 @@ document.addEventListener('DOMContentLoaded', function() {
                             statusElement.textContent = statusText;
                         }
                     });
+                    
+                    promptAudio.addEventListener('ended', () => {
+                        if (statusElement) statusElement.style.display = 'none';
+                        if (replayIconElement) replayIconElement.style.display = 'inline';
+                        // No need to set text content if statusElement is hidden
+                    });
                     promptAudio._hasStatusListeners = true;
+                }
+
+                if (!promptAudio._hasReplayListener) {
+                    const replayHandler = () => {
+                        promptAudio.currentTime = 0;
+                        promptAudio.play();
+                    };
+                    if (audioIndicatorElement) {
+                        audioIndicatorElement.addEventListener('click', replayHandler);
+                    }
+                    if (replayIconElement) {
+                        replayIconElement.addEventListener('click', replayHandler);
+                    }
+                    promptAudio._hasReplayListener = true;
                 }
                 
                 // Play the audio
@@ -341,7 +400,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const modelAudio = audioElements[model];
             const progressElement = document.getElementById(`${model}-progress`);
             const statusElement = document.getElementById(`${model}-status`);
-            
+            const replayIconElement = document.getElementById(`${model}-replay-icon`);
+            const audioIndicatorElement = progressElement ? progressElement.closest('.audio-indicator') : null;
+
             if (!modelAudio) {
                 console.error(`Audio element for model ${model} not found!`);
                 console.log('Available audio elements:', Object.keys(audioElements));
@@ -364,21 +425,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Set up status updates if not already set
             if (!modelAudio._hasStatusListeners) {
                 modelAudio.addEventListener('playing', () => {
+                    if (statusElement) statusElement.style.display = 'inline';
+                    if (replayIconElement) replayIconElement.style.display = 'none';
                     if (statusElement) {
                         let statusText = `Playing sample ${modelIndex + 1}...`;
-                        if (DEBUG_MODE) {
-                            const srcFilename = modelAudio.src.split('/').pop(); // e.g., 001_gt.mp3
-                            const [debugPromptId, debugModelTypeWithExt] = srcFilename.split('_');
-                            const debugModelType = debugModelTypeWithExt.replace('.mp3', '');
-                            statusText += ` (ID: ${debugPromptId}, Type: ${debugModelType})`;
-                        }
-                        statusElement.textContent = statusText;
-                    }
-                });
-                
-                modelAudio.addEventListener('ended', () => {
-                     if (statusElement) {
-                        let statusText = `Sample ${modelIndex + 1} complete`;
                         if (DEBUG_MODE) {
                             const srcFilename = modelAudio.src.split('/').pop();
                             const [debugPromptId, debugModelTypeWithExt] = srcFilename.split('_');
@@ -388,9 +438,28 @@ document.addEventListener('DOMContentLoaded', function() {
                         statusElement.textContent = statusText;
                     }
                 });
+
+                modelAudio.addEventListener('ended', () => {
+                    if (statusElement) statusElement.style.display = 'none';
+                    if (replayIconElement) replayIconElement.style.display = 'inline';
+                });
                 modelAudio._hasStatusListeners = true;
             }
-            
+
+            if (!modelAudio._hasReplayListener) {
+                const replayHandler = () => {
+                    modelAudio.currentTime = 0;
+                    modelAudio.play();
+                };
+                if (audioIndicatorElement) {
+                    audioIndicatorElement.addEventListener('click', replayHandler);
+                }
+                if (replayIconElement) {
+                    replayIconElement.addEventListener('click', replayHandler);
+                }
+                modelAudio._hasReplayListener = true;
+            }
+                
             // Play the audio
             modelAudio.play()
                 .then(() => console.log(`${model} audio playback started`))
