@@ -1,5 +1,5 @@
 {
-  "debug": false,
+  "debug": true,
   "branding": {
     "title": "AI Symbolic Music Generation Listening Test",
     "accentColor": "#3498db",

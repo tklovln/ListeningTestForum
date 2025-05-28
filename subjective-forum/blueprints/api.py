@@ -138,7 +138,16 @@ def finish():
 
     # Save results
     try:
-        results_dir = current_app.config.get('RESULTS_DIR', 'results')
+        forum_config = current_app.config.get('FORUM', {})
+        debug_mode = forum_config.get('debug', False)
+        
+        if debug_mode:
+            results_dir = current_app.config.get('DEBUG_RESULTS_DIR', 'debug')
+            current_app.logger.info(f"Debug mode is ON. Saving results to debug directory: {results_dir}")
+        else:
+            results_dir = current_app.config.get('RESULTS_DIR', 'results')
+            current_app.logger.info(f"Debug mode is OFF. Saving results to main results directory: {results_dir}")
+            
         # The 'answers' argument to save() is now final_answers_to_save,
         # which already includes all details. No separate randomization_details needed.
         result_file = save(participant, final_answers_to_save, results_dir)

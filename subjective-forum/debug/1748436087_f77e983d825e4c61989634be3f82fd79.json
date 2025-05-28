@@ -1,0 +1,76 @@
+{
+  "participant": {
+    "age": "debug_age",
+    "debug_mode_skip": true,
+    "gender": "debug_gender",
+    "headphones": "debug_headphones",
+    "musical_exp": "debug_musical_exp",
+    "name": "debug_name"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1",
+      "prompt_id_selected": "003",
+      "models_shuffled_order": [
+        "methodA",
+        "gt",
+        "methodB"
+      ],
+      "metrics_rated": {
+        "gt": {
+          "一致性（Coherence）": null,
+          "整體評價（Overall Rating）": null,
+          "豐富性（Richness）": null,
+          "連貫性（Consistency）": null
+        },
+        "methodA": {
+          "一致性（Coherence）": null,
+          "整體評價（Overall Rating）": null,
+          "豐富性（Richness）": null,
+          "連貫性（Consistency）": null
+        },
+        "methodB": {
+          "一致性（Coherence）": null,
+          "整體評價（Overall Rating）": null,
+          "豐富性（Richness）": null,
+          "連貫性（Consistency）": null
+        }
+      },
+      "time_spent_on_question": 4.66
+    },
+    "1": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2",
+      "prompt_id_selected": "002",
+      "models_shuffled_order": [
+        "gt",
+        "methodB",
+        "methodA"
+      ],
+      "metrics_rated": {
+        "gt": {
+          "一致性（Coherence）": null,
+          "整體評價（Overall Rating）": null,
+          "豐富性（Richness）": null,
+          "連貫性（Consistency）": null
+        },
+        "methodA": {
+          "一致性（Coherence）": null,
+          "整體評價（Overall Rating）": null,
+          "豐富性（Richness）": null,
+          "連貫性（Consistency）": null
+        },
+        "methodB": {
+          "一致性（Coherence）": null,
+          "整體評價（Overall Rating）": null,
+          "豐富性（Richness）": null,
+          "連貫性（Consistency）": null
+        }
+      },
+      "time_spent_on_question": 3.388
+    }
+  },
+  "timestamp": 1748436087,
+  "uuid": "f77e983d825e4c61989634be3f82fd79"
+}
