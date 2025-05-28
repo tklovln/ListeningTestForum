@@ -8,49 +8,89 @@ document.addEventListener('DOMContentLoaded', function() {
     const PROMPT_ID = storyContainer.getAttribute('data-prompt-id');
     const AUDIO_SUBFOLDER = storyContainer.getAttribute('data-audio-subfolder');
     
-    // Default values
-    let MODELS = ["gt", "methodA", "methodB"]; // Default
-    let METRICS = []; // Initialize as empty, will be populated from DOM
+    // Default values / Initialization
+    let MODELS = [];
+    let METRICS = [];
 
-    // Try to get MODELS from the embedded JSON script tag
-    const jsonDataElement = document.getElementById('question-data-json');
-    if (jsonDataElement) {
+    // Populate MODELS from data-models attribute (preferred) or JSON script
+    const modelsDataAttr = storyContainer.getAttribute('data-models');
+    if (modelsDataAttr) {
         try {
-            const jsonData = JSON.parse(jsonDataElement.textContent);
-            if (jsonData.models && Array.isArray(jsonData.models) && jsonData.models.length > 0) {
-                MODELS = jsonData.models;
-                console.log('Successfully parsed models from JSON script:', MODELS);
+            MODELS = JSON.parse(modelsDataAttr);
+            if (!Array.isArray(MODELS) || MODELS.length === 0) {
+                console.warn('Parsed MODELS from data-models is not a non-empty array. Attempting JSON script.', MODELS);
+                MODELS = []; // Reset if parsing was weird
             } else {
-                console.warn('Models from JSON script is not a non-empty array or not found, using defaults for MODELS.');
+                console.log('Successfully parsed MODELS from data-models attribute:', MODELS);
             }
-            // We will populate METRICS from the DOM to ensure consistency
-        } catch (error) {
-            console.error('Failed to parse JSON from script tag for MODELS, using defaults for MODELS:', error);
+        } catch (e) {
+            console.error('Error parsing MODELS from data-models attribute:', e, 'Attempting JSON script.');
+            MODELS = [];
         }
-    } else {
-        console.warn('JSON data script tag not found, using defaults for MODELS.');
     }
-    console.log('Initial MODELS (after potential JSON parse):', MODELS);
 
-    // Dynamically populate METRICS from the first model's metric elements in the DOM
-    // This ensures METRICS array matches exactly what's in data-metric attributes
-    const firstModelMetricElements = document.querySelectorAll(`.metric[data-model="${MODELS[0]}"]`);
-    if (firstModelMetricElements.length > 0) {
-        firstModelMetricElements.forEach(metricElement => {
-            const metricName = metricElement.dataset.metric;
-            if (metricName && !METRICS.includes(metricName)) {
-                METRICS.push(metricName);
+    if (MODELS.length === 0) { // Fallback to JSON script if data-attribute failed or was empty
+        const jsonDataElement = document.getElementById('question-data-json');
+        if (jsonDataElement) {
+            try {
+                const jsonData = JSON.parse(jsonDataElement.textContent);
+                if (jsonData.models && Array.isArray(jsonData.models) && jsonData.models.length > 0) {
+                    MODELS = jsonData.models;
+                    console.log('Successfully parsed MODELS from JSON script:', MODELS);
+                } else {
+                    console.warn('MODELS from JSON script is not a non-empty array or not found. MODELS will be empty.');
+                }
+            } catch (error) {
+                console.error('Failed to parse JSON from script tag for MODELS. MODELS will be empty.', error);
             }
-        });
-        console.log('Dynamically populated METRICS from DOM:', METRICS);
-    } else {
-        // Fallback if DOM query fails (should not happen if HTML is correct)
-        METRICS = ["連貫性（Consistency）", "豐富性（Richness）", "一致性（Consistency）", "整體評價（Overall Rating）"]; // Fallback to expected from forum.json
-        console.warn('Could not dynamically populate METRICS from DOM, using hardcoded fallback from forum.json structure:', METRICS);
+        } else {
+            console.warn('JSON data script tag not found and data-models attribute failed. MODELS will be empty.');
+        }
     }
     
-    console.log('Final MODELS:', MODELS);
-    console.log('Final METRICS:', METRICS);
+    // Populate METRICS directly from data-metrics attribute
+    const metricsDataAttr = storyContainer.getAttribute('data-metrics');
+    if (metricsDataAttr) {
+        try {
+            METRICS = JSON.parse(metricsDataAttr);
+            if (!Array.isArray(METRICS)) { // Ensure it's an array of objects
+                console.error('Parsed METRICS from data-metrics is not an array. METRICS will be empty.', METRICS);
+                METRICS = [];
+            } else {
+                 // Optional: Validate if it's an array of objects with 'name'
+                if (METRICS.length > 0 && (typeof METRICS[0] !== 'object' || METRICS[0] === null || !('name' in METRICS[0]))) {
+                    console.error('Parsed METRICS from data-metrics does not seem to be an array of metric objects. METRICS will be empty.', METRICS);
+                    METRICS = [];
+                } else {
+                    console.log('Successfully parsed METRICS (array of objects) from data-metrics attribute:', METRICS);
+                }
+            }
+        } catch (e) {
+            console.error('Error parsing METRICS from data-metrics attribute. METRICS will be empty.', e);
+            METRICS = [];
+        }
+    } else {
+        console.warn('data-metrics attribute not found. METRICS will be empty.');
+    }
+
+    // Fallback for MODELS and METRICS if still empty (should ideally not happen if template is correct)
+    if (MODELS.length === 0) {
+        console.error("CRITICAL: MODELS array is empty after all parsing attempts. Using hardcoded emergency fallback.");
+        MODELS = ["gt", "methodA", "methodB"]; // Emergency fallback
+    }
+    if (METRICS.length === 0) {
+        console.error("CRITICAL: METRICS array is empty after all parsing attempts. Using hardcoded emergency fallback.");
+        // This fallback needs to be an array of objects
+        METRICS = [
+            {name: "連貫性（Consistency）", description: "Default description"},
+            {name: "豐富性（Richness）", description: "Default description"},
+            {name: "一致性（Coherence）", description: "Default description"}, // Corrected from Consistency
+            {name: "整體評價（Overall Rating）", description: "Default description"}
+        ];
+    }
+    
+    console.log('Final MODELS:', JSON.stringify(MODELS));
+    console.log('Final METRICS:', JSON.stringify(METRICS)); // Should be array of objects
     
     const IS_LAST = storyContainer.getAttribute('data-is-last') === 'true';
     const NEXT_URL = storyContainer.getAttribute('data-next-url');
@@ -400,6 +440,16 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const model = MODELS[modelIndex];
             console.log(`Selected model: ${model}`);
+
+            // Initialize answers for this model with null for all metrics if not already done
+            if (!answers[model]) {
+                answers[model] = {};
+                METRICS.forEach(metricObj => {
+                    answers[model][metricObj.name] = null; // Initialize with null
+                });
+                console.log(`Initialized answers for model ${model}:`, JSON.stringify(answers[model]));
+            }
+
             const modelAudio = audioElements[model];
             const progressElement = document.getElementById(`${model}-progress`);
             const statusElement = document.getElementById(`${model}-status`);
@@ -711,10 +761,50 @@ document.addEventListener('DOMContentLoaded', function() {
             // Check if all metrics for this model are rated
             checkModelMetricsRated(model);
         });
-    });
+        });
+    
+        function canProceedFromCurrentPage() {
+            if (DEBUG_MODE) return true; // Always allow in debug mode
+    
+            // Check only if on a model page (currentPage > 0 means it's not the prompt page)
+            // currentPage < totalPages means it's not past the last model page (which doesn't exist as a separate page)
+            if (currentPage > 0 && currentPage < totalPages) {
+                const modelIndex = currentPage - 1; // 0-indexed model
+                const modelName = MODELS[modelIndex];
+    
+                console.log(`[Validation] Checking model: ${modelName}, currentPage: ${currentPage}`);
+                console.log('[Validation] Current answers for this model:', JSON.stringify(answers[modelName]));
+                console.log('[Validation] Expected METRICS:', JSON.stringify(METRICS.map(m => m.name)));
+    
+    
+                if (!answers[modelName]) {
+                    console.warn('[Validation] No answer object for model:', modelName);
+                    alert('Please rate all metrics for the current sample before proceeding.');
+                    return false;
+                }
+    
+                const missingMetricNames = METRICS
+                    .filter(metricObj => {
+                        const ratedValue = answers[modelName][metricObj.name];
+                        // console.log(`[Validation] Checking metric: ${metricObj.name}, Value: ${ratedValue}`);
+                        return ratedValue === null; // Changed from undefined to null
+                    })
+                    .map(metricObj => metricObj.name);
+            
+            console.log('[Validation] Calculated missingMetricNames (expecting nulls for unrated):', JSON.stringify(missingMetricNames));
 
-    // --- Navigation Event Listeners ---
-    const isMobile = window.innerWidth < 768; // Define mobile breakpoint
+            if (missingMetricNames.length > 0) {
+                    console.warn('[Validation] Missing ratings for metrics:', missingMetricNames.join(', '));
+                    alert(`Please rate the following metrics for the current sample: ${missingMetricNames.join(', ')}`);
+                    return false;
+                }
+                console.log('[Validation] All metrics rated for model:', modelName);
+            }
+            return true; // Allow proceeding from prompt page or if all checks pass on a model page
+        }
+    
+        // --- Navigation Event Listeners ---
+        const isMobile = window.innerWidth < 768; // Define mobile breakpoint
 
     if (!isMobile) {
         // Handle navigation clicks for non-mobile (tap areas)
@@ -726,57 +816,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     navRight.addEventListener('click', function() {
-        console.log('Right navigation clicked, going to next page');
+        console.log('Right navigation clicked.');
         
-        // If on a model page, check if all metrics are rated (unless in debug mode)
-        if (!DEBUG_MODE && currentPage > 0 && currentPage < totalPages) {
-            const modelIndex = currentPage - 1;
-            const model = MODELS[modelIndex];
-            
-            // Debug logging
-            console.log('Checking ratings for model:', model);
-            console.log('Current answers:', JSON.stringify(answers));
-            console.log('Expected metrics:', METRICS);
-            
-            // Check if we have answers for this model
-            if (!answers[model]) {
-                console.warn('No answers for model:', model);
-                alert('Please rate all metrics before proceeding to the next sample.');
-                return;
-            }
-            
-            // Check each metric individually and log
-            let missingMetrics = [];
-            for (const metric of METRICS) {
-                if (answers[model][metric] === undefined) {
-                    console.warn(`Missing rating for metric: ${metric}`);
-                    missingMetrics.push(metric);
-                }
-            }
-            
-            if (missingMetrics.length > 0) {
-                console.warn('Missing metrics:', missingMetrics);
-                alert(`Please rate the following metrics: ${missingMetrics.join(', ')}`);
-                return;
-            }
-            
-            console.log('All metrics rated for model:', model);
+        if (!canProceedFromCurrentPage()) {
+            return; // Validation failed, stop here
         }
-        
-        // If this is the last model page
-        if (currentPage === totalPages - 1) {
-            const lastModel = MODELS[MODELS.length - 1];
-            const allLastModelMetricsRated = answers[lastModel] && METRICS.every(metric => answers[lastModel][metric] !== undefined);
 
-            if (DEBUG_MODE || allLastModelMetricsRated) {
-                console.log('Last model page: proceeding to save/next question.');
-                saveAndGoToNextQuestion();
-            } else {
-                // Not debug mode, and not all metrics rated for the last sample
-                alert('Please rate all metrics for the final sample before finishing.');
-            }
-        } else if (currentPage < totalPages - 1) { // Not the last model page, go to next sample
+        // If validation passed or not applicable (e.g., on prompt page)
+        if (currentPage === totalPages - 1) { // On the last model page
+            console.log('Last model page: attempting to save and go to next question/finish.');
+            saveAndGoToNextQuestion();
+        } else if (currentPage < totalPages - 1) { // On a model page (but not the last) or on the prompt page
+            console.log('Going to next sub-page (model or first model).');
             goToPage(currentPage + 1);
+        } else {
+            // This case should ideally not be reached if totalPages is correct (1 prompt + N models)
+            // If currentPage is already at totalPages -1, the above handles it.
+            // If currentPage is somehow >= totalPages, it's an issue.
+            console.warn(`navRight click: currentPage (${currentPage}) is not less than totalPages-1 (${totalPages-1}), but not equal either. This might be an issue.`);
         }
     }); // This closes navRight.addEventListener
     } else { // This is the else for if (!isMobile)
@@ -796,55 +853,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 goToPage(currentPage - 1);
             }
         } else if (e.key === 'ArrowRight') {
-            console.log('Right arrow key pressed, going to next page');
-            
-            // If on a model page, check if all metrics are rated (unless in debug mode)
-            if (!DEBUG_MODE && currentPage > 0 && currentPage < totalPages) {
-                const modelIndex = currentPage - 1;
-                const model = MODELS[modelIndex];
-                
-                // Debug logging
-                console.log('Checking ratings for model (keyboard):', model);
-                console.log('Current answers:', JSON.stringify(answers));
-                
-                // Check if we have answers for this model
-                if (!answers[model]) {
-                    console.warn('No answers for model:', model);
-                    alert('Please rate all metrics before proceeding to the next sample.');
-                    return;
-                }
-                
-                // Check each metric individually and log
-                let missingMetrics = [];
-                for (const metric of METRICS) {
-                    if (answers[model][metric] === undefined) {
-                        console.warn(`Missing rating for metric: ${metric}`);
-                        missingMetrics.push(metric);
-                    }
-                }
-                
-                if (missingMetrics.length > 0) {
-                    console.warn('Missing metrics:', missingMetrics);
-                    alert(`Please rate the following metrics: ${missingMetrics.join(', ')}`);
-                    return;
-                }
-                
-                console.log('All metrics rated for model:', model);
-            }
-            
-            // If this is the last model page
-            if (currentPage === totalPages - 1) {
-                const lastModel = MODELS[MODELS.length - 1];
-                const allLastModelMetricsRated = answers[lastModel] && METRICS.every(metric => answers[lastModel][metric] !== undefined);
+            console.log('Right arrow key pressed.');
 
-                if (DEBUG_MODE || allLastModelMetricsRated) {
-                    console.log('Last model page (keyboard): proceeding to save/next question.');
-                    saveAndGoToNextQuestion();
-                } else {
-                    alert('Please rate all metrics for the final sample before finishing.');
-                }
-            } else if (currentPage < totalPages - 1) { // Not the last model page, go to next sample
+            if (!canProceedFromCurrentPage()) {
+                return; // Validation failed, stop here
+            }
+
+            // If validation passed or not applicable
+            if (currentPage === totalPages - 1) { // On the last model page
+                console.log('Last model page (keyboard): attempting to save and go to next question/finish.');
+                saveAndGoToNextQuestion();
+            } else if (currentPage < totalPages - 1) { // On a model page (but not the last) or on the prompt page
+                console.log('Going to next sub-page (model or first model) via keyboard.');
                 goToPage(currentPage + 1);
+            } else {
+                console.warn(`ArrowRight key: currentPage (${currentPage}) is not less than totalPages-1 (${totalPages-1}), but not equal either.`);
             }
         }
     });
@@ -865,47 +888,24 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleSwipe() {
         const swipeThreshold = 50;
         
-        if (touchEndX < touchStartX - swipeThreshold) {
-            // Swipe left to right
-            console.log('Swipe detected (left to right), going to next page');
-            
-            // If on a model page, check if all metrics are rated (unless in debug mode)
-            if (!DEBUG_MODE && currentPage > 0 && currentPage < totalPages) {
-                const modelIndex = currentPage - 1;
-                const model = MODELS[modelIndex];
-                
-                // Check if all metrics for this model are rated
-                const allRated = answers[model] && METRICS.every(metric => answers[model][metric] !== undefined);
-                
-                if (!allRated) {
-                    // Detailed logging for this specific case
-                    console.warn('Swipe blocked: Not all metrics rated for model:', model);
-                    let missingMetrics = [];
-                     for (const metric_name of METRICS) {
-                        if (!answers[model] || answers[model][metric_name] === undefined) {
-                            missingMetrics.push(metric_name);
-                        }
-                    }
-                    alert(`Please rate all metrics before proceeding to the next sample. Missing: ${missingMetrics.join(', ')}`);
-                    return;
-                }
-            }
-            
-            // If this is the last model page
-            if (currentPage === totalPages - 1) {
-                const lastModel = MODELS[MODELS.length - 1];
-                const allLastModelMetricsRated = answers[lastModel] && METRICS.every(metric => answers[lastModel][metric] !== undefined);
+        if (touchEndX < touchStartX - swipeThreshold) { // Swipe left (advancing to next page/sample)
+            console.log('Swipe detected (left to right).');
 
-                if (DEBUG_MODE || allLastModelMetricsRated) {
-                    console.log('Last model page (swipe): proceeding to save/next question.');
-                    saveAndGoToNextQuestion();
-                } else {
-                    alert('Please rate all metrics for the final sample before finishing.');
-                }
-            } else if (currentPage < totalPages - 1) { // Not the last model page, go to next sample
-                goToPage(currentPage + 1);
+            if (!canProceedFromCurrentPage()) {
+                return; // Validation failed, stop here
             }
-        } else if (touchEndX > touchStartX + swipeThreshold) {
+
+            // If validation passed or not applicable
+            if (currentPage === totalPages - 1) { // On the last model page
+                console.log('Last model page (swipe): attempting to save and go to next question/finish.');
+                saveAndGoToNextQuestion();
+            } else if (currentPage < totalPages - 1) { // On a model page (but not the last) or on the prompt page
+                console.log('Going to next sub-page (model or first model) via swipe.');
+                goToPage(currentPage + 1);
+            } else {
+                console.warn(`Swipe right: currentPage (${currentPage}) is not less than totalPages-1 (${totalPages-1}), but not equal either.`);
+            }
+        } else if (touchEndX > touchStartX + swipeThreshold) { // Swipe right (going to previous page/sample)
             // Swipe right to left
             console.log('Swipe detected (right to left), going to previous page');
             if (currentPage > 0) {
