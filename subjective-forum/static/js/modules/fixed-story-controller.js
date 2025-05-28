@@ -8,72 +8,46 @@ document.addEventListener('DOMContentLoaded', function() {
     const PROMPT_ID = storyContainer.getAttribute('data-prompt-id');
     const AUDIO_SUBFOLDER = storyContainer.getAttribute('data-audio-subfolder');
     
-    // Default values / Initialization
+    // Initialization
     let MODELS = [];
     let METRICS = [];
 
-    // Populate MODELS from data-models attribute (preferred) or JSON script
-    const modelsDataAttr = storyContainer.getAttribute('data-models');
-    if (modelsDataAttr) {
+    // Populate MODELS and METRICS from the embedded JSON script tag
+    const jsonDataElement = document.getElementById('question-data-json');
+    if (jsonDataElement) {
         try {
-            MODELS = JSON.parse(modelsDataAttr);
-            if (!Array.isArray(MODELS) || MODELS.length === 0) {
-                console.warn('Parsed MODELS from data-models is not a non-empty array. Attempting JSON script.', MODELS);
-                MODELS = []; // Reset if parsing was weird
+            const jsonData = JSON.parse(jsonDataElement.textContent);
+            
+            // Populate MODELS
+            if (jsonData.models && Array.isArray(jsonData.models) && jsonData.models.length > 0) {
+                MODELS = jsonData.models;
+                console.log('Successfully parsed MODELS from JSON script:', JSON.stringify(MODELS));
             } else {
-                console.log('Successfully parsed MODELS from data-models attribute:', MODELS);
+                console.warn('MODELS from JSON script is not a non-empty array or not found. MODELS will be empty.');
             }
-        } catch (e) {
-            console.error('Error parsing MODELS from data-models attribute:', e, 'Attempting JSON script.');
-            MODELS = [];
-        }
-    }
 
-    if (MODELS.length === 0) { // Fallback to JSON script if data-attribute failed or was empty
-        const jsonDataElement = document.getElementById('question-data-json');
-        if (jsonDataElement) {
-            try {
-                const jsonData = JSON.parse(jsonDataElement.textContent);
-                if (jsonData.models && Array.isArray(jsonData.models) && jsonData.models.length > 0) {
-                    MODELS = jsonData.models;
-                    console.log('Successfully parsed MODELS from JSON script:', MODELS);
+            // Populate METRICS
+            if (jsonData.metrics && Array.isArray(jsonData.metrics)) {
+                // Validate if it's an array of objects with 'name'
+                if (jsonData.metrics.length > 0 &&
+                    (typeof jsonData.metrics[0] !== 'object' || jsonData.metrics[0] === null || !('name' in jsonData.metrics[0]))) {
+                    console.error('Parsed METRICS from JSON script does not seem to be an array of metric objects. METRICS will be empty.', JSON.stringify(jsonData.metrics));
                 } else {
-                    console.warn('MODELS from JSON script is not a non-empty array or not found. MODELS will be empty.');
+                    METRICS = jsonData.metrics;
+                    console.log('Successfully parsed METRICS (array of objects) from JSON script:', JSON.stringify(METRICS));
                 }
-            } catch (error) {
-                console.error('Failed to parse JSON from script tag for MODELS. MODELS will be empty.', error);
-            }
-        } else {
-            console.warn('JSON data script tag not found and data-models attribute failed. MODELS will be empty.');
-        }
-    }
-    
-    // Populate METRICS directly from data-metrics attribute
-    const metricsDataAttr = storyContainer.getAttribute('data-metrics');
-    if (metricsDataAttr) {
-        try {
-            METRICS = JSON.parse(metricsDataAttr);
-            if (!Array.isArray(METRICS)) { // Ensure it's an array of objects
-                console.error('Parsed METRICS from data-metrics is not an array. METRICS will be empty.', METRICS);
-                METRICS = [];
             } else {
-                 // Optional: Validate if it's an array of objects with 'name'
-                if (METRICS.length > 0 && (typeof METRICS[0] !== 'object' || METRICS[0] === null || !('name' in METRICS[0]))) {
-                    console.error('Parsed METRICS from data-metrics does not seem to be an array of metric objects. METRICS will be empty.', METRICS);
-                    METRICS = [];
-                } else {
-                    console.log('Successfully parsed METRICS (array of objects) from data-metrics attribute:', METRICS);
-                }
+                console.warn('METRICS from JSON script is not an array or not found. METRICS will be empty.');
             }
-        } catch (e) {
-            console.error('Error parsing METRICS from data-metrics attribute. METRICS will be empty.', e);
-            METRICS = [];
+
+        } catch (error) {
+            console.error('Failed to parse JSON from script tag for MODELS/METRICS. Both will be empty.', error);
         }
     } else {
-        console.warn('data-metrics attribute not found. METRICS will be empty.');
+        console.warn('JSON data script tag (#question-data-json) not found. MODELS and METRICS will be empty.');
     }
-
-    // Fallback for MODELS and METRICS if still empty (should ideally not happen if template is correct)
+    
+    // Fallback for MODELS and METRICS if still empty
     if (MODELS.length === 0) {
         console.error("CRITICAL: MODELS array is empty after all parsing attempts. Using hardcoded emergency fallback.");
         MODELS = ["gt", "methodA", "methodB"]; // Emergency fallback
