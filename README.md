@@ -13,3 +13,14 @@
 * 流暢的聽測體驗（比起 google form 好太多了）
 * 可以自動 randomize 選擇 sample pools 中 (reference audio, 生成音檔的) testing pair, 讓所有受測者可以聽到不同的 sample pair
 * 可以自動幫你 randomize 盲測模型的聽測順序, 不用再多耗心力紀錄跟整理忙測的結果
+
+## Usage
+
+```bash
+cd subjective-forum
+bash run.sh
+```
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
