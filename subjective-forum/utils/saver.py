@@ -10,19 +10,23 @@ from uuid import uuid4
 
 def save(
     participant: Dict[str, Any],
+    # answers now contains all details, keyed by presentation index
     answers: Dict[str, Any],
-    out_dir: str = "results",
-    randomization_details: Optional[List[Dict[str, Any]]] = None
+    out_dir: str = "results"
+    # randomization_details parameter is removed
 ) -> str:
     """
-    Saves participant answers and randomization details to a JSON file atomically.
+    Saves participant data, including answers and their associated randomization details,
+    to a JSON file atomically. The 'answers' dictionary is expected to be keyed by
+    the presentation index of the question, with each value containing both the
+    rated metrics and the randomization specifics for that question instance.
     
     Args:
         participant: Participant information dictionary.
-        answers: Dictionary of participant answers.
+        answers: Dictionary of participant answers, where keys are presentation
+                 indices (e.g., "0", "1") and values are objects containing
+                 metrics rated and randomization details for that question.
         out_dir: Output directory for results (default: "results").
-        randomization_details: Optional list of dictionaries detailing the
-                               randomization for each question presented.
                                
     Returns:
         Path to the saved file.
@@ -43,8 +47,8 @@ def save(
         "timestamp": timestamp,
         "uuid": uuid,
     }
-    if randomization_details is not None:
-        data["randomization_details"] = randomization_details
+    # The 'answers' dict now contains all necessary details, including randomization.
+    # No separate randomization_details key at the top level of the JSON.
     
     # Write to temporary file first
     temp_file = output_dir / f".{filename}.tmp"

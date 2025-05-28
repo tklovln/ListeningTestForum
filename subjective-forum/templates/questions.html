@@ -594,6 +594,13 @@
 {% endblock %}
 
 {% block scripts %}
+<script>
+    window.CURRENT_QUESTION_INDEX = {{ question_index|tojson|safe }};
+    window.TOTAL_QUESTIONS = {{ total_questions|tojson|safe }};
+    // For debugging, let's also log them here to see if they are set by Flask
+    // console.log('Flask template set window.CURRENT_QUESTION_INDEX:', window.CURRENT_QUESTION_INDEX);
+    // console.log('Flask template set window.TOTAL_QUESTIONS:', window.TOTAL_QUESTIONS);
+</script>
 <script type="module" src="{{ url_for('static', filename='js/modules/fixed-story-controller.js') }}"></script>
 <!-- Original script commented out for reference
 <script type="module">

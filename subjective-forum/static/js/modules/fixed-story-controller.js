@@ -560,17 +560,19 @@ document.addEventListener('DOMContentLoaded', function() {
             // Calculate time spent
             const timeSpent = (Date.now() - startTime) / 1000;
             
-            // Flatten answers for API compatibility
-            const flattenedAnswers = {};
+            // The 'answers' object is already in the desired nested structure:
+            // answers = { model1: { metricA: value, metricB: value }, model2: { ... } }
+            // No flattening needed. We will send this 'answers' object directly.
             
-            // For each model, add its metrics to the flattened answers
-            Object.entries(answers).forEach(([model, modelAnswers]) => {
-                Object.entries(modelAnswers).forEach(([metric, value]) => {
-                    // Create a composite key that includes the model and metric
-                    const compositeKey = `${model}_${metric}`;
-                    flattenedAnswers[compositeKey] = value;
-                });
-            });
+            const payload = {
+                originalQuestionId: QUESTION_ID, // This is the template ID like "q1"
+                questionIndex: window.CURRENT_QUESTION_INDEX,   // Use the global variable
+                answers: answers, // Send the nested 'answers' object directly
+                timeSpent: timeSpent
+            };
+
+            // Log the value just before sending
+            console.log('Attempting to save answer. window.CURRENT_QUESTION_INDEX:', window.CURRENT_QUESTION_INDEX, 'Payload:', payload);
             
             // Save answers
             const response = await fetch('/api/save', {
@@ -578,11 +580,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    questionId: QUESTION_ID,
-                    answers: flattenedAnswers,
-                    timeSpent: timeSpent
-                })
+                body: JSON.stringify(payload)
             });
             
             const result = await response.json();
@@ -695,7 +693,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.rating-button').forEach(button => {
         button.addEventListener('click', function() {
             const metricElement = button.closest('.metric');
-            const metric = metricElement.dataset.metric;
+            const metric = metricElement.dataset.metricName; // Changed from dataset.metric
             const model = metricElement.dataset.model;
             const value = parseInt(button.dataset.value);
             

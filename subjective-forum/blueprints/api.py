@@ -15,7 +15,8 @@ def save_answer():
     
     Expected JSON payload:
     {
-        "questionId": "q1",
+        "originalQuestionId": "q1", // Template ID
+        "questionIndex": 0,         // Presentation index
         "answers": {
             "metric1": 3,
             "metric2": 4,
@@ -37,40 +38,39 @@ def save_answer():
     # Get JSON data
     data = request.get_json()
     if not data:
-        return jsonify({
-            'success': False,
-            'error': 'No data provided'
-        }), 400
+        return jsonify({'success': False, 'error': 'No data provided'}), 400
     
-    question_id = data.get('questionId')
-    answers = data.get('answers', {}) # Default to empty dict if not provided
+    original_question_id = data.get('originalQuestionId') # Template ID like "q1"
+    question_index = data.get('questionIndex')           # 0-based presentation index
+    metric_answers = data.get('answers', {})             # Renamed for clarity
     time_spent = data.get('timeSpent')
 
     # Get debug mode from config
     forum_config = current_app.config.get('FORUM', {})
     debug_mode = forum_config.get('debug', False)
 
-    if not debug_mode: # Only do strict validation if not in debug mode
-        if not question_id or not answers: # 'answers' could be an empty dict in debug mode
-            return jsonify({
-                'success': False,
-                'error': 'Missing required fields (questionId or answers)'
-            }), 400
-        # Potentially add more validation here for non-debug mode,
-        # e.g., check if all expected metrics are present in answers.
-    elif not question_id: # In debug mode, only question_id is strictly required
-         return jsonify({
-            'success': False,
-            'error': 'Missing required field: questionId'
-        }), 400
+    # Validate required fields
+    if question_index is None: # question_index can be 0, so check for None
+        return jsonify({'success': False, 'error': 'Missing required field: questionIndex'}), 400
     
-    # Initialize answers dict if not present
+    if not original_question_id: # original_question_id is still useful for context/logging if needed
+         return jsonify({'success': False, 'error': 'Missing required field: originalQuestionId'}), 400
+
+    if not debug_mode and not metric_answers: # In non-debug, answers are expected
+        return jsonify({'success': False, 'error': 'Missing required field: answers'}), 400
+    
+    # Initialize session answers dict if not present
     if 'answers' not in session:
         session['answers'] = {}
     
-    # Save to session
-    session['answers'][question_id] = {
-        'metrics': answers,
+    # Key answers by question_index (as string, since JSON keys are strings)
+    session_key_for_answer = str(question_index)
+
+    # Store the answer along with its original template ID for context if needed later
+    # The full randomization details will be merged at the /finish step
+    session['answers'][session_key_for_answer] = {
+        'original_template_id': original_question_id, # Store for reference
+        'metrics': metric_answers,
         'timeSpent': time_spent
     }
     
@@ -97,37 +97,56 @@ def finish():
         else:
             return redirect(url_for('participant.index'))
     
-    # Get participant, answers, and randomization details from session
+    # Get participant, answers, and resolved question instances from session
     participant = session.get('participant', {})
-    answers = session.get('answers', {})
-    # 'session_questions' now holds the resolved, randomized question instances
-    session_questions_details = session.get('session_questions', [])
+    # session_answers are keyed by presentation index (e.g., "0", "1")
+    # and contain {'original_template_id': ..., 'metrics': ..., 'timeSpent': ...}
+    session_answers = session.get('answers', {})
     
-    # Prepare randomization details for saving
-    # We want to log the specific promptId, subfolder, and shuffled model order for each question presented.
-    # The 'answers' dict is keyed by 'original_question_id'. We need to map this back or iterate through session_questions_details.
-    # For simplicity, let's just save the whole session_questions_details for now under a 'randomization' key.
-    # Or, more structured:
-    randomization_log = []
-    for i, q_instance in enumerate(session_questions_details):
-        randomization_log.append({
-            "question_index_presented": i, # The order it was shown to user
-            "original_template_id": q_instance.get("original_question_id"),
-            "audio_subfolder": q_instance.get("audioSubfolder"),
-            "prompt_id_selected": q_instance.get("promptId"),
-            "models_shuffled_order": q_instance.get("models")
-        })
+    # session_question_instances contains the full details of each presented question,
+    # including the selected promptId, subfolder, and shuffled models.
+    # This list is ordered by presentation.
+    session_question_instances = session.get('session_questions', [])
+    
+    # Combine answers with their corresponding randomization details
+    final_answers_to_save = {}
+    for i, q_instance_details in enumerate(session_question_instances):
+        answer_key = str(i) # Answers in session are keyed by stringified index
+        answer_data = session_answers.get(answer_key)
+        
+        if answer_data:
+            final_answers_to_save[answer_key] = {
+                "original_template_id": q_instance_details.get("original_question_id"),
+                "audio_subfolder": q_instance_details.get("audioSubfolder"),
+                "prompt_id_selected": q_instance_details.get("promptId"),
+                "models_shuffled_order": q_instance_details.get("models"),
+                "metrics_rated": answer_data.get("metrics"), # The actual ratings
+                "time_spent_on_question": answer_data.get("timeSpent")
+            }
+        else:
+            # This case might happen if a user somehow skips saving an answer,
+            # or if there's a mismatch. Log it.
+            current_app.logger.warning(f"No answer data found in session for question index {i} when finalizing results.")
+            final_answers_to_save[answer_key] = {
+                "original_template_id": q_instance_details.get("original_question_id"),
+                "audio_subfolder": q_instance_details.get("audioSubfolder"),
+                "prompt_id_selected": q_instance_details.get("promptId"),
+                "models_shuffled_order": q_instance_details.get("models"),
+                "metrics_rated": None, # Indicate no answer recorded
+                "time_spent_on_question": None
+            }
 
     # Save results
     try:
         results_dir = current_app.config.get('RESULTS_DIR', 'results')
-        # Pass randomization_log to the save function
-        result_file = save(participant, answers, results_dir, randomization_details=randomization_log)
+        # The 'answers' argument to save() is now final_answers_to_save,
+        # which already includes all details. No separate randomization_details needed.
+        result_file = save(participant, final_answers_to_save, results_dir)
         
         # Clear session data
         session.pop('participant', None)
         session.pop('answers', None)
-        session.pop('session_questions', None) # Changed from 'randomized_questions'
+        session.pop('session_questions', None)
         
         if request.method == 'POST':
             return jsonify({
