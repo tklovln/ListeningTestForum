@@ -1,9 +1,10 @@
 """
 Blueprint for the questions pages of the listening test forum.
 """
-import random # Add this import
-from flask import Blueprint, render_template, redirect, url_for, session, current_app, abort, jsonify
-from utils.loader import randomize_questions # Import the updated function
+import random
+from flask import Blueprint, render_template, redirect, url_for, session, current_app, abort, jsonify, flash
+# from utils.loader import randomize_questions # This function is replaced
+# No specific import needed from loader for this blueprint anymore, as session setup is in rules_bp
 
 questions_bp = Blueprint('questions', __name__, url_prefix='/questions')
 
@@ -30,76 +31,39 @@ def show(index):
         return redirect(url_for('participant.index')) # This will trigger the GET debug bypass in participant.py
     
     branding = forum_config.get('branding', {})
-    all_questions_config = forum_config.get('questions', [])
-    n_questions_to_show = forum_config.get('n_questions', 0) # Get n_questions from config
     
-    # Ensure randomized questions for the session are generated if not present
-    if 'session_question_ids' not in session:
-        session['session_question_ids'] = randomize_questions(all_questions_config, n_questions_to_show)
-        # Clear any previously stored answers when starting a new set of questions
-        if 'answers' in session:
-            session.pop('answers')
-            current_app.logger.info("Cleared previous answers for new question set.")
-    
-    session_question_ids = session.get('session_question_ids', [])
-    
-    # Validate index against the selected questions for the session
-    if not session_question_ids:
-        current_app.logger.error("session_question_ids is empty, redirecting to cover.")
-        return redirect(url_for('cover.index'))
+    # Retrieve the list of fully resolved and randomized question instances for the session
+    session_questions = session.get('session_questions', [])
 
-    if index < 0 or index >= len(session_question_ids):
-        current_app.logger.warning(f"Invalid question index {index} for {len(session_question_ids)} questions. Redirecting to first question.")
+    if not session_questions:
+        current_app.logger.error("No 'session_questions' found in session. Redirecting to rules to regenerate.")
+        flash("Your session seems to have expired or an error occurred. Please start from the rules page again.", "warning")
+        return redirect(url_for('rules.index')) # rules.index will redirect to rules.begin if needed
+
+    # Validate index
+    if not 0 <= index < len(session_questions):
+        current_app.logger.warning(f"Invalid question index {index} for {len(session_questions)} session questions. Redirecting to first question.")
         return redirect(url_for('questions.show', index=0))
 
-    # Get the question ID for this index from the session's list
-    question_id = session_question_ids[index]
+    # Get the specific question instance for this index
+    question_to_render = session_questions[index]
     
-    # Find the question configuration from the full list
-    question_config = None
-    for q_conf in all_questions_config:
-        if q_conf.get('id') == question_id:
-            question_config = q_conf
-            break
-    
-    if not question_config:
-        current_app.logger.error(f"Question config not found for ID: {question_id}. Redirecting to cover.")
-        return redirect(url_for('cover.index')) # Or abort(404)
-    
-    # Get audio models for this prompt
-    audio_models = current_app.config.get('AUDIO_MODELS', {}) # This should be populated at app start
-    prompt_id = question_config.get('promptId')
-    
-    # Get models for the current question
-    original_models_for_question = question_config.get('models', [])
-    current_app.logger.info(f"Question ID: {question_id} - Original models from config: {original_models_for_question}")
+    # 'question_to_render' already contains:
+    # original_question_id, title, audioSubfolder, promptId (selected), models (shuffled), metrics
 
-    # Shuffle them for this user's view
-    shuffled_models_for_question = original_models_for_question.copy() # Use .copy() to avoid modifying the original config
-    random.shuffle(shuffled_models_for_question)
-    current_app.logger.info(f"Question ID: {question_id} - Shuffled models for this view: {shuffled_models_for_question}")
-    
-    # Update the question_config for the template with the shuffled models
-    # This is a shallow copy, so other parts of question_config are references
-    question_to_render = question_config.copy()
-    question_to_render['models'] = shuffled_models_for_question
+    current_app.logger.info(f"Showing question index {index}: original_id='{question_to_render.get('original_question_id')}', promptId='{question_to_render.get('promptId')}', subfolder='{question_to_render.get('audioSubfolder')}'")
+    current_app.logger.info(f"Models for this instance: {question_to_render.get('models')}")
 
-    # Log information about the models being passed to the template
-    current_app.logger.info(f"Question ID: {question_id} - Models being passed to template: {question_to_render['models']}")
-    current_app.logger.info(f"Available audio models from scan for prompt {prompt_id}: {audio_models.get(prompt_id, [])}")
-    
-    # Check if this is the last question in the session's list
-    is_last = index == len(session_question_ids) - 1
-    
-    debug_mode = forum_config.get('debug', False)
+    is_last = index == len(session_questions) - 1
+    debug_mode = forum_config.get('debug', False) # Still useful for client-side debug flags
 
     return render_template(
         'questions.html',
-        title=question_to_render.get('title', 'Listening Question'),
+        title=question_to_render.get('title', 'Listening Question'), # Title from the resolved question
         accent_color=branding.get('accentColor', '#888888'),
-        question=question_to_render, # Use the version with shuffled models
+        question=question_to_render, # Pass the fully resolved question object
         question_index=index,
-        total_questions=len(session_question_ids),
+        total_questions=len(session_questions),
         is_last=is_last,
         next_url=url_for('questions.show', index=index+1) if not is_last else url_for('thankyou.show'), # Changed to thankyou.show
         prev_url=url_for('questions.show', index=index-1) if index > 0 else url_for('rules.index'),

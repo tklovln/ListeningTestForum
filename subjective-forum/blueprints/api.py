@@ -97,19 +97,37 @@ def finish():
         else:
             return redirect(url_for('participant.index'))
     
-    # Get participant and answers from session
+    # Get participant, answers, and randomization details from session
     participant = session.get('participant', {})
     answers = session.get('answers', {})
+    # 'session_questions' now holds the resolved, randomized question instances
+    session_questions_details = session.get('session_questions', [])
     
+    # Prepare randomization details for saving
+    # We want to log the specific promptId, subfolder, and shuffled model order for each question presented.
+    # The 'answers' dict is keyed by 'original_question_id'. We need to map this back or iterate through session_questions_details.
+    # For simplicity, let's just save the whole session_questions_details for now under a 'randomization' key.
+    # Or, more structured:
+    randomization_log = []
+    for i, q_instance in enumerate(session_questions_details):
+        randomization_log.append({
+            "question_index_presented": i, # The order it was shown to user
+            "original_template_id": q_instance.get("original_question_id"),
+            "audio_subfolder": q_instance.get("audioSubfolder"),
+            "prompt_id_selected": q_instance.get("promptId"),
+            "models_shuffled_order": q_instance.get("models")
+        })
+
     # Save results
     try:
         results_dir = current_app.config.get('RESULTS_DIR', 'results')
-        result_file = save(participant, answers, results_dir)
+        # Pass randomization_log to the save function
+        result_file = save(participant, answers, results_dir, randomization_details=randomization_log)
         
         # Clear session data
         session.pop('participant', None)
         session.pop('answers', None)
-        session.pop('randomized_questions', None)
+        session.pop('session_questions', None) # Changed from 'randomized_questions'
         
         if request.method == 'POST':
             return jsonify({

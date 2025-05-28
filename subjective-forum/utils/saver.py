@@ -4,21 +4,28 @@ Utility module for saving participant results atomically.
 import json
 import time
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional
 from uuid import uuid4
 
 
-def save(participant: Dict[str, Any], answers: Dict[str, Any], out_dir: str = "results") -> str:
+def save(
+    participant: Dict[str, Any],
+    answers: Dict[str, Any],
+    out_dir: str = "results",
+    randomization_details: Optional[List[Dict[str, Any]]] = None
+) -> str:
     """
-    Saves participant answers to a JSON file atomically.
+    Saves participant answers and randomization details to a JSON file atomically.
     
     Args:
-        participant: Participant information dictionary
-        answers: Dictionary of participant answers
-        out_dir: Output directory for results (default: "results")
-        
+        participant: Participant information dictionary.
+        answers: Dictionary of participant answers.
+        out_dir: Output directory for results (default: "results").
+        randomization_details: Optional list of dictionaries detailing the
+                               randomization for each question presented.
+                               
     Returns:
-        Path to the saved file
+        Path to the saved file.
     """
     # Create timestamp and UUID for unique filename
     timestamp = int(time.time())
@@ -34,8 +41,10 @@ def save(participant: Dict[str, Any], answers: Dict[str, Any], out_dir: str = "r
         "participant": participant,
         "answers": answers,
         "timestamp": timestamp,
-        "uuid": uuid
+        "uuid": uuid,
     }
+    if randomization_details is not None:
+        data["randomization_details"] = randomization_details
     
     # Write to temporary file first
     temp_file = output_dir / f".{filename}.tmp"

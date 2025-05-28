@@ -472,9 +472,9 @@
 
 {% block content %}
 <div class="story-container"
-     data-question-id="{{ question.id }}"
+     data-question-id="{{ question.original_question_id }}" {# Changed from question.id #}
      data-prompt-id="{{ question.promptId }}"
-     data-audio-subfolder="{{ question.audioSubfolder }}" {# Add this #}
+     data-audio-subfolder="{{ question.audioSubfolder }}"
      data-models="{{ question.models|tojson|safe }}"
      data-metrics="{{ question.metrics|tojson|safe }}"
      data-is-last="{{ is_last|lower }}"

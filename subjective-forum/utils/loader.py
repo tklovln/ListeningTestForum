@@ -52,25 +52,77 @@ def scan_audio_directory(audio_root: str) -> Dict[str, Dict[str, List[str]]]:
     return scanned_data
 
 
-def randomize_questions(questions: List[Dict[str, Any]], n_questions: int = 0) -> List[str]:
+def select_and_randomize_questions_for_session(
+    question_templates: List[Dict[str, Any]],
+    scanned_audio_data: Dict[str, Dict[str, List[str]]]
+    # n_questions_to_present: int # This global parameter is removed
+) -> List[Dict[str, Any]]:
     """
-    Randomizes the order of question IDs and selects a subset.
-    
+    Selects prompt IDs for each question template based on its 'n_to_present' value,
+    shuffles models, and prepares a list of fully resolved question instances.
+
     Args:
-        questions: List of question configurations from forum.json
-        n_questions: The number of questions to select for the participant.
-                     If 0 or greater than available, all questions are used.
-                     
+        question_templates: List of question configurations (templates) from forum.json.
+                            Each template should have an 'n_to_present' key.
+        scanned_audio_data: Nested dictionary from scan_audio_directory:
+                            {"subfolderName": {"promptId": ["model_tag1", ...]}}
+
     Returns:
-        A list of selected and randomized question IDs.
+        A list of resolved question instance dictionaries for the session.
+        Each dictionary contains: 'original_question_id', 'title', 'audioSubfolder',
+        'promptId' (selected), 'models' (shuffled), 'metrics'.
+        Returns an empty list if errors occur or no questions can be generated.
     """
-    question_ids = [q.get("id") for q in questions if q.get("id")]
-    random.shuffle(question_ids)
+    all_session_questions: List[Dict[str, Any]] = []
     
-    if n_questions <= 0 or n_questions > len(question_ids):
-        return question_ids
+    for q_template in question_templates:
+        template_id = q_template.get("id", "UnknownTemplate")
+        subfolder = q_template.get("audioSubfolder")
+        n_to_present_for_template = q_template.get("n_to_present", 0)
+
+        if n_to_present_for_template <= 0:
+            continue # Skip this template if it's not configured to present any questions
+
+        if not subfolder or subfolder not in scanned_audio_data:
+            # print(f"Warning: Audio subfolder '{subfolder}' for template '{template_id}' not found or empty. Skipping this template.")
+            continue
+            
+        prompts_in_subfolder_dict = scanned_audio_data[subfolder]
+        available_prompt_ids_for_subfolder = list(prompts_in_subfolder_dict.keys())
+        
+        if not available_prompt_ids_for_subfolder:
+            # print(f"Warning: No prompts found in subfolder '{subfolder}' for template '{template_id}'. Skipping.")
+            continue
+
+        random.shuffle(available_prompt_ids_for_subfolder) # Shuffle available prompts for this subfolder
+        
+        # Determine how many prompts to actually select for this template
+        num_to_select_for_this_template = min(n_to_present_for_template, len(available_prompt_ids_for_subfolder))
+        
+        if num_to_select_for_this_template < n_to_present_for_template:
+            # print(f"Warning: Template '{template_id}' requested {n_to_present_for_template} questions, but only {len(available_prompt_ids_for_subfolder)} unique prompts are available in '{subfolder}'. Selecting {num_to_select_for_this_template}.")
+            pass
+
+        selected_prompt_ids_for_template = available_prompt_ids_for_subfolder[:num_to_select_for_this_template]
+        
+        for p_id in selected_prompt_ids_for_template:
+            models_to_shuffle = list(q_template.get("models", []))
+            random.shuffle(models_to_shuffle)
+            
+            session_question_instance = {
+                "original_question_id": template_id,
+                "title": q_template.get("title"),
+                "audioSubfolder": subfolder,
+                "promptId": p_id,
+                "models": models_to_shuffle,
+                "metrics": q_template.get("metrics", [])
+            }
+            all_session_questions.append(session_question_instance)
+
+    # Final shuffle of the order of all collected question instances from all templates
+    random.shuffle(all_session_questions)
     
-    return question_ids[:n_questions]
+    return all_session_questions
 
 
 def validate_questions(questions: List[Dict[str, Any]], scanned_audio_data: Dict[str, Dict[str, List[str]]]) -> List[str]:
@@ -87,36 +139,35 @@ def validate_questions(questions: List[Dict[str, Any]], scanned_audio_data: Dict
     """
     errors = []
     
-    for question_config in questions:
-        question_id_str = question_config.get('id', 'unknown')
-        prompt_id = question_config.get("promptId")
-        audio_subfolder = question_config.get("audioSubfolder")
-        models_for_question = question_config.get("models", [])
-        
-        if not prompt_id:
-            errors.append(f"Question {question_id_str} is missing 'promptId'.")
-            continue
+    # 'questions' are now question templates from config
+    for q_template in questions:
+        template_id = q_template.get('id', 'UnknownTemplate')
+        audio_subfolder = q_template.get("audioSubfolder")
+        models_defined_in_template = q_template.get("models", [])
+
         if not audio_subfolder:
-            errors.append(f"Question {question_id_str} (promptId: {prompt_id}) is missing 'audioSubfolder'.")
-            continue
-            
+            errors.append(f"Question template '{template_id}' is missing 'audioSubfolder'.")
+            continue # Cannot validate further without subfolder
+
         if audio_subfolder not in scanned_audio_data:
-            errors.append(f"Audio subfolder '{audio_subfolder}' specified in question {question_id_str} (promptId: {prompt_id}) not found or empty in scanned audio data.")
-            continue
+            errors.append(f"Audio subfolder '{audio_subfolder}' (for template '{template_id}') not found in scanned audio data or is empty.")
+            continue # Cannot validate if subfolder data isn't present
             
-        models_in_subfolder_for_prompt = scanned_audio_data[audio_subfolder].get(prompt_id)
-        
-        if not models_in_subfolder_for_prompt:
-            errors.append(f"No audio files found for prompt ID '{prompt_id}' in subfolder '{audio_subfolder}' (Question {question_id_str}).")
-            continue
-            
-        # Check that prompt audio exists (e.g., "001_prompt.mp3")
-        if "prompt" not in models_in_subfolder_for_prompt:
-            errors.append(f"Missing prompt audio for prompt ID '{prompt_id}' in subfolder '{audio_subfolder}' (Question {question_id_str}).")
-            
-        # Check that all model audios exist (e.g., "001_gt.mp3", "001_methodA.mp3")
-        for model_tag in models_for_question:
-            if model_tag not in models_in_subfolder_for_prompt:
-                errors.append(f"Missing audio for model '{model_tag}' for prompt ID '{prompt_id}' in subfolder '{audio_subfolder}' (Question {question_id_str}).")
+        prompts_in_subfolder = scanned_audio_data[audio_subfolder]
+        if not prompts_in_subfolder:
+            errors.append(f"No prompt IDs found in scanned audio data for subfolder '{audio_subfolder}' (template '{template_id}'). This subfolder might be empty or lack validly named audio files.")
+            continue # No prompts to validate against in this subfolder
+
+        # For this template, check all its potential audio sources (all prompts in its designated subfolder)
+        for p_id, available_model_tags_for_this_prompt in prompts_in_subfolder.items():
+            # Check for the main "prompt" audio file (e.g., "001_prompt.mp3")
+            if "prompt" not in available_model_tags_for_this_prompt:
+                errors.append(f"Template '{template_id}': Missing 'prompt' audio file (e.g., {p_id}_prompt.mp3) for promptId '{p_id}' in subfolder '{audio_subfolder}'.")
+
+            # Check for all comparison model audio files defined in the template
+            # (e.g., "001_gt.mp3", "001_methodA.mp3")
+            for model_tag_from_template in models_defined_in_template:
+                if model_tag_from_template not in available_model_tags_for_this_prompt:
+                    errors.append(f"Template '{template_id}': Missing audio file for model '{model_tag_from_template}' (e.g., {p_id}_{model_tag_from_template}.mp3) for promptId '{p_id}' in subfolder '{audio_subfolder}'.")
     
     return errors
