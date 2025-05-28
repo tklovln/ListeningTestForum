@@ -474,6 +474,7 @@
 <div class="story-container"
      data-question-id="{{ question.id }}"
      data-prompt-id="{{ question.promptId }}"
+     data-audio-subfolder="{{ question.audioSubfolder }}" {# Add this #}
      data-models="{{ question.models|tojson|safe }}"
      data-metrics="{{ question.metrics|tojson|safe }}"
      data-is-last="{{ is_last|lower }}"
@@ -499,8 +500,8 @@
                 <!-- Hidden audio element -->
                 <audio
                     id="prompt-audio"
-                    src="{{ url_for('api.serve_audio', filename=question.promptId + '_prompt.mp3') }}"
-                    data-src="{{ url_for('api.serve_audio', filename=question.promptId + '_prompt.mp3') }}"
+                    src="{{ url_for('api.serve_audio', filename=question.audioSubfolder + '/' + question.promptId + '_prompt.mp3') }}"
+                    data-src="{{ url_for('api.serve_audio', filename=question.audioSubfolder + '/' + question.promptId + '_prompt.mp3') }}"
                     style="display: none;"
                 ></audio>
                 
@@ -526,8 +527,8 @@
                 <!-- Hidden audio element -->
                 <audio
                     id="model-{{ model }}-audio"
-                    src="{{ url_for('api.serve_audio', filename=question.promptId + '_' + model + '.mp3') }}"
-                    data-src="{{ url_for('api.serve_audio', filename=question.promptId + '_' + model + '.mp3') }}"
+                    src="{{ url_for('api.serve_audio', filename=question.audioSubfolder + '/' + question.promptId + '_' + model + '.mp3') }}"
+                    data-src="{{ url_for('api.serve_audio', filename=question.audioSubfolder + '/' + question.promptId + '_' + model + '.mp3') }}"
                     style="display: none;"
                 ></audio>
                 

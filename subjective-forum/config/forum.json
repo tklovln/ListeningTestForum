@@ -18,8 +18,9 @@
   "questions": [
     {
       "id": "q1",
-      "title": "Listen to the sample and rate the metrics",
+      "title": "Listen to the sample and rate the metrics (Task 1)",
       "promptId": "001",
+      "audioSubfolder": "task_1",
       "metrics": [
         {"name": "連貫性（Consistency）", "description": "音樂元素之間的流暢度和銜接性。評估旋律、和聲、節奏等元素是否自然地連接在一起。"},
         {"name": "豐富性（Richness）", "description": "音樂織體的複雜度和趣味性。評估音樂的層次感、變化性和音響效果的豐富程度。"},
@@ -30,8 +31,9 @@
     },
     {
       "id": "q2",
-      "title": "Which sample has the best audio quality?",
+      "title": "Which sample has the best audio quality? (Task 1)",
       "promptId": "002",
+      "audioSubfolder": "task_1",
       "metrics": [
         {"name": "連貫性（Consistency）", "description": "音樂元素之間的流暢度和銜接性。評估旋律、和聲、節奏等元素是否自然地連接在一起。"},
         {"name": "豐富性（Richness）", "description": "音樂織體的複雜度和趣味性。評估音樂的層次感、變化性和音響效果的豐富程度。"},
@@ -42,8 +44,9 @@
     },
     {
       "id": "q3",
-      "title": "Which sample sounds most natural?",
-      "promptId": "003",
+      "title": "Which sample sounds most natural? (Task 2)",
+      "promptId": "001",
+      "audioSubfolder": "task_2",
       "metrics": [
         {"name": "連貫性（Consistency）", "description": "音樂元素之間的流暢度和銜接性。評估旋律、和聲、節奏等元素是否自然地連接在一起。"},
         {"name": "豐富性（Richness）", "description": "音樂織體的複雜度和趣味性。評估音樂的層次感、變化性和音響效果的豐富程度。"},

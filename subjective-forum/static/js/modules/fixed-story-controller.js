@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const storyContainer = document.querySelector('.story-container');
     const QUESTION_ID = storyContainer.getAttribute('data-question-id');
     const PROMPT_ID = storyContainer.getAttribute('data-prompt-id');
+    const AUDIO_SUBFOLDER = storyContainer.getAttribute('data-audio-subfolder');
     
     // Default values
     let MODELS = ["gt", "methodA", "methodB"]; // Default
@@ -147,7 +148,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const cache = await caches.open('audio-cache');
                 
                 // Preload prompt audio
-                const promptUrl = `${window.location.origin}/api/audio/${PROMPT_ID}_prompt.mp3`;
+                const promptAudioFilename = AUDIO_SUBFOLDER ? `${AUDIO_SUBFOLDER}/${PROMPT_ID}_prompt.mp3` : `${PROMPT_ID}_prompt.mp3`;
+                const promptUrl = `${window.location.origin}/api/audio/${promptAudioFilename}`;
                 console.log('Preloading prompt audio from URL:', promptUrl);
                 
                 // Use fetch instead of cache.add for better error handling
@@ -168,7 +170,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Preload model audios
                 MODELS.forEach(model => {
-                    const modelUrl = `${window.location.origin}/api/audio/${PROMPT_ID}_${model}.mp3`;
+                    const modelAudioFilename = AUDIO_SUBFOLDER ? `${AUDIO_SUBFOLDER}/${PROMPT_ID}_${model}.mp3` : `${PROMPT_ID}_${model}.mp3`;
+                    const modelUrl = `${window.location.origin}/api/audio/${modelAudioFilename}`;
                     console.log(`Preloading ${model} audio from URL:`, modelUrl);
                     
                     // Use fetch instead of cache.add for better error handling
