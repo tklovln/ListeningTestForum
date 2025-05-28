@@ -1,47 +1,46 @@
-# Listening Test Instructions
+# 聽力測試說明
 
-Thank you for participating in our audio quality evaluation study. Your feedback will help us improve our audio processing algorithms.
+感謝您參與我們的音訊品質評估研究。您的回饋將幫助我們改善 AI 音樂生成演算法。
 
-## Test Overview
+## 測試概述
 
-In this test, you will listen to several sets of audio samples and rate them based on different quality metrics. Each question will present:
+在此測試中，您將聆聽數組 AI 模型生成的音樂，並根據不同的指標進行評分。每組問題將會提供一個 4 個小節的提示樂段，分別讓數個 AI 模型根據此題是樂段接續生成後續的音樂，請您仔細比較每個模型生成的音樂品質，為各個指標評分。
 
-1. A reference audio sample
-2. Multiple comparison samples that you need to evaluate
+## 如何完成測試
 
-## How to Complete the Test
+### 步驟一：聆聽參考樣本
+首先，仔細聆聽參考片段。
 
-### Step 1: Listen to the Reference
-First, listen carefully to the reference audio. This is the original recording that the other samples are based on.
+### 步驟二：聆聽比較樣本
+接下來，聆聽每個比較樣本。您可以根據需要重複播放任何樣本。
 
-### Step 2: Listen to the Comparison Samples
-Next, listen to each comparison sample. You can replay any sample as many times as needed.
+### 步驟三：為每個樣本評分
+使用 1（差）到 5（優秀）的量表，根據提供的指標為每個樣本評分：
 
-### Step 3: Rate Each Sample
-Rate each sample on the provided metrics using a scale from 1 (poor) to 5 (excellent):
+- **1**：品質非常差
+- **2**：品質差
+- **3**：品質普通
+- **4**：品質良好
+- **5**：品質優秀
 
-- **1**: Very poor quality
-- **2**: Poor quality
-- **3**: Fair quality
-- **4**: Good quality
-- **5**: Excellent quality
+### 步驟四：進入下一個問題
+評完所有指標後，右滑表單或點擊右側箭頭進入下一題。
 
-### Step 4: Move to the Next Question
-After rating all metrics, click "Next Question" to proceed.
+## 重要指引
 
-## Important Guidelines
+- **使用耳機**以獲得最佳聆聽體驗
+- 在**安靜的環境**中聆聽，避免干擾
+- **慢慢來**－沒有時間限制
+- 您可以**重複播放樣本**任意次數
+- 請在**一次會話中**完成測試－如果關閉瀏覽器，您的進度將會遺失
 
-- **Use headphones** for the best listening experience
-- Listen in a **quiet environment** without distractions
-- **Take your time** - there is no time limit
-- You can **replay samples** as many times as needed
-- Once you move to the next question, you **cannot go back** to change your answers
-- Complete the test in **one session** - your progress will be lost if you close the browser
+## 技術需求
 
-## Technical Requirements
+- 使用現代網頁瀏覽器（建議使用 Chrome 或 Safari），支援桌面電腦及行動裝置（建議使用 iPhone 手機）
+- 確保音量調整到舒適的水平
+- 測試期間請勿重新整理頁面
 
-- Use a modern web browser (Chrome, Firefox, Safari, or Edge)
-- Ensure your volume is at a comfortable level
-- Do not refresh the page during the test
+接下來請您先耐心閱讀每個評估指摽的定義，
+準備好開始時，請點擊「開始測試」。
 
-Click "Begin Test" when you're ready to start.
+祝您測試愉快！

@@ -94,7 +94,6 @@
 
 {% block content %}
 <div class="rules-container">
-    <h2>Test Instructions</h2>
     
     <div class="rules-content">
         {{ rules_html|safe }}
@@ -102,7 +101,7 @@
 
     {% if metric_definitions %}
     <div class="metric-definitions-container">
-        <h3>Metric Definitions</h3>
+        <h3>評估指摽的定義</h3>
         {% for name, description in metric_definitions.items() %}
             <div class="metric-definition">
                 <strong>{{ name }}</strong>

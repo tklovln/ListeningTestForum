@@ -21,10 +21,10 @@
       "title": "Listen to the sample and rate the metrics",
       "promptId": "001",
       "metrics": [
-        {"name": "連貫性（Consistency）", "description": "Description for 連貫性 (Consistency). How well do the musical elements flow together?"},
-        {"name": "豐富性（Richness）", "description": "Description for 豐富性 (Richness). How complex and interesting is the musical texture?"},
-        {"name": "一致性（Coherence）", "description": "Description for 一致性 (Coherence). Does the piece feel like a unified whole? (Note: Original had 'Consistency' twice, changed one to 'Coherence' for differentiation, adjust as needed)"},
-        {"name": "整體評價（Overall Rating）", "description": "Description for 整體評價 (Overall Rating). Your overall impression of the sample."}
+        {"name": "連貫性（Consistency）", "description": "音樂元素之間的流暢度和銜接性。評估旋律、和聲、節奏等元素是否自然地連接在一起。"},
+        {"name": "豐富性（Richness）", "description": "音樂織體的複雜度和趣味性。評估音樂的層次感、變化性和音響效果的豐富程度。"},
+        {"name": "一致性（Coherence）", "description": "整首樂曲是否形成統一的整體。評估音樂風格、主題發展和結構的一致性。"},
+        {"name": "整體評價（Overall Rating）", "description": "對該音樂樣本的整體印象和綜合評價。考慮所有因素後的總體感受。"}
       ],
       "models": ["gt", "methodA", "methodB"]
     },
@@ -33,10 +33,10 @@
       "title": "Which sample has the best audio quality?",
       "promptId": "002",
       "metrics": [
-        {"name": "Naturalness", "description": "How natural and human-like does the audio sound?"},
-        {"name": "Clarity", "description": "How clear and distinct are the individual sounds and musical lines?"},
-        {"name": "Timbre", "description": "How pleasant and rich is the tonal quality of the sounds?"},
-        {"name": "Overall Quality", "description": "Your overall assessment of the audio quality."}
+        {"name": "連貫性（Consistency）", "description": "音樂元素之間的流暢度和銜接性。評估旋律、和聲、節奏等元素是否自然地連接在一起。"},
+        {"name": "豐富性（Richness）", "description": "音樂織體的複雜度和趣味性。評估音樂的層次感、變化性和音響效果的豐富程度。"},
+        {"name": "一致性（Coherence）", "description": "整首樂曲是否形成統一的整體。評估音樂風格、主題發展和結構的一致性。"},
+        {"name": "整體評價（Overall Rating）", "description": "對該音樂樣本的整體印象和綜合評價。考慮所有因素後的總體感受。"}
       ],
       "models": ["gt", "methodA", "methodB"]
     },
@@ -45,10 +45,10 @@
       "title": "Which sample sounds most natural?",
       "promptId": "003",
       "metrics": [
-        {"name": "Naturalness", "description": "How natural and human-like does the musical performance sound?"},
-        {"name": "Expressiveness", "description": "How well does the music convey emotion and musical phrasing?"},
-        {"name": "Coherence", "description": "Does the musical piece feel logical and well-structured?"},
-        {"name": "Overall Quality", "description": "Your overall assessment of the musical sample."}
+        {"name": "連貫性（Consistency）", "description": "音樂元素之間的流暢度和銜接性。評估旋律、和聲、節奏等元素是否自然地連接在一起。"},
+        {"name": "豐富性（Richness）", "description": "音樂織體的複雜度和趣味性。評估音樂的層次感、變化性和音響效果的豐富程度。"},
+        {"name": "一致性（Coherence）", "description": "整首樂曲是否形成統一的整體。評估音樂風格、主題發展和結構的一致性。"},
+        {"name": "整體評價（Overall Rating）", "description": "對該音樂樣本的整體印象和綜合評價。考慮所有因素後的總體感受。"}
       ],
       "models": ["gt", "methodA", "methodB"]
     }
