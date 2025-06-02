@@ -1,0 +1,76 @@
+{
+  "participant": {
+    "age": "debug_age",
+    "debug_mode_skip": true,
+    "gender": "debug_gender",
+    "headphones": "debug_headphones",
+    "musical_exp": "debug_musical_exp",
+    "name": "debug_name"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_1",
+      "prompt_id_selected": "classical-franck-symphonie-1-(c)lucarelli",
+      "models_shuffled_order": [
+        "remiplus",
+        "mmtdelay",
+        "mmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "一致性（Coherence）": 1,
+          "整體評價（Overall Rating）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Consistency）": 1
+        },
+        "mmtdelay": {
+          "一致性（Coherence）": 3,
+          "整體評價（Overall Rating）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Consistency）": 3
+        },
+        "remiplus": {
+          "一致性（Coherence）": 5,
+          "整體評價（Overall Rating）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Consistency）": 5
+        }
+      },
+      "time_spent_on_question": 113.876
+    },
+    "1": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1",
+      "prompt_id_selected": "classical-bach-cantata-5-bwv-5-5-(c)icking-archive",
+      "models_shuffled_order": [
+        "remiplus",
+        "mmtdelay",
+        "mmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "一致性（Coherence）": 1,
+          "整體評價（Overall Rating）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Consistency）": 1
+        },
+        "mmtdelay": {
+          "一致性（Coherence）": 3,
+          "整體評價（Overall Rating）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Consistency）": 3
+        },
+        "remiplus": {
+          "一致性（Coherence）": 5,
+          "整體評價（Overall Rating）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Consistency）": 5
+        }
+      },
+      "time_spent_on_question": 39.62
+    }
+  },
+  "timestamp": 1748856040,
+  "uuid": "fc2535c613e048b097d8801f9cc22c5a"
+}

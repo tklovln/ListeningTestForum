@@ -4,8 +4,10 @@ Utility module for saving participant results atomically.
 import json
 import time
 from pathlib import Path
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any
 from uuid import uuid4
+from datetime import datetime, timezone as dt_timezone # Renamed to avoid conflict if pytz.timezone is used
+import pytz # For timezone conversion
 
 
 def save(
@@ -31,11 +33,24 @@ def save(
     Returns:
         Path to the saved file.
     """
-    # Create timestamp and UUID for unique filename
-    timestamp = int(time.time())
-    uuid = uuid4().hex
-    filename = f"{timestamp}_{uuid}.json"
+    # Generate UUID for unique filename part
+    uuid_hex = uuid4().hex
     
+    # Get current time in UTC
+    now_utc = datetime.now(dt_timezone.utc)
+    
+    # Define and convert to Asia/Taipei timezone
+    taipei_tz = pytz.timezone('Asia/Taipei')
+    now_taipei = now_utc.astimezone(taipei_tz)
+    
+    # Format for filename
+    formatted_dt_for_filename = now_taipei.strftime('%Y%m%d_%H%M%S')
+    
+    filename = f"{formatted_dt_for_filename}_{uuid_hex}.json"
+    
+    # Keep the original Unix timestamp for storing inside the JSON data
+    unix_timestamp_for_json = int(time.time())
+
     # Prepare output directory
     output_dir = Path(out_dir)
     output_dir.mkdir(exist_ok=True, parents=True)
@@ -44,8 +59,8 @@ def save(
     data = {
         "participant": participant,
         "answers": answers,
-        "timestamp": timestamp,
-        "uuid": uuid,
+        "timestamp": unix_timestamp_for_json, # Store the precise Unix timestamp
+        "uuid": uuid_hex, # Store the UUID hex
     }
     # The 'answers' dict now contains all necessary details, including randomization.
     # No separate randomization_details key at the top level of the JSON.

@@ -9,68 +9,68 @@
   },
   "answers": {
     "0": {
-      "original_template_id": "q2",
-      "audio_subfolder": "task_2",
-      "prompt_id_selected": "003",
-      "models_shuffled_order": [
-        "methodB",
-        "gt",
-        "methodA"
-      ],
-      "metrics_rated": {
-        "gt": {
-          "一致性（Coherence）": null,
-          "整體評價（Overall Rating）": null,
-          "豐富性（Richness）": null,
-          "連貫性（Consistency）": null
-        },
-        "methodA": {
-          "一致性（Coherence）": null,
-          "整體評價（Overall Rating）": null,
-          "豐富性（Richness）": null,
-          "連貫性（Consistency）": null
-        },
-        "methodB": {
-          "一致性（Coherence）": null,
-          "整體評價（Overall Rating）": null,
-          "豐富性（Richness）": null,
-          "連貫性（Consistency）": null
-        }
-      },
-      "time_spent_on_question": 21.565
-    },
-    "1": {
       "original_template_id": "q1",
       "audio_subfolder": "task_1",
-      "prompt_id_selected": "002",
+      "prompt_id_selected": "classical-mozart-piano-concerto-20-466-2-(c)galimberti",
       "models_shuffled_order": [
-        "gt",
-        "methodB",
-        "methodA"
+        "remiplus",
+        "mmtdelay",
+        "mmt"
       ],
       "metrics_rated": {
-        "gt": {
+        "mmt": {
           "一致性（Coherence）": null,
           "整體評價（Overall Rating）": null,
           "豐富性（Richness）": null,
           "連貫性（Consistency）": null
         },
-        "methodA": {
+        "mmtdelay": {
           "一致性（Coherence）": null,
           "整體評價（Overall Rating）": null,
           "豐富性（Richness）": null,
           "連貫性（Consistency）": null
         },
-        "methodB": {
+        "remiplus": {
           "一致性（Coherence）": null,
           "整體評價（Overall Rating）": null,
           "豐富性（Richness）": null,
           "連貫性（Consistency）": null
         }
       },
-      "time_spent_on_question": 18.802
+      "time_spent_on_question": 72.108
+    },
+    "1": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_1",
+      "prompt_id_selected": "classical-haydn-symphony-093-3-(c)edwards",
+      "models_shuffled_order": [
+        "remiplus",
+        "mmt",
+        "mmtdelay"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "一致性（Coherence）": null,
+          "整體評價（Overall Rating）": null,
+          "豐富性（Richness）": null,
+          "連貫性（Consistency）": null
+        },
+        "mmtdelay": {
+          "一致性（Coherence）": null,
+          "整體評價（Overall Rating）": null,
+          "豐富性（Richness）": null,
+          "連貫性（Consistency）": null
+        },
+        "remiplus": {
+          "一致性（Coherence）": null,
+          "整體評價（Overall Rating）": null,
+          "豐富性（Richness）": null,
+          "連貫性（Consistency）": null
+        }
+      },
+      "time_spent_on_question": 70.969
     }
   },
-  "timestamp": 1748489165,
-  "uuid": "a7d31fdec69b4c938cbddfe0e426813f"
+  "timestamp": 1748856315,
+  "uuid": "798b70e10565452483dbb60cea59699d"
 }

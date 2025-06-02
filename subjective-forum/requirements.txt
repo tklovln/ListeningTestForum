@@ -10,3 +10,4 @@ gunicorn==21.2.0
 numpy
 matplotlib
 scipy
+pytz
