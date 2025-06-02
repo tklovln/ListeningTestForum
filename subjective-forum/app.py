@@ -63,7 +63,9 @@ def create_app(test_config=None):
         with open(app.config['FORUM_CONFIG'], 'r', encoding='utf-8') as f:
             forum_config = json.load(f)
             app.config['FORUM'] = forum_config
-            
+            # log the forum config
+            app.logger.info(f"Forum config: {forum_config}")
+
             # Scan audio directory
             audio_root = forum_config.get('audioRoot', 'static/audio')
             app.config['AUDIO_MODELS'] = scan_audio_directory(audio_root)

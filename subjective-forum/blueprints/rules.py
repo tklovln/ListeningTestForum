@@ -97,6 +97,9 @@ def begin():
             # n_questions_to_present # This argument is removed from the function
         )
 
+        # how many sacnned_audio_data are available? show numbers of available prompts
+        current_app.logger.info(f"Number of available prompts: {len(scanned_audio_data)}")
+
         if not resolved_session_questions:
             current_app.logger.error("Failed to generate any questions for the session. Check config and audio files.")
             # Flash a message to the user and redirect them, perhaps to the cover page or an error page.

@@ -79,6 +79,7 @@ def select_and_randomize_questions_for_session(
         template_id = q_template.get("id", "UnknownTemplate")
         subfolder = q_template.get("audioSubfolder")
         n_to_present_for_template = q_template.get("n_to_present", 0)
+        models_defined_in_template = q_template.get("models", [])
 
         if n_to_present_for_template <= 0:
             continue # Skip this template if it's not configured to present any questions
@@ -88,25 +89,40 @@ def select_and_randomize_questions_for_session(
             continue
             
         prompts_in_subfolder_dict = scanned_audio_data[subfolder]
-        available_prompt_ids_for_subfolder = list(prompts_in_subfolder_dict.keys())
         
-        if not available_prompt_ids_for_subfolder:
-            # print(f"Warning: No prompts found in subfolder '{subfolder}' for template '{template_id}'. Skipping.")
+        # Filter prompts to only include those that have all required models
+        valid_prompt_ids = []
+        for prompt_id, available_model_tags in prompts_in_subfolder_dict.items():
+            # Check if this prompt has all required models (including 'prompt')
+            required_models = ["prompt"] + models_defined_in_template
+            has_all_models = all(model in available_model_tags for model in required_models)
+            
+            if has_all_models:
+                valid_prompt_ids.append(prompt_id)
+            else:
+                missing_models = [model for model in required_models if model not in available_model_tags]
+                # print(f"Skipping prompt '{prompt_id}' in subfolder '{subfolder}' for template '{template_id}': missing models {missing_models}")
+
+        # print how many valid prompts are available in the subfolder
+        # print(f"Valid prompts in subfolder '{subfolder}' for template '{template_id}': {valid_prompt_ids}")
+        
+        if not valid_prompt_ids:
+            print(f"Warning: No valid prompts found in subfolder '{subfolder}' for template '{template_id}'. All prompts are missing required audio files. Skipping.")
             continue
 
-        random.shuffle(available_prompt_ids_for_subfolder) # Shuffle available prompts for this subfolder
+        random.shuffle(valid_prompt_ids) # Shuffle available valid prompts for this subfolder
         
         # Determine how many prompts to actually select for this template
-        num_to_select_for_this_template = min(n_to_present_for_template, len(available_prompt_ids_for_subfolder))
+        num_to_select_for_this_template = min(n_to_present_for_template, len(valid_prompt_ids))
         
         if num_to_select_for_this_template < n_to_present_for_template:
-            # print(f"Warning: Template '{template_id}' requested {n_to_present_for_template} questions, but only {len(available_prompt_ids_for_subfolder)} unique prompts are available in '{subfolder}'. Selecting {num_to_select_for_this_template}.")
+            # print(f"Warning: Template '{template_id}' requested {n_to_present_for_template} questions, but only {len(valid_prompt_ids)} valid prompts are available in '{subfolder}'. Selecting {num_to_select_for_this_template}.")
             pass
 
-        selected_prompt_ids_for_template = available_prompt_ids_for_subfolder[:num_to_select_for_this_template]
+        selected_prompt_ids_for_template = valid_prompt_ids[:num_to_select_for_this_template]
         
         for p_id in selected_prompt_ids_for_template:
-            models_to_shuffle = list(q_template.get("models", []))
+            models_to_shuffle = list(models_defined_in_template)
             random.shuffle(models_to_shuffle)
             
             session_question_instance = {

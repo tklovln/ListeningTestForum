@@ -47,6 +47,7 @@ def show(index):
 
     # Get the specific question instance for this index
     question_to_render = session_questions[index]
+    print("question_to_render", question_to_render)
     
     # 'question_to_render' already contains:
     # original_question_id, title, audioSubfolder, promptId (selected), models (shuffled), metrics

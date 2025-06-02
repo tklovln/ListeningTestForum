@@ -195,28 +195,28 @@ def serve_audio(filename):
     current_app.logger.info(f"Audio request received for: {filename}")
     current_app.logger.info(f"Audio root from config: {audio_root}")
     
-    # Handle the path correctly
-    if audio_root.startswith('static/'):
-        # If audio_root starts with 'static/', we need to strip it for send_from_directory
-        directory = 'static'
-        # Remove 'static/' prefix from audio_root and prepend to filename
-        subpath = audio_root[7:]
-        if subpath:
-            filename = f"{subpath}/{filename}"
-    else:
-        # If audio_root doesn't start with 'static/', prepend it to the directory
-        directory = f"static/{audio_root}"
+    # # Handle the path correctly
+    # if audio_root.startswith('static/'):
+    #     # If audio_root starts with 'static/', we need to strip it for send_from_directory
+    #     directory = 'static'
+    #     # Remove 'static/' prefix from audio_root and prepend to filename
+    #     subpath = audio_root[7:]
+    #     if subpath:
+    #         filename = f"{subpath}/{filename}"
+    # else:
+    #     # If audio_root doesn't start with 'static/', prepend it to the directory
+    #     directory = f"static/{audio_root}"
     
     # Check if the file exists
     import os
-    full_path = os.path.join(current_app.root_path, directory, filename)
+    full_path = os.path.join(audio_root, filename)
     current_app.logger.info(f"Full audio path: {full_path}")
     current_app.logger.info(f"File exists: {os.path.exists(full_path)}")
     
-    current_app.logger.info(f"Serving audio from directory: {directory}, file: {filename}")
+    current_app.logger.info(f"Serving audio from directory: {audio_root}, file: {filename}")
     
     return send_from_directory(
-        directory,
+        audio_root,
         filename,
         mimetype='audio/mpeg',
         max_age=3600  # Cache for 1 hour
