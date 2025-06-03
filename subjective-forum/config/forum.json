@@ -19,27 +19,14 @@
       "id": "q1",
       "title": "Listen to the sample and rate the metrics of the orchestra sample (Task 1)",
       "audioSubfolder": "task_1",
-      "n_to_present": 1,
+      "n_to_present": 4,
       "metrics": [
-        {"name": "連貫性（Consistency）", "description": "音樂元素之間的流暢度和銜接性。評估旋律、和聲、節奏等元素是否自然地連接在一起。"},
+        {"name": "連貫性（Coherence）", "description": "音樂元素之間的流暢度和銜接性。評估旋律、和聲、節奏等元素是否自然地連接在一起。"},
         {"name": "豐富性（Richness）", "description": "音樂織體的複雜度和趣味性。評估音樂的層次感、變化性和音響效果的豐富程度。"},
-        {"name": "一致性（Coherence）", "description": "作曲中是否沒有明顯錯誤，整首樂曲是否形成統一的整體。"},
+        {"name": "正確性（Consistency）", "description": "作曲中是否沒有明顯錯誤，整首樂曲是否形成統一的整體。"},
         {"name": "整體評價（Overall Rating）", "description": "對該音樂樣本的整體印象和綜合評價。考慮所有因素後的總體感受。"}
       ],
-      "models": ["mmt", "mmtdelay", "remiplus"]
-    },
-    {
-      "id": "q2",
-      "title": "Listen to the sample and rate the metrics of the piano sample (Task 2)",
-      "audioSubfolder": "task_1",
-      "n_to_present": 1,
-      "metrics": [
-        {"name": "連貫性（Consistency）", "description": "音樂元素之間的流暢度和銜接性。評估旋律、和聲、節奏等元素是否自然地連接在一起。"},
-        {"name": "豐富性（Richness）", "description": "音樂織體的複雜度和趣味性。評估音樂的層次感、變化性和音響效果的豐富程度。"},
-        {"name": "一致性（Coherence）", "description": "整首樂曲是否形成統一的整體。評估音樂風格、主題發展和結構的一致性。"},
-        {"name": "整體評價（Overall Rating）", "description": "對該音樂樣本的整體印象和綜合評價。考慮所有因素後的總體感受。"}
-      ],
-      "models": ["mmt", "mmtdelay", "remiplus"]
+      "models": ["mmt", "mmtdelay", "remiplus", "nmt"]
     }
   ]
 }

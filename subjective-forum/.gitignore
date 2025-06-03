@@ -61,3 +61,8 @@ yarn-error.log*
 
 # Docker
 .dockerignore
+
+# Custom
+results/*
+debug/*
+analysis/*
