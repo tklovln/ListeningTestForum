@@ -343,7 +343,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (statusElement) statusElement.style.display = 'inline';
                         if (replayIconElement) replayIconElement.style.display = 'none';
                         if (statusElement) {
-                            let statusText = 'Playing reference audio...';
+                            // let statusText = 'Playing reference audio...';
+                            let statusText = '';
                             if (DEBUG_MODE) {
                                 const srcFilename = promptAudio.src.split('/').pop();
                                 const [debugPromptId, debugModelTypeWithExt] = srcFilename.split('_');
@@ -455,7 +456,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (statusElement) statusElement.style.display = 'inline';
                     if (replayIconElement) replayIconElement.style.display = 'none';
                     if (statusElement) {
-                        let statusText = `Playing sample ${modelIndex + 1}...`;
+                        // let statusText = `Playing sample ${modelIndex + 1}...`;
+                        let statusText = '';
                         if (DEBUG_MODE) {
                             const srcFilename = modelAudio.src.split('/').pop();
                             const [debugPromptId, debugModelTypeWithExt] = srcFilename.split('_');

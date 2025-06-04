@@ -495,7 +495,7 @@
         <div class="story-page" id="prompt-page">
             <div class="story-content">
                 <h2>{{ question.title }}</h2>
-                <p>Reference Audio (Playing automatically)</p>
+                <p>-提示音檔-</p>
                 
                 <!-- Hidden audio element -->
                 <audio
@@ -513,7 +513,7 @@
                     <span id="prompt-replay-icon" class="replay-icon" style="display: none;" title="Replay reference audio">&#x21bb;</span>
                 </div>
                 
-                <p>Swipe right when you're ready to compare the samples.</p>
+                <p>準備好就可以點擊畫面右側進入下一頁聆聽生成音檔</p>
             </div>
         </div>
         
@@ -522,7 +522,7 @@
         <div class="story-page" id="model-{{ model }}-page">
             <div class="story-content">
                 <h2>{{ question.title }}</h2>
-                <p>Sample {{ loop.index }} (Playing automatically)</p>
+                <p>生成音檔 #{{ loop.index }}</p>
                 
                 <!-- Hidden audio element -->
                 <audio
