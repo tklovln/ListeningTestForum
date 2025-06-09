@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "d",
+    "gender": "女性(Female)",
+    "headphones": "iPhone",
+    "musical_exp": "初學者(Beginner)：有短期學習經驗（少於一年）",
+    "name": "d"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "191",
+      "models_shuffled_order": [
+        "remi",
+        "nmt",
+        "cp",
+        "cpdelay"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        }
+      },
+      "time_spent_on_question": 25.632
+    },
+    "1": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-nicolai-merry-wives-of-windsor-(c)lucarelli",
+      "models_shuffled_order": [
+        "mmtdelay",
+        "mmt",
+        "remiplus",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 2
+        }
+      },
+      "time_spent_on_question": 20.364
+    },
+    "2": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-bach-cantata-5-bwv-5-5-(c)icking-archive",
+      "models_shuffled_order": [
+        "nmt",
+        "remiplus",
+        "mmtdelay",
+        "mmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 1
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        }
+      },
+      "time_spent_on_question": 17.544
+    },
+    "3": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "862",
+      "models_shuffled_order": [
+        "cpdelay",
+        "cp",
+        "nmt",
+        "remi"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 5
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 3
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 5
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 5
+        }
+      },
+      "time_spent_on_question": 18.337
+    }
+  },
+  "timestamp": 1749481224,
+  "uuid": "0b9e0828eda24068b58a72f157d680d8"
+}

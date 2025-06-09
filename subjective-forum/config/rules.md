@@ -43,7 +43,7 @@ After rating all metrics, swipe right or click the right arrow to proceed to the
 
 ## 技術需求 / Technical Requirements
 
-- 使用現代網頁瀏覽器（建議使用 Chrome 或 Safari），支援桌面電腦及行動裝置（建議使用 iPhone 手機）
+- 使用現代網頁瀏覽器（建議使用 Chrome 或 Safari），支援桌面電腦及行動裝置（建議使用 iPhone Safari Web Browser 開啟）
   Use a modern web browser (Chrome or Safari recommended), supports desktop and mobile devices (iPhone recommended)
 - 確保音量調整到舒適的水平 / Ensure the volume is set to a comfortable level
 - 測試期間請勿重新整理頁面 / Please do not refresh the page during the test
