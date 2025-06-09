@@ -9,6 +9,8 @@ import argparse
 from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import seaborn as sns
 
 def translate_metric_name(chinese_name):
     """
@@ -147,42 +149,40 @@ def plot_metrics(stats, metrics_data, output_dir):
         metrics_data: Raw metrics data
         output_dir: Directory to save plots
     """
+    # Set seaborn style
+    sns.set_theme(style="whitegrid")
+    sns.set_context("talk")  # Increase font sizes for labels
+
+    # Define custom color palette
+    custom_palette = ["#533B4D", "#F564A9", "#FAA4BD", "#FAE3C6"]
+
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
     
-    # Get all unique metrics
-    all_metrics = set()
-    for model_data in stats.values():
-        all_metrics.update(model_data['metrics'].keys())
-    all_metrics = sorted(list(all_metrics))
+    # Prepare data in a long-form DataFrame for seaborn
+    plot_data = []
+    for model, m_data in metrics_data.items():
+        for metric, ratings in m_data['metrics'].items():
+            for rating in ratings:
+                plot_data.append({'model': model, 'metric': metric, 'rating': rating})
+    
+    if not plot_data:
+        print("No data to plot.")
+        return
+
+    df = pd.DataFrame(plot_data)
+    all_metrics = sorted(list(df['metric'].unique()))
     
     # Plot mean ratings by model and metric
     plt.figure(figsize=(15, 8))
-    
-    models = list(stats.keys())
-    x = np.arange(len(all_metrics))
-    width = 0.25
-    
-    for i, model in enumerate(models):
-        means = []
-        stds = []
-        for metric in all_metrics:
-            if metric in stats[model]['metrics']:
-                means.append(stats[model]['metrics'][metric]['mean'])
-                stds.append(stats[model]['metrics'][metric]['std'])
-            else:
-                means.append(0)
-                stds.append(0)
-        
-        plt.bar(x + i * width, means, width, yerr=stds, 
-                label=model, capsize=5, alpha=0.8)
+    sns.barplot(x='metric', y='rating', hue='model', data=df, errorbar='sd', palette=custom_palette)
     
     plt.xlabel('Metrics')
     plt.ylabel('Mean Rating')
     plt.title('Mean Ratings by Model and Metric')
-    plt.xticks(x + width, all_metrics, rotation=45, ha='right')
+    plt.xticks(rotation=45, ha='right')
     plt.ylim(0, 5.5)
-    plt.legend()
+    plt.legend(title='Model', bbox_to_anchor=(1.02, 1), loc='upper left')
     plt.tight_layout()
     
     plt.savefig(os.path.join(output_dir, 'mean_ratings_by_model.png'), dpi=300, bbox_inches='tight')
@@ -192,25 +192,21 @@ def plot_metrics(stats, metrics_data, output_dir):
     for metric in all_metrics:
         plt.figure(figsize=(12, 8))
         
-        for i, model in enumerate(models):
-            if metric in metrics_data[model]['metrics']:
-                ratings = np.array(metrics_data[model]['metrics'][metric])
-                counts = [np.sum(ratings == rating) for rating in range(1, 6)]
-                
-                x_pos = np.arange(5) + i * 0.25
-                plt.bar(x_pos, counts, width=0.2, label=model, alpha=0.8)
+        metric_df = df[df['metric'] == metric]
         
+        # Use countplot for distributions
+        sns.countplot(x='rating', hue='model', data=metric_df, order=range(1, 6), palette=custom_palette)
+
         plt.xlabel('Rating')
         plt.ylabel('Count')
         plt.title(f'Rating Distribution for {metric}')
-        plt.xticks(np.arange(5) + 0.25, ['1', '2', '3', '4', '5'])
-        plt.legend()
+        plt.legend(title='Model', bbox_to_anchor=(1.02, 1), loc='upper left')
         plt.tight_layout()
         
         # Clean filename for saving
         safe_metric_name = metric.replace(' ', '_').replace('(', '').replace(')', '')
         plt.savefig(os.path.join(output_dir, f'distribution_{safe_metric_name}.png'), 
-                   dpi=300, bbox_inches='tight')
+                    dpi=300, bbox_inches='tight')
         plt.close()
 
 def print_statistics(stats):
@@ -262,14 +258,20 @@ def export_csv(stats, output_file):
 def main():
     """Main function."""
     parser = argparse.ArgumentParser(description='Analyze listening test results.')
-    parser.add_argument('--results-dir', default='results',
+    parser.add_argument('--results-dir', default='results_piano',
                         help='Directory containing result JSON files')
-    parser.add_argument('--output-dir', default='analysis',
+    parser.add_argument('--output-dir', default=None,
                         help='Directory to save analysis results')
-    parser.add_argument('--csv', default='analysis/results.csv',
+    parser.add_argument('--csv', default=None,
                         help='Path to output CSV file')
     
     args = parser.parse_args()
+
+    if args.output_dir is None:
+        args.output_dir = os.path.join(args.results_dir, 'analysis')
+    
+    if args.csv is None:
+        args.csv = os.path.join(args.output_dir, 'results.csv')
     
     # Create output directory if it doesn't exist
     os.makedirs(args.output_dir, exist_ok=True)

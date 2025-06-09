@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "d",
+    "gender": "Female",
+    "headphones": "202",
+    "musical_exp": "Intermediate",
+    "name": "d"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-debussy-nocturnes-2-(c)siu",
+      "models_shuffled_order": [
+        "mmt",
+        "mmtdelay",
+        "nmt",
+        "remiplus"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 1
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 1
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        }
+      },
+      "time_spent_on_question": 34.883
+    },
+    "1": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1150",
+      "models_shuffled_order": [
+        "cpdelay",
+        "nmt",
+        "cp",
+        "remi"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        }
+      },
+      "time_spent_on_question": 24.612
+    },
+    "2": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-haydn-symphony-097-2-(c)edwards",
+      "models_shuffled_order": [
+        "remiplus",
+        "nmt",
+        "mmtdelay",
+        "mmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 5
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 3
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        }
+      },
+      "time_spent_on_question": 33.647
+    },
+    "3": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1221",
+      "models_shuffled_order": [
+        "cp",
+        "nmt",
+        "cpdelay",
+        "remi"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 1
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 5
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 21.928
+    }
+  },
+  "timestamp": 1749474848,
+  "uuid": "c1dabfac9b0d4f1091c50922b497ae7f"
+}

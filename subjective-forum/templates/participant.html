@@ -60,8 +60,8 @@
 
 {% block content %}
 <div class="participant-form">
-    <h2>Participant Information</h2>
-    <p>Please provide the following information before starting the listening test.</p>
+    <h2>受測者資訊</h2>
+    <p>請提供以下資訊，以便進行聆聽測試。</p>
     
     <form method="POST" action="{{ url_for('participant.index') }}">
         {% for field in participant_fields %}
@@ -112,7 +112,7 @@
         {% endfor %}
         
         <div class="form-group">
-            <button type="submit" class="submit-button">Continue</button>
+            <button type="submit" class="submit-button">繼續</button>
         </div>
     </form>
 </div>

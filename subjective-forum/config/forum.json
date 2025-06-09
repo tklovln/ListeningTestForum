@@ -6,27 +6,42 @@
     "coverAnimation": "counter"
   },
   "participantFields": [
-    { "key": "name", "label": "Name", "type": "text", "required": true },
-    { "key": "age", "label": "Age", "type": "text", "required": true },
-    { "key": "gender", "label": "Gender", "type": "select", "options": ["Male", "Female", "Non-binary", "Prefer not to say"], "required": true },
-    { "key": "musical_exp", "label": "Musical Experience", "type": "select", "options": ["No experience", "Beginner", "Intermediate", "Advanced", "Professional"], "required": true },
-    { "key": "headphones", "label": "Headphones Used", "type": "text", "required": true }
+    { "key": "name", "label": "姓名（Name)", "type": "text", "required": true },
+    { "key": "age", "label": "年齡 (Age)", "type": "text", "required": true },
+    { "key": "gender", "label": "性別 (Gender)", "type": "select", "options": ["男性(Male)", "女性(Female)", "非二元性別(Non-binary)", "不願透露(Prefer not to say)"], "required": true },
+    { "key": "musical_exp", "label": "音樂經驗 (Music Experience)", "type": "select", "options": ["無經驗(No experience)：從未學習或參與任何形式的音樂訓練或演奏活動", "初學者(Beginner)：有短期學習經驗（少於一年）", "中級(Intermediate)：學習經驗約 1～3 年或以上，理解和聲、拍號轉換、調性等基本樂理概念", "進階(Advanced)：學習經驗約 4～10 年或以上，能夠分析和評估音樂作品，並進行創作或演奏", "專業(Professional)：專業音樂家或音樂學者，有長期且深入的音樂學習和實踐經驗"], "required": true },
+    { "key": "headphones", "label": "使用的耳機 (Headphones Used)", "type": "text", "required": true }
   ],
   "rulesMarkdown": "rules.md",
   "audioRoot": "/home/tkwang/DCP/listening_test",
   "questions": [
     {
       "id": "q1",
-      "title": "Q: 聆聽提示音檔以及不同模型生成的鋼琴曲，仔細評估各個指標的品質:",
+      "title": "Q: 聆聽提示音檔以及不同模型生成的交響樂，仔細評估各個指標的品質:",
       "audioSubfolder": "task_1_selected",
-      "n_to_present": 4,
+      "n_to_present": 2,
       "metrics": [
-        {"name": "連貫性（Coherence）", "description": "音樂元素之間的流暢度和銜接性。評估旋律、和聲、節奏等元素是否自然地連接在一起。"},
-        {"name": "豐富性（Richness）", "description": "音樂織體的複雜度和趣味性。評估音樂的層次感、變化性和音響效果的豐富程度。"},
-        {"name": "正確性（Consistency）", "description": "作曲中是否沒有明顯錯誤，整首樂曲是否形成統一的整體。"},
-        {"name": "整體評價（Overall Rating）", "description": "對該音樂樣本的整體印象和綜合評價。考慮所有因素後的總體感受。"}
+        {"name": "連貫性（Coherence）", "description": "音樂元素之間的流暢度和銜接性。評估旋律、和聲、節奏等元素是否自然地連接在一起。\nThe fluency and connection between musical elements. Evaluate whether melody, harmony, rhythm and other elements connect naturally."},
+        {"name": "豐富性（Richness）", "description": "音樂織體的複雜度和趣味性。評估音樂的層次感、變化性和音響效果的豐富程度。\nThe complexity and interest of musical texture. Evaluate the richness of musical layers, variations and sound effects."},
+        {"name": "正確性（Consistency）", "description": "作曲中是否沒有明顯錯誤，整首樂曲是否形成統一的整體。\nWhether there are no obvious errors in composition and whether the entire piece forms a unified whole."},
+        {"name": "整體評價（Overall Rating）", "description": "對該音樂樣本的整體印象和綜合評價。考慮所有因素後的總體感受。\nOverall impression and comprehensive evaluation of the music sample. Overall feeling after considering all factors."}
       ],
       "models": ["mmt", "mmtdelay", "remiplus", "nmt"]
+    },
+    {
+      "id": "q2",
+      "title": "Q: 聆聽提示音檔以及不同模型生成的鋼琴曲，仔細評估各個指標的品質:",
+      "audioSubfolder": "task_2_normalized_trimmed",
+      "n_to_present": 2,
+      "metrics": [
+        {"name": "連貫性（Coherence）", "description": "音樂元素之間的流暢度和銜接性。評估旋律、和聲、節奏等元素是否自然地連接在一起。\nThe fluency and connection between musical elements. Evaluate whether melody, harmony, rhythm and other elements connect naturally."},
+        {"name": "豐富性（Richness）", "description": "音樂織體的複雜度和趣味性。評估音樂的層次感、變化性和音響效果的豐富程度。\nThe complexity and interest of musical texture. Evaluate the richness of musical layers, variations and sound effects."},
+        {"name": "正確性（Consistency）", "description": "作曲中是否沒有明顯錯誤，整首樂曲是否形成統一的整體。\nWhether there are no obvious errors in composition and whether the entire piece forms a unified whole."},
+        {"name": "整體評價（Overall Rating）", "description": "對該音樂樣本的整體印象和綜合評價。考慮所有因素後的總體感受。\nOverall impression and comprehensive evaluation of the music sample. Overall feeling after considering all factors."}
+      ],
+      "models": ["cp", "cpdelay", "remi", "nmt"]
     }
+
+
   ]
 }

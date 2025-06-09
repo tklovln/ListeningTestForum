@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "20",
+    "gender": "女性(Female)",
+    "headphones": "Test",
+    "musical_exp": "專業(Professional)：專業音樂家或音樂學者，有長期且深入的音樂學習和實踐經驗",
+    "name": "Tk"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1616",
+      "models_shuffled_order": [
+        "cp",
+        "remi",
+        "cpdelay",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        }
+      },
+      "time_spent_on_question": 27.949
+    },
+    "1": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-mendelssohn-midsummer-07-(c)lucarelli",
+      "models_shuffled_order": [
+        "remiplus",
+        "mmt",
+        "mmtdelay",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 5
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 1
+        }
+      },
+      "time_spent_on_question": 36.029
+    },
+    "2": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-beethoven-piano-concerto-19-2-(c)nemitz",
+      "models_shuffled_order": [
+        "remiplus",
+        "nmt",
+        "mmt",
+        "mmtdelay"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 5
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 14.952
+    },
+    "3": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1617",
+      "models_shuffled_order": [
+        "cp",
+        "remi",
+        "nmt",
+        "cpdelay"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 10.628
+    }
+  },
+  "timestamp": 1749478611,
+  "uuid": "f640ab355aaa407c98c506ce4e78c18e"
+}

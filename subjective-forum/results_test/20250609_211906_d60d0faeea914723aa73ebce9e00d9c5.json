@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "dddd",
+    "gender": "Non-binary",
+    "headphones": "d",
+    "musical_exp": "Advanced",
+    "name": "tk2"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-handel-messiah-22-(c)unknown",
+      "models_shuffled_order": [
+        "remiplus",
+        "mmtdelay",
+        "mmt",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 1
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 88.832
+    },
+    "1": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1096",
+      "models_shuffled_order": [
+        "cpdelay",
+        "cp",
+        "remi",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 1
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 62.614
+    },
+    "2": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1259",
+      "models_shuffled_order": [
+        "nmt",
+        "cpdelay",
+        "remi",
+        "cp"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 1
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 44.309
+    },
+    "3": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-mozart-clarinet-concerto-622-2-(c)bakels",
+      "models_shuffled_order": [
+        "remiplus",
+        "nmt",
+        "mmtdelay",
+        "mmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 1
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 24.955
+    }
+  },
+  "timestamp": 1749475146,
+  "uuid": "d60d0faeea914723aa73ebce9e00d9c5"
+}
