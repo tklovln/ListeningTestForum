@@ -83,6 +83,7 @@
         background-color: rgba(255, 255, 255, 0.9);
         border-radius: 12px;
         padding: 1.5rem;
+        padding-bottom: 3rem;
         margin: 0 auto;
         box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
         text-align: center;
@@ -260,6 +261,7 @@
     .metrics-container {
         margin-top: 1rem;
         padding: 0.5rem;
+        padding-bottom: 2rem; /* Additional bottom padding */
         background-color: rgba(0, 0, 0, 0.02);
         border-radius: 8px;
         max-height: 50vh;
@@ -460,11 +462,35 @@
         
         .metrics-container {
             padding: 1.5rem;
+            padding-bottom: 2rem; /* Maintain bottom padding on desktop */
         }
         
         .rating-buttons {
             max-width: 80%;
             margin: 0 auto;
+        }
+    }
+    
+    /* Mobile-specific styles for browser bottom bars */
+    @media (max-width: 767px) {
+        .story-content {
+            padding-bottom: 4rem; /* Extra padding for mobile browsers */
+        }
+        
+        .metrics-container {
+            padding-bottom: 3rem; /* Extra padding for mobile browsers */
+            margin-bottom: 2rem;
+        }
+        
+        /* Add safe area padding for devices with bottom home indicator */
+        @supports (padding-bottom: env(safe-area-inset-bottom)) {
+            .story-content {
+                padding-bottom: calc(3rem + env(safe-area-inset-bottom));
+            }
+            
+            .metrics-container {
+                padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+            }
         }
     }
 </style>
