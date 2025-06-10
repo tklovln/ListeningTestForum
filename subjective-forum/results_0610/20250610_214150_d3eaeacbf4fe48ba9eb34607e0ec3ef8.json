@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "26",
+    "gender": "男性(Male)",
+    "headphones": "T3-01",
+    "musical_exp": "無經驗(No experience)：從未學習或參與任何形式的音樂訓練或演奏活動",
+    "name": "葉彥東"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-handel-messiah-40-(c)unknown",
+      "models_shuffled_order": [
+        "nmt",
+        "remiplus",
+        "mmtdelay",
+        "mmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 5
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 5
+        }
+      },
+      "time_spent_on_question": 130.804
+    },
+    "1": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "530",
+      "models_shuffled_order": [
+        "nmt",
+        "cp",
+        "remi",
+        "cpdelay"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 3
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        }
+      },
+      "time_spent_on_question": 154.121
+    },
+    "2": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1617",
+      "models_shuffled_order": [
+        "cpdelay",
+        "remi",
+        "cp",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 120.414
+    },
+    "3": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-mozart-concerto-flute-314-3-(wittenburg)",
+      "models_shuffled_order": [
+        "remiplus",
+        "mmtdelay",
+        "nmt",
+        "mmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 5
+        }
+      },
+      "time_spent_on_question": 107.356
+    }
+  },
+  "timestamp": 1749562910,
+  "uuid": "d3eaeacbf4fe48ba9eb34607e0ec3ef8"
+}

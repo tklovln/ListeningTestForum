@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "25",
+    "gender": "男性(Male)",
+    "headphones": "Air pods pro",
+    "musical_exp": "專業(Professional)：專業音樂家或音樂學者，有長期且深入的音樂學習和實踐經驗",
+    "name": "陳政言"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "233",
+      "models_shuffled_order": [
+        "cpdelay",
+        "cp",
+        "remi",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 1
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 1
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 3
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        }
+      },
+      "time_spent_on_question": 98.39
+    },
+    "1": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1627",
+      "models_shuffled_order": [
+        "cpdelay",
+        "cp",
+        "nmt",
+        "remi"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 2
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 1
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 3
+        }
+      },
+      "time_spent_on_question": 73.952
+    },
+    "2": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-haydn-symphony-098-3-(c)edwards",
+      "models_shuffled_order": [
+        "mmtdelay",
+        "nmt",
+        "remiplus",
+        "mmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        }
+      },
+      "time_spent_on_question": 46.906
+    },
+    "3": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-brahms-concerto-15-1-(c)lucarelli",
+      "models_shuffled_order": [
+        "mmt",
+        "nmt",
+        "mmtdelay",
+        "remiplus"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 2
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 18.954
+    }
+  },
+  "timestamp": 1749548987,
+  "uuid": "f73ba6698ad4401784e689a524f66536"
+}

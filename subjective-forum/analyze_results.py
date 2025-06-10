@@ -258,7 +258,7 @@ def export_csv(stats, output_file):
 def main():
     """Main function."""
     parser = argparse.ArgumentParser(description='Analyze listening test results.')
-    parser.add_argument('--results-dir', default='results_piano',
+    parser.add_argument('--results-dir', default='results_0610',
                         help='Directory containing result JSON files')
     parser.add_argument('--output-dir', default=None,
                         help='Directory to save analysis results')
