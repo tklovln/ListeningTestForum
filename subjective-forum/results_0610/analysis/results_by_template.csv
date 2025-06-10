@@ -1,0 +1,33 @@
+template_id,model,metric,mean,median,std_dev,min,max,count
+q1,mmt,Overall Rating,2.43,2.00,0.94,1,4,28
+q1,mmt,Consistency,2.57,2.50,0.90,1,4,28
+q1,mmt,Richness,3.00,3.00,1.10,1,5,28
+q1,mmt,Coherence,2.39,2.00,1.05,1,4,28
+q1,mmtdelay,Overall Rating,2.96,3.00,0.98,1,5,28
+q1,mmtdelay,Consistency,3.25,3.00,1.09,1,5,28
+q1,mmtdelay,Richness,2.93,3.00,0.88,1,4,28
+q1,mmtdelay,Coherence,2.93,3.00,1.03,1,5,28
+q1,nmt,Overall Rating,3.21,3.00,1.15,1,5,28
+q1,nmt,Consistency,3.11,3.00,1.05,1,5,28
+q1,nmt,Richness,3.68,4.00,0.89,2,5,28
+q1,nmt,Coherence,3.18,3.00,1.07,1,5,28
+q1,remiplus,Overall Rating,3.14,3.00,0.74,2,4,28
+q1,remiplus,Consistency,3.29,3.00,0.70,2,5,28
+q1,remiplus,Richness,3.14,3.00,1.06,1,5,28
+q1,remiplus,Coherence,3.25,3.00,0.99,2,5,28
+q2,cp,Overall Rating,2.00,2.00,0.93,1,5,28
+q2,cp,Consistency,1.89,2.00,0.94,1,5,28
+q2,cp,Richness,2.75,3.00,0.99,1,5,28
+q2,cp,Coherence,1.75,1.50,0.95,1,5,28
+q2,cpdelay,Overall Rating,2.43,2.00,0.94,1,5,28
+q2,cpdelay,Consistency,2.61,2.00,1.14,1,5,28
+q2,cpdelay,Richness,2.43,2.50,0.73,1,4,28
+q2,cpdelay,Coherence,2.61,2.00,1.11,1,5,28
+q2,nmt,Overall Rating,3.07,3.00,0.96,2,5,28
+q2,nmt,Consistency,3.04,3.00,0.94,2,5,28
+q2,nmt,Richness,3.18,3.00,1.04,1,5,28
+q2,nmt,Coherence,3.21,3.00,0.94,1,5,28
+q2,remi,Overall Rating,3.39,3.00,1.05,1,5,28
+q2,remi,Consistency,3.29,3.00,1.13,1,5,28
+q2,remi,Richness,3.39,3.50,1.11,1,5,28
+q2,remi,Coherence,3.25,3.00,1.12,1,5,28
