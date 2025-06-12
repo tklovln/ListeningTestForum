@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "24",
+    "gender": "男性(Male)",
+    "headphones": "Audio-Technica ATH-M50x",
+    "musical_exp": "進階(Advanced)：學習經驗約 4～10 年或以上，能夠分析和評估音樂作品，並進行創作或演奏",
+    "name": "george"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "282",
+      "models_shuffled_order": [
+        "nmt",
+        "cp",
+        "cpdelay",
+        "remi"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 208.36
+    },
+    "1": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "950",
+      "models_shuffled_order": [
+        "cp",
+        "cpdelay",
+        "nmt",
+        "remi"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 184.07
+    },
+    "2": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-bach-cantata-5-bwv-5-5-(c)icking-archive",
+      "models_shuffled_order": [
+        "nmt",
+        "mmtdelay",
+        "mmt",
+        "remiplus"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 4
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 171.926
+    },
+    "3": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-nicolai-merry-wives-of-windsor-(c)lucarelli",
+      "models_shuffled_order": [
+        "nmt",
+        "mmt",
+        "mmtdelay",
+        "remiplus"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 5
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 1
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 3
+        }
+      },
+      "time_spent_on_question": 226.621
+    }
+  },
+  "timestamp": 1749619777,
+  "uuid": "b1c325986621454a99bb8f80ed33b6a2"
+}

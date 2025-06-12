@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "25",
+    "gender": "男性(Male)",
+    "headphones": "Fiio FD3",
+    "musical_exp": "進階(Advanced)：學習經驗約 4～10 年或以上，能夠分析和評估音樂作品，並進行創作或演奏",
+    "name": "周暐傑"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "964",
+      "models_shuffled_order": [
+        "cpdelay",
+        "remi",
+        "cp",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 428.679
+    },
+    "1": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-handel-messiah-22-(c)unknown",
+      "models_shuffled_order": [
+        "nmt",
+        "remiplus",
+        "mmtdelay",
+        "mmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 65.438
+    },
+    "2": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-debussy-nocturnes-2-(c)siu",
+      "models_shuffled_order": [
+        "nmt",
+        "remiplus",
+        "mmt",
+        "mmtdelay"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 4
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 3
+        }
+      },
+      "time_spent_on_question": 105.305
+    },
+    "3": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "138",
+      "models_shuffled_order": [
+        "cp",
+        "cpdelay",
+        "remi",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        }
+      },
+      "time_spent_on_question": 162.634
+    }
+  },
+  "timestamp": 1749524391,
+  "uuid": "cedab83f606348fba36aca8d96822f9a"
+}

@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "31",
+    "gender": "男性(Male)",
+    "headphones": "SONY MDR-7506",
+    "musical_exp": "中級(Intermediate)：學習經驗約 1～3 年或以上，理解和聲、拍號轉換、調性等基本樂理概念",
+    "name": "許巍瀚"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-mozart-messia-overture-572-01-(c)tadokoro",
+      "models_shuffled_order": [
+        "mmt",
+        "remiplus",
+        "nmt",
+        "mmtdelay"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 203.035
+    },
+    "1": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1617",
+      "models_shuffled_order": [
+        "nmt",
+        "cp",
+        "cpdelay",
+        "remi"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 3
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 121.253
+    },
+    "2": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-brahms-concerto-15-1-(c)lucarelli",
+      "models_shuffled_order": [
+        "mmtdelay",
+        "remiplus",
+        "mmt",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 4
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 167.552
+    },
+    "3": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1454",
+      "models_shuffled_order": [
+        "cpdelay",
+        "cp",
+        "nmt",
+        "remi"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 277.869
+    }
+  },
+  "timestamp": 1749714140,
+  "uuid": "f885b5656a80469c8c98a959c82ca00c"
+}

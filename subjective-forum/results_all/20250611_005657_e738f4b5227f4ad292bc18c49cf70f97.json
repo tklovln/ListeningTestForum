@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "24",
+    "gender": "男性(Male)",
+    "headphones": "dt770 7506 akgk1000 hd26(主要上述）",
+    "musical_exp": "進階(Advanced)：學習經驗約 4～10 年或以上，能夠分析和評估音樂作品，並進行創作或演奏",
+    "name": "sc"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1450",
+      "models_shuffled_order": [
+        "remi",
+        "cpdelay",
+        "nmt",
+        "cp"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 3
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 4
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        }
+      },
+      "time_spent_on_question": 158.523
+    },
+    "1": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-schumann-symphony-1-1-(c)kirschbaum",
+      "models_shuffled_order": [
+        "remiplus",
+        "mmtdelay",
+        "mmt",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 4
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 4
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 120.292
+    },
+    "2": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "90",
+      "models_shuffled_order": [
+        "remi",
+        "cpdelay",
+        "cp",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 5
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 5
+        }
+      },
+      "time_spent_on_question": 78.682
+    },
+    "3": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-debussy-nocturnes-2-(c)siu",
+      "models_shuffled_order": [
+        "remiplus",
+        "nmt",
+        "mmt",
+        "mmtdelay"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        }
+      },
+      "time_spent_on_question": 68.455
+    }
+  },
+  "timestamp": 1749574617,
+  "uuid": "e738f4b5227f4ad292bc18c49cf70f97"
+}

@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "25",
+    "gender": "女性(Female)",
+    "headphones": "Bose QuietComfort 35 II",
+    "musical_exp": "中級(Intermediate)：學習經驗約 1～3 年或以上，理解和聲、拍號轉換、調性等基本樂理概念",
+    "name": "楊孟璇"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-brahms-concerto-1-3-(c)tadokoro",
+      "models_shuffled_order": [
+        "remiplus",
+        "nmt",
+        "mmtdelay",
+        "mmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 3
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 1
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 1
+        }
+      },
+      "time_spent_on_question": 244.966
+    },
+    "1": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "24",
+      "models_shuffled_order": [
+        "cp",
+        "nmt",
+        "cpdelay",
+        "remi"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 1
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 4
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        }
+      },
+      "time_spent_on_question": 264.958
+    },
+    "2": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "504",
+      "models_shuffled_order": [
+        "cp",
+        "remi",
+        "nmt",
+        "cpdelay"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 4
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 3
+        }
+      },
+      "time_spent_on_question": 236.936
+    },
+    "3": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-debussy-nocturnes-2-(c)siu",
+      "models_shuffled_order": [
+        "mmtdelay",
+        "remiplus",
+        "nmt",
+        "mmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 2
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 283.954
+    }
+  },
+  "timestamp": 1749575473,
+  "uuid": "04fce54030ea40a9aa247d5041fd0f9d"
+}

@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "25",
+    "gender": "男性(Male)",
+    "headphones": "Yes",
+    "musical_exp": "中級(Intermediate)：學習經驗約 1～3 年或以上，理解和聲、拍號轉換、調性等基本樂理概念",
+    "name": "Viet-Toan Le"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1001",
+      "models_shuffled_order": [
+        "cpdelay",
+        "nmt",
+        "cp",
+        "remi"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 5
+        }
+      },
+      "time_spent_on_question": 188.27
+    },
+    "1": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-haydn-symphony-093-2-(c)edwards",
+      "models_shuffled_order": [
+        "nmt",
+        "mmt",
+        "mmtdelay",
+        "remiplus"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 1
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 1
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        }
+      },
+      "time_spent_on_question": 136.581
+    },
+    "2": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "301",
+      "models_shuffled_order": [
+        "nmt",
+        "cpdelay",
+        "cp",
+        "remi"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 1
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 148.298
+    },
+    "3": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-bach-cantata-5-bwv-5-5-(c)icking-archive",
+      "models_shuffled_order": [
+        "mmt",
+        "remiplus",
+        "nmt",
+        "mmtdelay"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 1
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 3
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 3
+        }
+      },
+      "time_spent_on_question": 125.96
+    }
+  },
+  "timestamp": 1749711516,
+  "uuid": "3ff2add04aec4b2189d37f6d9c314623"
+}

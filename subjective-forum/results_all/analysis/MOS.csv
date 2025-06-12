@@ -1,0 +1,9 @@
+template_id,model,MOS,std,rating_count
+q1,mmt,2.61,1.02,176
+q1,mmtdelay,3.07,1.01,176
+q1,nmt,3.33,1.07,176
+q1,remiplus,3.16,0.99,176
+q2,cp,2.16,1.04,176
+q2,cpdelay,2.65,0.99,176
+q2,nmt,3.40,1.02,176
+q2,remi,3.36,1.04,176

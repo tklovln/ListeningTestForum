@@ -1,0 +1,33 @@
+template_id,model,metric,mean,median,std_dev,min,max,count,MOS
+q1,mmt,Overall Rating,2.39,2.00,1.00,1,5,44,2.61
+q1,mmt,Consistency,2.55,2.50,0.89,1,4,44,2.61
+q1,mmt,Richness,3.05,3.00,1.09,1,5,44,2.61
+q1,mmt,Coherence,2.48,2.00,0.97,1,4,44,2.61
+q1,mmtdelay,Overall Rating,2.95,3.00,0.90,1,5,44,3.07
+q1,mmtdelay,Consistency,3.20,3.00,1.06,1,5,44,3.07
+q1,mmtdelay,Richness,3.14,3.00,0.99,1,5,44,3.07
+q1,mmtdelay,Coherence,3.00,3.00,1.04,1,5,44,3.07
+q1,nmt,Overall Rating,3.20,3.00,1.14,1,5,44,3.33
+q1,nmt,Consistency,3.16,3.00,0.98,1,5,44,3.33
+q1,nmt,Richness,3.82,4.00,0.89,2,5,44,3.33
+q1,nmt,Coherence,3.14,3.00,1.10,1,5,44,3.33
+q1,remiplus,Overall Rating,3.09,3.00,0.90,1,5,44,3.16
+q1,remiplus,Consistency,3.25,3.00,0.86,1,5,44,3.16
+q1,remiplus,Richness,3.16,3.00,1.11,1,5,44,3.16
+q1,remiplus,Coherence,3.14,3.00,1.08,1,5,44,3.16
+q2,cp,Overall Rating,2.02,2.00,1.01,1,5,44,2.16
+q2,cp,Consistency,1.98,2.00,0.87,1,5,44,2.16
+q2,cp,Richness,2.75,3.00,1.03,1,5,44,2.16
+q2,cp,Coherence,1.89,2.00,1.03,1,5,44,2.16
+q2,cpdelay,Overall Rating,2.57,3.00,0.96,1,5,44,2.65
+q2,cpdelay,Consistency,2.75,3.00,1.03,1,5,44,2.65
+q2,cpdelay,Richness,2.68,3.00,0.87,1,5,44,2.65
+q2,cpdelay,Coherence,2.61,2.00,1.07,1,5,44,2.65
+q2,nmt,Overall Rating,3.34,3.00,1.00,2,5,44,3.40
+q2,nmt,Consistency,3.36,3.50,1.02,2,5,44,3.40
+q2,nmt,Richness,3.48,4.00,1.06,1,5,44,3.40
+q2,nmt,Coherence,3.43,3.00,0.99,1,5,44,3.40
+q2,remi,Overall Rating,3.34,3.00,0.93,1,5,44,3.36
+q2,remi,Consistency,3.43,4.00,1.10,1,5,44,3.36
+q2,remi,Richness,3.39,3.50,1.07,1,5,44,3.36
+q2,remi,Coherence,3.27,3.00,1.05,1,5,44,3.36

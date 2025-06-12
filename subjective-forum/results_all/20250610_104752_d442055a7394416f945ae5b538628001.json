@@ -1,0 +1,165 @@
+{
+  "participant": {
+    "age": "25",
+    "gender": "男性(Male)",
+    "headphones": "iPhone headphone",
+    "musical_exp": "進階(Advanced)：學習經驗約 4～10 年或以上，能夠分析和評估音樂作品，並進行創作或演奏",
+    "name": "TK on the road"
+  },
+  "answers": {
+    "0": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-dvorak-symphony-9-2-(c)cvikl",
+      "models_shuffled_order": [
+        "nmt",
+        "mmt",
+        "remiplus",
+        "mmtdelay"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 2,
+          "連貫性（Coherence）": 1
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 5
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 3,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 4
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 4,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 5
+        }
+      },
+      "time_spent_on_question": 145.729
+    },
+    "1": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1340",
+      "models_shuffled_order": [
+        "remi",
+        "nmt",
+        "cp",
+        "cpdelay"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 1
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 1,
+          "正確性（Consistency）": 1,
+          "豐富性（Richness）": 1,
+          "連貫性（Coherence）": 2
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 3,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 3
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        }
+      },
+      "time_spent_on_question": 164.058
+    },
+    "2": {
+      "original_template_id": "q2",
+      "audio_subfolder": "task_2_normalized_trimmed",
+      "prompt_id_selected": "1259",
+      "models_shuffled_order": [
+        "cpdelay",
+        "cp",
+        "nmt",
+        "remi"
+      ],
+      "metrics_rated": {
+        "cp": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 5
+        },
+        "cpdelay": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 5
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 5
+        },
+        "remi": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 5,
+          "連貫性（Coherence）": 4
+        }
+      },
+      "time_spent_on_question": 151.739
+    },
+    "3": {
+      "original_template_id": "q1",
+      "audio_subfolder": "task_1_selected",
+      "prompt_id_selected": "classical-beethoven-minor-works-hess-233-(c)unheard-beethoven",
+      "models_shuffled_order": [
+        "mmt",
+        "mmtdelay",
+        "remiplus",
+        "nmt"
+      ],
+      "metrics_rated": {
+        "mmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 4,
+          "豐富性（Richness）": 3,
+          "連貫性（Coherence）": 1
+        },
+        "mmtdelay": {
+          "整體評價（Overall Rating）": 5,
+          "正確性（Consistency）": 5,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 4
+        },
+        "nmt": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 2
+        },
+        "remiplus": {
+          "整體評價（Overall Rating）": 2,
+          "正確性（Consistency）": 2,
+          "豐富性（Richness）": 4,
+          "連貫性（Coherence）": 2
+        }
+      },
+      "time_spent_on_question": 142.43
+    }
+  },
+  "timestamp": 1749523672,
+  "uuid": "d442055a7394416f945ae5b538628001"
+}

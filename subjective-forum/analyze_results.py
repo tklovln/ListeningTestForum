@@ -377,15 +377,62 @@ def export_csv(stats, output_file):
     """
     with open(output_file, 'w', encoding='utf-8') as f:
         # Write header
-        f.write("model,metric,mean,median,std_dev,min,max,count\n")
+        f.write("model,metric,mean,median,std_dev,min,max,count,MOS\n")
         
         # Write data
         for model_name, data in stats.items():
+            # Calculate MOS (Mean Opinion Score) as average of all metric means
+            metric_means = []
+            for metric_name, metric_stats in data['metrics'].items():
+                metric_means.append(metric_stats['mean'])
+            
+            mos = sum(metric_means) / len(metric_means) if metric_means else 0.0
+            
+            # Write individual metric data with MOS
             for metric_name, metric_stats in data['metrics'].items():
                 f.write(f"{model_name},{metric_name},{metric_stats['mean']:.2f},"
                         f"{metric_stats['median']:.2f},{metric_stats['std']:.2f},"
                         f"{metric_stats['min']:.0f},{metric_stats['max']:.0f},"
-                        f"{metric_stats['count']}\n")
+                        f"{metric_stats['count']},{mos:.2f}\n")
+
+def export_mos_by_template(template_metrics_data, output_file):
+    """
+    Export MOS with std for each template-model combination to CSV file.
+    
+    Args:
+        template_metrics_data: Dictionary mapping template_id to model metrics data
+        output_file: Path to output MOS CSV file
+    """
+    with open(output_file, 'w', encoding='utf-8') as f:
+        # Write header
+        f.write("template_id,model,MOS,std,rating_count\n")
+        
+        # Write MOS for each template-model combination
+        for template_id, template_data in template_metrics_data.items():
+            for model_name, data in template_data.items():
+                # Collect all individual ratings across all metrics
+                all_ratings = []
+                for metric_name, ratings in data['metrics'].items():
+                    all_ratings.extend(ratings)
+                
+                if all_ratings:
+                    # Calculate statistics from all individual ratings
+                    all_ratings_array = np.array(all_ratings)
+                    std_rating = np.std(all_ratings_array)
+                    rating_count = len(all_ratings)
+                    
+                    # Calculate MOS as average of metric means
+                    metric_means = []
+                    for metric_name, ratings in data['metrics'].items():
+                        metric_means.append(np.mean(ratings))
+                    
+                    mos = sum(metric_means) / len(metric_means) if metric_means else 0.0
+                else:
+                    std_rating = 0.0
+                    rating_count = 0
+                    mos = 0.0
+                
+                f.write(f"{template_id},{model_name},{mos:.2f},{std_rating:.2f},{rating_count}\n")
 
 def export_csv_by_template(template_stats, output_file):
     """
@@ -397,16 +444,24 @@ def export_csv_by_template(template_stats, output_file):
     """
     with open(output_file, 'w', encoding='utf-8') as f:
         # Write header
-        f.write("template_id,model,metric,mean,median,std_dev,min,max,count\n")
+        f.write("template_id,model,metric,mean,median,std_dev,min,max,count,MOS\n")
         
         # Write data
         for template_id, template_data in template_stats.items():
             for model_name, data in template_data.items():
+                # Calculate MOS (Mean Opinion Score) as average of all metric means
+                metric_means = []
+                for metric_name, metric_stats in data['metrics'].items():
+                    metric_means.append(metric_stats['mean'])
+                
+                mos = sum(metric_means) / len(metric_means) if metric_means else 0.0
+                
+                # Write individual metric data with MOS
                 for metric_name, metric_stats in data['metrics'].items():
                     f.write(f"{template_id},{model_name},{metric_name},{metric_stats['mean']:.2f},"
                             f"{metric_stats['median']:.2f},{metric_stats['std']:.2f},"
                             f"{metric_stats['min']:.0f},{metric_stats['max']:.0f},"
-                            f"{metric_stats['count']}\n")
+                            f"{metric_stats['count']},{mos:.2f}\n")
 
 def main():
     """Main function."""
@@ -459,6 +514,11 @@ def main():
         # Create plots by template
         plot_metrics_by_template(template_metrics_data, args.output_dir)
         print(f"Saved template-specific plots to {args.output_dir}")
+        
+        # Export MOS by template
+        template_mos_csv = os.path.join(args.output_dir, 'MOS.csv')
+        export_mos_by_template(template_metrics_data, template_mos_csv)
+        print(f"Exported MOS statistics to {template_mos_csv}")
     
     else:
         # Original analysis (overall)
