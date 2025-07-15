@@ -39,14 +39,15 @@
 #### 聽測音檔的 Folder Structure
 
 - **音檔要用 {sample_id}_{model_id}.mp3 來命名**
+- **目前的架構一定要有 prompt audio, 系統會先顯示 prompt 的頁面才會進如填答**
 ```
 audioRoot/
 ├── audioSubfolder01/                        # 就是 forum.json 中指定的 audioSubfolder
 ├── audioSubfolder02/               
-│   ├── {sample_id}_{model_id}.mp3         
+│   ├── {sample_id}_prompt.mp3         
 │   ├── {sample_id}_{model_id}.mp3        
 │   ├── {sample_id}_{model_id}.mp3         
-│   ├── {sample_id}_{model_id}.mp3        
+│   ├── {sample_id}_prompt.mp3        
 │   ├── {sample_id}_{model_id}.mp3         
 │   └── {sample_id}_{model_id}.mp3         
 ├── audioSubfolder02/
@@ -57,15 +58,17 @@ For example:
 mnt/home/PicoGen9/
 ├── continuation/                        # 就是 forum.json 中指定的 audioSubfolder
 ├── unconditional/               
-│   ├── unconditional-001_baseline-1.mp3         
-│   ├── unconditional-001_baseline-2.mp3        
+│   ├── unconditional-001_prompt.mp3         
+│   ├── unconditional-001_baseline-1.mp3        
 │   ├── unconditional-001_our.mp3         
-│   ├── unconditional-002_baseline-1.mp3        
-│   ├── unconditional-002_baseline-2.mp3         
+│   ├── unconditional-002_prompt.mp3        
+│   ├── unconditional-002_baseline-1.mp3         
 │   └── unconditional-002_our.mp3         
 ├── conditional/
 ```
+## 表單流程
 
+主頁 -> 使用者資料頁 -> 規則頁 -> 問題頁 （先播放 prmpt, 跳轉到填答, 一直循環）-> 結束頁
 
 ### Run Forum
 ```bash
